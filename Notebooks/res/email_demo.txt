@@ -1,0 +1,6 @@
+Hello,
+
+This is an example of email contents.
+
+Thanks,
+-Dane

@@ -1,0 +1,56 @@
+```mermaid
+flowchart TD
+%% Flowchart Structure %%
+    A[<a href='https://www.youtube.com/watch?v=-XV1JBfhgWo&list=PLw5h0DiJ-9PC49ItLKBQlWSMH1zolOCXS'>Input Bridge Geometry AREMA 15-1.3.3</a>] --> B(Determine Loading Conditions)
+    B --> C(Determine Section Properties)
+    C --> D[Determine Gross Section Properties] --> G[Satisfy Flange Safety Clearance Check]
+    C --> E[Determine Net Section Properties] --> G
+    C --> F[Determine Composite Section Properties] --> G
+    G --> H[Check Allowable Stresses AREMA 15-1-11]
+    H --> I[Check Tensile Stress due to Bending AREMA 15-1.3.14]
+    H --> J[Check Compressive Stress due to Bending AREMA 15-1-11]
+    H --> K[Check Shear Stress AREMA 15-1-11]
+    H --> L[Check Combined StressAREMA 15-1.3.14]
+    K --> M
+    J --> M
+    I --> M
+    L --> M[Do you have a Composite Deck?] --> |Yes| N[Check Deflection using Composite Moment of Inertia AREMA 15-1.2.5b]
+    M --> |No| O[Check Deflection using Net Moment of Inertia AREMA 15-1.2.5b]
+    O --> P[Check Web and Flange Properties]
+    N --> P
+    P --> Q[Check Web Thickness AREMA 15-1.7.3]
+    P --> R[Check Outstanding Flange in Compression AREMA 15-1.6.2]
+    R --> S[Check Intermediate Stiffener Requirements Transverse and Longitudinal]
+    Q --> S
+    S --> T[Check Fatigue AREMA 15-1.3.13]
+    T --> U[Check Base Metal AREMA 15-1.3.13f]
+    T --> V[Check Transverse Stiffener Weld on Flange AREMA 15-1.3.13f]
+    T --> W[Check Transverse Stiffener Weld on Web AREMA 15-1.3.13f]
+    U --> X[Design Bearing Stiffeners AREMA 15-1.7.7]
+    V --> X
+    W --> X
+    X --> Y[Check Compressive Stress Bearing Stiffener AREMA 15-1-12]
+    X --> Z[Check Bearing Stress Bearing Stiffeners AREMA 15-1-12]
+    Z --> AA[Generate Summary of Design and Clarify Elements to be Detailed.]
+    Y --> AA
+
+%% AREMA Links %%
+    click A "https://www.youtube.com/watch?v=-XV1JBfhgWo&list=PLw5h0DiJ-9PC49ItLKBQlWSMH1zolOCXS"
+    click H "https://www.youtube.com/watch?v=-XV1JBfhgWo&list=PLw5h0DiJ-9PC49ItLKBQlWSMH1zolOCXS"
+    click I "https://www.youtube.com/watch?v=-XV1JBfhgWo&list=PLw5h0DiJ-9PC49ItLKBQlWSMH1zolOCXS"
+    click J "https://www.youtube.com/watch?v=-XV1JBfhgWo&list=PLw5h0DiJ-9PC49ItLKBQlWSMH1zolOCXS"
+    click K "https://www.youtube.com/watch?v=-XV1JBfhgWo&list=PLw5h0DiJ-9PC49ItLKBQlWSMH1zolOCXS"
+    click L "https://www.youtube.com/watch?v=-XV1JBfhgWo&list=PLw5h0DiJ-9PC49ItLKBQlWSMH1zolOCXS"
+    click M "https://www.youtube.com/watch?v=-XV1JBfhgWo&list=PLw5h0DiJ-9PC49ItLKBQlWSMH1zolOCXS"
+    click N "https://www.youtube.com/watch?v=-XV1JBfhgWo&list=PLw5h0DiJ-9PC49ItLKBQlWSMH1zolOCXS"
+    click O "https://www.youtube.com/watch?v=-XV1JBfhgWo&list=PLw5h0DiJ-9PC49ItLKBQlWSMH1zolOCXS"
+    click R "https://www.youtube.com/watch?v=-XV1JBfhgWo&list=PLw5h0DiJ-9PC49ItLKBQlWSMH1zolOCXS"
+    click Q "https://www.youtube.com/watch?v=-XV1JBfhgWo&list=PLw5h0DiJ-9PC49ItLKBQlWSMH1zolOCXS"
+    click T "https://www.youtube.com/watch?v=-XV1JBfhgWo&list=PLw5h0DiJ-9PC49ItLKBQlWSMH1zolOCXS"
+    click U "https://www.youtube.com/watch?v=-XV1JBfhgWo&list=PLw5h0DiJ-9PC49ItLKBQlWSMH1zolOCXS"
+    click V "https://www.youtube.com/watch?v=-XV1JBfhgWo&list=PLw5h0DiJ-9PC49ItLKBQlWSMH1zolOCXS"
+    click W "https://www.youtube.com/watch?v=-XV1JBfhgWo&list=PLw5h0DiJ-9PC49ItLKBQlWSMH1zolOCXS"
+    click X "https://www.youtube.com/watch?v=-XV1JBfhgWo&list=PLw5h0DiJ-9PC49ItLKBQlWSMH1zolOCXS"
+    click Y "https://www.youtube.com/watch?v=-XV1JBfhgWo&list=PLw5h0DiJ-9PC49ItLKBQlWSMH1zolOCXS"
+    click Z "https://www.youtube.com/watch?v=-XV1JBfhgWo&list=PLw5h0DiJ-9PC49ItLKBQlWSMH1zolOCXS"
+```

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    {% block head %}
+        <title>Silicorn Valley Web Applications</title>
+    {% endblock %}
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbar"
+                aria-controls="navbar"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        ><span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="bg-dark text-white">
+            Navigation Menu
+        </div>
+        <div class="collapse navbar-collapse" id="navbar">
+            <div class="navbar-nav">
+                <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                <a class="nav-link" href="{{ url_for('signup') }}">Sign Up</a>
+                <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a>
+                <a class="nav-link" href="{{ url_for('upload') }}">Uploads</a>
+                <a class="nav-link" href="{{ url_for('calculations') }}">Calcs</a>
+                <a class="nav-link" href="{{ url_for('maps') }}">Maps</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content of the page -->
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- Block to include custom javascript belonging to the project -->
+      {% block javascript %}
+        <script type="text/javascript">
+          function deleteNote(noteId) {
+      fetch("/delete-note", {
+        method: "POST",
+        body: JSON.stringify({ noteId: noteId }),
+      }).then((_res) => {
+        window.location.href = "/";
+      });
+      }
+    </script>
+    {% endblock %}
+  </body>
+</html>

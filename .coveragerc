@@ -1,0 +1,7 @@
+[run]
+include = */src/*
+branch=True
+omit=tests, .tox/*, docs/*, res*, Training/*, venv/*
+timid=True
+parallel=True
+

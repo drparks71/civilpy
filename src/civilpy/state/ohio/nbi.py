@@ -1,0 +1,38 @@
+item_107 = {
+   "1":  "Concrete Cast-in-Place",
+   "2":  "Concrete Precast Panels",
+   "3":  "Open Grating",
+   "4":  "Closed Grating",
+   "5":  "Steel plate (includes orthotropic)",
+   "6":  "Corrugated Steel",
+   "7":  "Aluminum",
+   "8":  "Wood or Timber",
+   "9":  "Other",
+   "N":  "Not applicable",
+}
+
+field_043B = {
+    1: "Slab",
+    2: "Stringer/Multi-beam or Girder",
+    3: "Girder and Floorbeam System",
+    4: "Tee Beam",
+    5: "Box Beam or Girders - Multiple",
+    6: "Box Beam or Girders - Single or Spread",
+    7: "Frame (except frame culverts)",
+    8: "Orthotropic",
+    9: "Truss - Deck",
+    10: "Truss - Thru",
+    11: "Arch - Deck",
+    12: "Arch - Thru",
+    13: "Suspension",
+    14: "Stayed Girder",
+    15: "Movable - Lift",
+    16: "Movable - Bascule",
+    17: "Movable - Swing",
+    18: "Tunnel",
+    19: "Culvert (includes frame culverts)",
+    20: "* Mixed types",
+    21: "Segmental Box Girder",
+    22: "Channel Beam",
+    0: "Other"
+}

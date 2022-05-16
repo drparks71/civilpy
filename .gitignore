@@ -1,0 +1,251 @@
+######################## .gitignore CHEAT SHEET ################################
+
+# ** - Add before a pattern to match directories anywhere in the repository
+# *  - Wildcard character that matches zero or more characters
+# !  - Negates a file from gitignore (ensures the file is commited to git)
+# /  - Matches files only in the repository root
+# ?  - Matches exactly one character
+# [] - matches a single character
+#       - May be used with a range [0-9].log
+#       - Or a set [0123456789].log
+#       - ! can be used within the brackets to negate characters in the set
+
+######################## .gitignore Definitions ################################
+
+
+
+##### GENERAL ####
+
+# ignores logs
+*.log
+# ignores .env files
+*.env
+# ignores pycharm specific files
+*.idea
+*.iml
+
+# ignore jupyter notebook checkpoint files
+.ipynb_checkpoints/
+civilpy/.ipynb_checkpoints/
+
+
+
+##### Files ####
+
+# ignores temporary files used development purposes
+civilpy/Working.py
+/civilpy/UI/test.db
+civilpy/Test_NB.ipynb
+
+
+##### DIRECTORIES ####
+
+# Ignore folders used to hold user data for processing, but keeps the folders as
+# part of the project structure with the .gitkeep files
+civilpy/data/
+!civilpy/data/.gitkeep
+civilpy/photos/*
+!civilpy/photos/.gitkeep
+
+# Completely ignore these folders
+docs/build
+civilpy/__pycache__/
+civilpy/Legacy/__pycache__/
+civilpy/Legacy/journals/
+civilpy/scrapers/__pycache__/
+/Notebooks/.ipynb_checkpoints/
+/Kivy/kivy/
+/data/*
+/Secrets/
+/secrets.json
+/Notebooks/odot_data/
+/civilpy/scrapers/
+/Data/
+/docs/_build
+/docs/_static
+/docs/_templates
+/flask/
+/ODOT/
+/projects/03486 - Tydings Bridge/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OSX useful to ignore
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IntelliJ Idea family of suites
+.idea
+## File-based project format:
+*.ipr
+*.iws
+## mpeltonen/sbt-idea plugin
+.idea_modules/
+
+# Briefcase build directories
+iOS/
+macOS/
+windows/
+android/
+linux/
+django/
+/Notebooks/ODOT/
+/civilpy/.buildozer/
+/secrets/secrets.json
+/Notebooks/samplekml.kml
+/Notebooks/scratch.py
+/Notebooks/scratch.ipynb
+/.coverage
+/Notebooks/map.html
+/Notebooks/temp/
+/identifier.sqlite
+/src/civilpy/kivy/demo_apps/ToDo/.buildozer/
+/src/civilpy/kivy/demo_apps/ToDo/bin/
+/src/civilpy/kivy/demo_apps/ToDo/todo.db
+/Notebooks/user_secrets.py
+/.tox/*
+/coverage.xml
+.coverage
+/coverage.html/
+/venv/
+/Notebooks/Project Files/*
+/Notebooks/output/*
+/Notebooks/Michael Baker Employee Resources.ipynb
+/Notebooks/Project Files/110111.pdf
+/Notebooks/Project Files/output.pdf
+/Notebooks/aclImdb
+/Notebooks/models/
+/Notebooks/config.cfg
+/Notebooks/aclImdb/
+/Notebooks/DPG Selector.ipynb
+/Notebooks/DPG Selector.pdf
+/src/civilpy/flask/uploads/
+/Notebooks/res/temp/*
+/Notebooks/res/3519-01 Hawstone All Points.txt
+/Notebooks/res/3519-01 Hawstone Mapping.dgn
+/Notebooks/AREMA TPG Superstructure Design - Condensed.ipynb
+/Notebooks/AREMA TPG Superstructure Design - Verbose.ipynb
+/Notebooks/pdf_editing.ipynb
+/Notebooks/QC Tool.ipynb
+/Notebooks/Software Survey.ipynb
+/Notebooks/outAF-RO/*
+/Notebooks/outsimple_demo/*
+/src/civilpy/flask/results/test_file.json
+/src/civilpy/flask/uploads/test_file.json
+/Notebooks/bridges.kml
+/src/civilpy/transportation/rail_network_simulator/outAF-RO/anim_network0.gif
+/Notebooks/compose.svg
+/Notebooks/cover.svg
+/Notebooks/railroad icons/*
+/Notebooks/DRP/*
+/Notebooks/cache/*
+/Notebooks/res/MB Offices/*
+/Notebooks/res/all_projects.kml
+/Notebooks/scratch_and_testing.ipynb
+/res/conversion_todos/*
+/Notebooks/res/Dynamics of Railroad Structures ch8-9.pdf
+/Notebooks/RR LS_Plotly.ipynb
+/Notebooks/sinWave.gif
+/Notebooks/Python_for_Civil_Engineering.pdf
+/Notebooks/*.pdf
+/Notebooks/Bridge Backlog Forecast.ipynb
+/Notebooks/.jupyter_ystore.db
+/res/sample point cloud/3DML_urban_point_cloud.xyz
+/res/sample point cloud/3DML_validation.xyz
+/res/sample point cloud/2020_Drone_M.las
+/res/sample point cloud/2021_heerlen_table.las
+/Notebooks/beam.step
+/res/sample point cloud/output/bpa_mesh.ply
+/res/sample point cloud/output/bridge_test.ply
+/res/sample point cloud/KME_cars.xyz
+/res/sample point cloud/KME_planes.xyz
+/res/sample point cloud/License_Readme.txt
+/res/sample point cloud/output/lod_100.ply
+/res/sample point cloud/output/lod_300.ply
+/res/sample point cloud/output/lod_800.ply
+/res/sample point cloud/output/lod_1000.ply
+/res/sample point cloud/output/lod_8000.ply
+/res/sample point cloud/output/lod_10000.ply
+/res/sample point cloud/output/lod_50000.ply
+/res/sample point cloud/output/lod_100000.ply
+/res/map/MBI_Rail_Projects - Updated.kmz
+/res/sample point cloud/NZ19_Wellington.las
+/res/sample point cloud/NZ19_Wellington.laz
+/res/sample point cloud/NZ19_Wellington_voxel-best_point_6.xyz
+/res/sample point cloud/NZ19_Wellington_voxel-center_2.xyz
+/res/sample point cloud/NZ19_Wellington_voxel-center_6.xyz
+/Notebooks/original_table
+/res/sample point cloud/output/p_mesh_c.ply
+/Notebooks/rail_projects_map.html
+/res/map/rail_projects_map.html
+/res/sample point cloud/sample.xyz
+/res/sample.xyz
+/res/sample point cloud/sample_w_normals.xyz
+/res/sample point cloud/sart-tilman_appartement_kitchen_5M.ply
+/Notebooks/temp_csv
+/res/sample point cloud/the_adas_lidar.xyz
+/res/sample point cloud/the_playground.xyz
+/res/sample point cloud/the_researcher_desk.xyz
+/res/sample point cloud/TLS_kitchen.ply
+/res/sample point cloud/TLS_kitchen-1.ply
+/res/sample point cloud/TLS_kitchen_sample.ply
+/res/sample point cloud/TLS_kitchen_sample-1.ply
+/Notebooks/res/ODA/*
+/*.db
+/src/civilpy/kivy/demo_apps/Inspection/res/*
+/src/civilpy/kivy/demo_apps/Inspection/.buildozer/*
+/Notebooks/res/fra_data/*
+/src/civilpy/general/fortran/fortran_DLLs/*
+/res/*
+/Notebooks/res/PointClouds/*
+/Notebooks/bridge_map.html
+/Notebooks/bridge_map_with_plotly.html
+/Notebooks/plotly_graph.html
+/pyproject.toml.bak
+/Notebooks/table_0.csv
+/src/civilpy/data/*
+/src/civilpy/data/rail/NTAD_North_American_Rail_Network_Lines_Class_I_Railroads_-2623260113194144751.geojson
