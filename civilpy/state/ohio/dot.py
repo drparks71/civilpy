@@ -10,6 +10,7 @@ from natsort import natsorted
 from bs4 import BeautifulSoup
 import json
 import requests
+import pint
 import time
 from datetime import datetime
 
@@ -401,6 +402,8 @@ ohio_counties = {
     "WYANDOT": "WYA",
 }
 
+fips_codes = pd.read_csv("https://raw.githubusercontent.com/kjhealy/fips-codes/master/state_and_county_fips_master.csv")
+ohio_fips = pd.read_csv("https://daneparks.com/Dane/civilpy/-/raw/master/res/ohio_fips.csv")
 
 NBIS_state_codes = {
     '014': 'Alabama',
@@ -765,6 +768,27 @@ class BridgeObject:
         ).add_to(m)
 
         return m
+
+
+class SNBITransition(BridgeObject):
+    """
+    Class to hold bridge data and compare it to historic reported values, for the standard object to get
+    bridge data from tims, see the 'BridgeObject' class
+    """
+    def __init__(self):
+        self.historic_data = {}
+        self.historic_data = get_historic_bridge_data()
+
+
+def get_historic_bridge_data(state_code=39, sfn='2701464'):
+    """
+    Gets historic bridge values for a given sfn
+    """
+    nbi_df = pd.read_csv("https://daneparks.com/Dane/civilpy/-/raw/snibi_tests_development/res/2022AllRecordsDelimitedAllStates.txt", low_memory=False)
+    state_bridges = nbi_df[nbi_df['STATE_CODE_001'] == state_code]
+    first_bridge_data = state_bridges[state_bridges['STRUCTURE_NUMBER_008'] == sfn.rjust(15, ' ')]
+
+    return first_bridge_data
 
 
 def get_project_data_from_tims(pid='112664'):
