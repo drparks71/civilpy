@@ -774,10 +774,491 @@ class SNBITransition(BridgeObject):
     """
     Class to hold bridge data and compare it to historic reported values, for the standard object to get
     bridge data from tims, see the 'BridgeObject' class
+
+    # //TODO - Build fake bridge w/ bad data to ensure failing cases work
     """
-    def __init__(self):
+    def __init__(self, sfn, leading_zeros=0):
+        """
+        Additional inputs to BridgeObject Class:
+
+        leading_zeros - Configuration value for SNIBI Transfer
+        leading zeros, accepts values from 0-2 under the following
+        coding;
+            0 - Do not Pad (default)
+            1 - Pad number w/ single zero?
+            2 - Pad w/ 0s to 15
+        """
+
+        super().__init__(sfn)
         self.historic_data = {}
         self.historic_data = get_historic_bridge_data()
+
+        if leading_zeros == 0:
+            self.bridge_number = f"{self.sfn}"
+        elif leading_zeros == 1:
+            self.bridge_number = f"{str(self.sfn).zfill(len(str(self.sfn)))}"
+        elif leading_zeros == 2:
+            self.bridge_number = f"{str(self.sfn).zfill(15)}"
+
+        # This is a list of every check, or test that is run against the values
+        self.transition_record = {
+            'BID01': self.bid01(),
+            'BID02': '',
+            'BID03': '',
+            'BL01': self.bl01(),
+            'BL02': self.bl02(),
+            'BL03': self.bl03(),
+            'BL04': self.bl04(),
+            'BL05': '',
+            'BL06': '',
+            'BL07': '',
+            'BL08': '',
+            'BL09': '',
+            'BL10': '',
+            'BL11': '',
+            'BL12': '',
+            'BCL01': '',
+            'BCL02': '',
+            'BCL03': '',
+            'BCL04': '',
+            'BCL05': '',
+            'BCL06': '',
+            'BSP01': '',
+            'BSP02': '',
+            'BSP03': '',
+            'BSP04': '',
+            'BSP05': '',
+            'BSP06': '',
+            'BSP07': '',
+            'BSP08': '',
+            'BSP09': '',
+            'BSP10': '',
+            'BSP11': '',
+            'BSP12': '',
+            'BSP13': '',
+            'BSB01': '',
+            'BSB02': '',
+            'BSB03': '',
+            'BSB04': '',
+            'BSB05': '',
+            'BSB06': '',
+            'BSB07': '',
+            'BRH01': '',
+            'BRH02': '',
+            'BG01': '',
+            'BG02': '',
+            'BG03': '',
+            'BG04': '',
+            'BG05': '',
+            'BG06': '',
+            'BG07': '',
+            'BG08': '',
+            'BG09': '',
+            'BG10': '',
+            'BG11': '',
+            'BG12': '',
+            'BG13': '',
+            'BG14': '',
+            'BG15': '',
+            'BG16': '',
+            'BF01': '',
+            'BF02': '',
+            'BF03': '',
+            'BRT01': '',
+            'BRT02': '',
+            'BRT03': '',
+            'BRT04': '',
+            'BRT05': '',
+            'BH01': '',
+            'BH02': '',
+            'BH03': '',
+            'BH04': '',
+            'BH05': '',
+            'BH06': '',
+            'BH07': '',
+            'BH08': '',
+            'BH09': '',
+            'BH10': '',
+            'BH11': '',
+            'BH12': '',
+            'BH13': '',
+            'BH14': '',
+            'BH15': '',
+            'BH16': '',
+            'BH17': '',
+            'BH18': '',
+            'BRR01': '',
+            'BRR02': '',
+            'BRR03': '',
+            'BN01': '',
+            'BN02': '',
+            'BN03': '',
+            'BN04': '',
+            'BN05': '',
+            'BN06': '',
+            'BLR01': '',
+            'BLR02': '',
+            'BLR03': '',
+            'BLR04': '',
+            'BLR05': '',
+            'BLR06': '',
+            'BLR07': '',
+            'BLR08': '',
+            'BPS01': '',
+            'BPS02': '',
+            'BEP01': '',
+            'BEP02': '',
+            'BEP03': '',
+            'BEP04': '',
+            'BIR01': '',
+            'BIR02': '',
+            'BIR03': '',
+            'BIR04': '',
+            'BIE01': '',
+            'BIE02': '',
+            'BIE03': '',
+            'BIE04': '',
+            'BIE05': '',
+            'BIE06': '',
+            'BIE07': '',
+            'BIE08': '',
+            'BIE09': '',
+            'BIE10': '',
+            'BIE11': '',
+            'BIE12': '',
+            'BC01': '',
+            'BC02': '',
+            'BC03': '',
+            'BC04': '',
+            'BC05': '',
+            'BC06': '',
+            'BC07': '',
+            'BC08': '',
+            'BC09': '',
+            'BC10': '',
+            'BC11': '',
+            'BC12': '',
+            'BC13': '',
+            'BC14': '',
+            'BC15': '',
+            'BAP01': '',
+            'BAP02': '',
+            'BAP03': '',
+            'BAP04': '',
+            'BAP05': '',
+            'BW01': '',
+            'BW02': '',
+            'BW03': '',
+        }
+
+    def bid01(self):
+        """
+        B.ID.01 Function - Bridge Number Comparison
+        """
+        historic = self.historic_data["STRUCTURE_NUMBER_008"].iloc[0].strip()
+        modern = str(self.sfn)
+
+        if historic == modern:
+            return_var = None
+        else:
+            print(f"'BID01_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
+                  f"{modern}\nto match")
+            return_var = 'BID01_CHECK_FAILED'
+
+        return return_var
+
+    def bl01(self, state='Ohio'):
+        """
+        B.L.01 Function - State Code Comparison
+        """
+        historic = state_code_conversion(get_3_digit_st_cd_from_2(self.historic_data["STATE_CODE_001"].iloc[0]))
+        modern = state
+
+        if historic == modern:
+            return_var = None
+        else:
+            print(f"'BL_01_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
+                  f"{modern}\nto match")
+            return_var = 'BL_01_CHECK_FAILED'
+
+        return return_var
+
+    def bl02(self):
+        """
+        B.L.02 Function - County Code Comparison
+        """
+        county_name = get_cty_from_code(
+            self.historic_data["COUNTY_CODE_003"].iloc[0],
+            self.historic_data["STATE_CODE_001"].iloc[0])
+        county_short = county_name.split(' ')[0]
+        historic = ohio_counties[county_short.upper()]
+
+        modern = self.county_cd
+
+        if historic == modern:
+            return_var = None
+        else:
+            print(f"'BL_02_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
+                  f"{modern}\nto match")
+            return_var = 'BL_02_CHECK_FAILED'
+
+        return return_var
+
+    def bl03(self):
+        """
+        B.L.03 Function - Place Code Comparison
+        """
+        historic = str(self.historic_data["PLACE_CODE_004"].iloc[0])
+
+        modern = self.fips_cd
+
+        if historic == modern:
+            return_var = None
+        else:
+            print(f"'BL_03_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
+                  f"{modern}\nto match\nAttempted Conversion: {convert_place_code(self.fips_cd)}")
+            return_var = 'BL_03_CHECK_FAILED'
+
+        return return_var
+
+    def bl04(self):
+        """
+        B.L.04 Function - Highway Agency District
+        """
+        historic = str(self.historic_data["HIGHWAY_DISTRICT_002"].iloc[0])
+        modern = self.district
+
+        if historic == modern:
+            return_var = None
+        else:
+            print(f"'BL_04_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
+                  f"{modern}\nto match\n")
+            return_var = 'BL_04_CHECK_FAILED'
+
+        return return_var
+
+    def bl05(self):
+        """
+        B.L.05 Function - Latitude
+        """
+        historic = float(convert_latitudinal_values(self.historic_data["LAT_016"].iloc[0]))
+        modern = self.latitude_dd
+
+        # Gets the error from the new and old latitude in feet (estimate based on equator) returns an error if over
+        # 500'
+        error_magnitude = abs(
+            (modern - historic) / 2.7e-6
+        )
+
+        if error_magnitude < 50:
+            return_var = None
+        else:
+            print(f"'BL_05_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
+                  f"{modern}\nto be less than 50' apart\n")
+            return_var = 'BL_05_CHECK_FAILED'
+
+        return return_var
+
+    def bl06(self):
+        """
+        B.L.06 Function - Longitude
+        """
+        historic = float(convert_longitudinal_values(self.historic_data["LONG_017"].iloc[0]))
+        modern = self.longitude_dd
+
+        # Gets the error from the new and old latitude in feet (estimate based on equator) returns an error if over
+        # 500'
+        error_magnitude = abs(
+            (modern - historic) / 5.9e-6
+        )
+
+        if error_magnitude < 50:
+            return_var = None
+        else:
+            print(f"'BL_06_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
+                  f"{modern}\nto be less than 50' apart\n")
+            return_var = 'BL_06_CHECK_FAILED'
+
+        return return_var
+
+    def bl07(self):
+        """
+        B.L.07 Function - Border Bridge Number
+        """
+        historic = self.historic_data["OTHR_STATE_STRUC_NO_099"].iloc[0]
+        modern = self.brdr_brg_sfn
+
+        if historic == modern:
+            return_var = None
+        else:
+            print(f"'BL_07_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
+                  f"{modern}\nto be equal\n")
+            return_var = 'BL_07_CHECK_FAILED'
+
+        return return_var
+
+    def bl08(self):
+        """
+        B.L.08 Function - Border Bridge State or Country Code
+        """
+        historic = self.historic_data["OTHER_STATE_CODE_098A"].iloc[0]
+        modern = self.brdr_brg_state
+
+        if historic == modern:
+            return_var = None
+        else:
+            print(f"'BL_08_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
+                  f"{modern}\nto be equal\nCode Conversion: {state_code_conversion(modern)}")
+            return_var = 'BL_08_CHECK_FAILED'
+
+        return return_var
+
+    def bl09(self):
+        """
+        B.L.09 Function - Border Bridge Inspection Responsibility
+        """
+        historic = str(int(self.historic_data["OTHER_STATE_PCNT_098B"].iloc[0]))
+        modern = self.brdr_brg_pct_resp
+
+        if historic == modern:
+            return_var = None
+        else:
+            print(f"'BL_09_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
+                  f"{modern}\nto be equal\n")
+            return_var = 'BL_09_CHECK_FAILED'
+
+        return return_var
+
+    def bl10(self, state='Ohio'):
+        """
+        B.L.10 Function - Border Bridge Designated Lead State
+        """
+        historic = state_code_conversion(self.historic_data["STATE_CODE_001"].iloc[0])
+        modern = state  # //TODO - Determine how to handle this value during transfer
+
+        if historic == modern:
+            return_var = None
+        else:
+            print(f"'BL_10_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
+                  f"{modern}\nto be equal\nConversion: "
+                  f"{state_code_conversion(self.historic_data['STATE_CODE_001'].iloc[0])}\n")
+            return_var = 'BL_10_CHECK_FAILED'
+
+        return return_var
+
+
+def get_3_digit_st_cd_from_2(code):
+    for key, value in NBIS_state_codes.items():
+        if key[:-1] == str(code):
+            return key
+        else:
+            pass
+
+
+def convert_longitudinal_values(longitude):
+    """
+    Takes a Longitude in degree minutes seconds, converts it to decimal, prints an error if it's not in North
+    America
+
+    return: converted value
+    """
+
+    longitude_deg = int(str(longitude)[:2])
+    longitude_min = int(str(longitude)[2:4]) / 60
+    longitude_sec = (int(str(round(longitude))[4:]) / 100) / 3600
+
+    if longitude_deg + longitude_min + longitude_sec > 0:
+        print('\nLongitude Values are supposed to be negative, performing conversion, '
+              'but database potentially needs corrected\n')
+        converted_value = -1 * (longitude_deg + longitude_min + longitude_sec)
+    else:
+        converted_value = longitude_deg + longitude_min + longitude_sec
+
+    if converted_value > 0 or converted_value < -180:
+        print("\nLongitude outside the range of continental US, check values, should be negative\n")
+
+    return f"{converted_value:.6f}"
+
+
+def convert_latitudinal_values(latitude):
+    """
+    Takes a Longitude in degree minutes seconds, converts it to decimal, prints an error if it's not in North
+    America
+
+    return: converted value
+    """
+    latitude_deg = int(str(latitude)[:2])
+    latitude_min = int(str(latitude)[2:4]) / 60
+    latitude_sec = (int(str(round(latitude))[4:]) / 100) / 3600
+
+    converted_value = latitude_deg + latitude_min + latitude_sec
+
+    if latitude_deg > 55 or latitude_deg < 16:
+        print("Latitude outside the range of continental US, check values")
+
+    return f"{converted_value:.6f}"
+
+
+def convert_place_code(code):
+    """
+    NOTE: There is no coversion here, the SNBI update still uses FIPS Place codes, but those aren't readable
+    so here's how to convert them, it also checks for bad values.
+
+    Takes in bridge SFN, returns FIPS County Code location conversion,
+
+    //TODO - Download FIPS definitions for various states, currently configured for only Ohio
+
+    returns: Human readable version of 5 digit fips code
+    """
+    # //TODO - Find a better way to convert these values
+    url = "https://raw.githubusercontent.com/kjhealy/fips-codes/master/county_fips_master.csv"
+    place_codes = pd.read_csv(url, encoding="ISO-8859-1", sep=',')
+
+    # Searches ohio fips results and converts the township and county to readable values
+    results_df = ohio_fips[ohio_fips['FIPS CODE'] == int(code)][['COUNTY CODE', 'TOWNSHIP']]
+    cty_cd = [i for i in ohio_counties if ohio_counties[i] == results_df.values[0][0]][0]
+    twn_nme = results_df.values[0][1]
+
+    readable_name = f"County: {cty_cd}   Township: {twn_nme}"
+
+    if ohio_fips[ohio_fips['FIPS CODE'] == int(code)].empty:
+        print("\nError, Place value not found in conversion data, double check the value")
+        print("Is a legitimate entry in the FIPS 'place code' system\n")
+    else:
+        return readable_name
+
+
+def state_code_conversion(code):
+    """
+    Takes in a bridge number, returns converted state code from index lookup
+
+    returns converted value, since this is written for Ohio, 39
+    """
+    if len(str(code)) == 2:
+        state_code = NBIS_state_codes[get_3_digit_st_cd_from_2(code)]
+    else:
+        state_code = NBIS_state_codes[code]
+
+    return state_code
+
+
+def get_cty_from_code(cty_code, st_code):
+    """
+
+    //TODO - Use geocoding spatial joints with GPS coords to verify bentley value against
+    result from geocoding library (verify county codes)
+
+    //TODO - Make function not specific to Ohio by replacing "OH" below with appropriate dict
+
+    returns: 3 character numeric county code
+    """
+    # Uses a list comprehesion to go through counties and match full name with county code in database
+    county_cd = f'{int(cty_code)}'.rjust(3, '0')
+    lookup_cd = str(st_code) + county_cd
+
+    county_name = fips_codes[fips_codes['fips'] == int(lookup_cd)]['name'].values[0]
+
+    return county_name
 
 
 def get_historic_bridge_data(state_code=39, sfn='2701464'):
