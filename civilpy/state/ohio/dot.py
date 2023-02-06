@@ -1364,14 +1364,7 @@ def get_historic_bridge_data(state_code=39, sfn='2701464'):
 
 
 def get_project_data_from_tims(pid='112664'):
-    url = f"https://gis.dot.state.oh.us/arcgis/rest/services/TIMS/Projects/MapServer/0/query?where=PID_NBR%3D" \
-          f"{pid}&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=" \
-          f"esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&returnTrueCurves=false&" \
-          f"maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=true&returnCountOnly=false&" \
-          f"orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&" \
-          f"historicMoment=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&" \
-          f"returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=" \
-          f"&featureEncoding=esriDefault&f=html"
+    url = f"https://gis.dot.state.oh.us/arcgis/rest/services/TIMS/Projects/MapServer/0/query?where=PID_NBR%3D{pid}&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=true&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=html"
 
     page = requests.get(url)
     url_base = 'https://gis.dot.state.oh.us'
@@ -1390,7 +1383,10 @@ def get_project_data_from_tims(pid='112664'):
             page = requests.get(full_data_url)
             data_json = json.loads(page.content)
 
-            extracted_data = data_json['feature']['attributes']
+            try:
+                extracted_data = data_json['feature']['attributes']
+            except KeyError as e:
+                return data_json
 
             project_point_links[link.text] = extracted_data
 

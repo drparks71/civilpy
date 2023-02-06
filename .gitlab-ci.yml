@@ -22,7 +22,8 @@ pypi_publish:
   stage: deploy
   cache: {}
   only:
-    - master
+    changes:
+      - setup.py
   image: python:latest
   script:
     - pip install -U build twine
@@ -33,7 +34,8 @@ gitlab_publish:
   stage: deploy
   cache: {}
   only:
-    - master
+    changes:
+      - setup.py
   image: python:latest
   script:
     - pip install build twine

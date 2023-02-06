@@ -4,6 +4,10 @@
 
 <img alt="Project badge" aria-hidden="" class="project-badge" src="https://daneparks.com/Dane/civilpy/badges/master/coverage.svg">
 
+<!---
+copy these badges - https://github.com/mhammond/pywin32
+-->
+
 Code snippets for Civil Engineering related tasks
 
 ## About (Skip to the "Installation" section to start running code)

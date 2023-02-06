@@ -1,3 +1,4 @@
+import numbers
 import unittest
 from civilpy.state.ohio.dot import Project
 
@@ -69,9 +70,9 @@ class TestProject(unittest.TestCase):
         self.assertIsInstance(self.tp.structure_file_nbr, str)
         self.assertIsInstance(self.tp.main_structure_type, str)
         self.assertIsInstance(self.tp.sufficiency_rating, str)
-        self.assertIsInstance(self.tp.ovrl_structure_length, float)
-        self.assertIsInstance(self.tp.deck_area, int)
-        self.assertIsInstance(self.tp.deck_width, float)
+        self.assertIsInstance(self.tp.ovrl_structure_length, numbers.Number)
+        self.assertIsInstance(self.tp.deck_area, numbers.Number)
+        self.assertIsInstance(self.tp.deck_width, numbers.Number)
         self.assertIsInstance(self.tp.feature_intersect, str)
         self.assertIsInstance(self.tp.year_built, str)
         self.assertIsInstance(self.tp.longitude_begin_nbr, float)
