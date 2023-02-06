@@ -803,21 +803,21 @@ class SNBITransition(BridgeObject):
         # This is a list of every check, or test that is run against the values
         self.transition_record = {
             'BID01': self.bid01(),
-            'BID02': '',
-            'BID03': '',
+            'BID02': self.bid02(),
+            'BID03': self.bid03(),
             'BL01': self.bl01(),
             'BL02': self.bl02(),
             'BL03': self.bl03(),
             'BL04': self.bl04(),
-            'BL05': '',
-            'BL06': '',
-            'BL07': '',
-            'BL08': '',
-            'BL09': '',
-            'BL10': '',
-            'BL11': '',
-            'BL12': '',
-            'BCL01': '',
+            'BL05': self.bl05(),
+            'BL06': self.bl06(),
+            'BL07': self.bl07(),
+            'BL08': self.bl08(),
+            'BL09': self.bl09(),
+            'BL10': self.bl10(),
+            'BL11': self.bl11(),
+            'BL12': self.bl12(),
+            'BCL01': self.bcl01(),
             'BCL02': '',
             'BCL03': '',
             'BCL04': '',
@@ -961,9 +961,45 @@ class SNBITransition(BridgeObject):
         if historic == modern:
             return_var = None
         else:
-            print(f"'BID01_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
-                  f"{modern}\nto match")
-            return_var = 'BID01_CHECK_FAILED'
+            print(f"'B.ID_01_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
+                  f"Modern: {modern}\nto match")
+            return_var = 'B.ID_01_CHECK_FAILED'
+
+        return return_var
+
+    def bid02(self):
+        """
+        B.L.12 Function - Metropolitan Planning Organization
+
+        Previously didn't exist - Created as placeholder
+        """
+        historic = ''
+        modern = ''
+
+        if historic == modern:
+            return_var = None
+        else:
+            print(f"'B.ID_02_CHECK_FAILED'\n\nNot sure how, its a placeholder:\nHistoric: {historic}\nand\n"
+                  f"Modern: {modern}\nto be equal\nConversion: ")
+            return_var = 'B.ID_02_CHECK_FAILED'
+
+        return return_var
+
+    def bid03(self):
+        """
+        B.ID.03 Function - Previous Bridge Number
+
+        Previously didn't exist - Created as placeholder
+        """
+        historic = ''
+        modern = ''
+
+        if historic == modern:
+            return_var = None
+        else:
+            print(f"'B.ID_03_CHECK_FAILED'\n\nNot sure how, its a placeholder:\nHistoric: {historic}\nand\n"
+                  f"Modern: {modern}\nto be equal\nConversion: ")
+            return_var = 'BID_03_CHECK_FAILED'
 
         return return_var
 
@@ -977,8 +1013,8 @@ class SNBITransition(BridgeObject):
         if historic == modern:
             return_var = None
         else:
-            print(f"'BL_01_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
-                  f"{modern}\nto match")
+            print(f"'BL_01_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
+                  f"Modern: {modern}\nto match")
             return_var = 'BL_01_CHECK_FAILED'
 
         return return_var
@@ -998,8 +1034,8 @@ class SNBITransition(BridgeObject):
         if historic == modern:
             return_var = None
         else:
-            print(f"'BL_02_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
-                  f"{modern}\nto match")
+            print(f"'BL_02_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
+                  f"Modern: {modern}\nto match")
             return_var = 'BL_02_CHECK_FAILED'
 
         return return_var
@@ -1015,8 +1051,8 @@ class SNBITransition(BridgeObject):
         if historic == modern:
             return_var = None
         else:
-            print(f"'BL_03_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
-                  f"{modern}\nto match\nAttempted Conversion: {convert_place_code(self.fips_cd)}")
+            print(f"'BL_03_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
+                  f"Modern: {modern}\nto match\nAttempted Conversion: {convert_place_code(self.fips_cd)}")
             return_var = 'BL_03_CHECK_FAILED'
 
         return return_var
@@ -1031,8 +1067,8 @@ class SNBITransition(BridgeObject):
         if historic == modern:
             return_var = None
         else:
-            print(f"'BL_04_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
-                  f"{modern}\nto match\n")
+            print(f"'BL_04_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
+                  f"Modern: {modern}\nto match\n")
             return_var = 'BL_04_CHECK_FAILED'
 
         return return_var
@@ -1053,8 +1089,8 @@ class SNBITransition(BridgeObject):
         if error_magnitude < 50:
             return_var = None
         else:
-            print(f"'BL_05_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
-                  f"{modern}\nto be less than 50' apart\n")
+            print(f"'BL_05_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
+                  f"Modern: {modern}\nto be less than 50' apart\n")
             return_var = 'BL_05_CHECK_FAILED'
 
         return return_var
@@ -1075,8 +1111,8 @@ class SNBITransition(BridgeObject):
         if error_magnitude < 50:
             return_var = None
         else:
-            print(f"'BL_06_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
-                  f"{modern}\nto be less than 50' apart\n")
+            print(f"'BL_06_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
+                  f"Modern: {modern}\nto be less than 50' apart\n")
             return_var = 'BL_06_CHECK_FAILED'
 
         return return_var
@@ -1091,8 +1127,8 @@ class SNBITransition(BridgeObject):
         if historic == modern:
             return_var = None
         else:
-            print(f"'BL_07_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
-                  f"{modern}\nto be equal\n")
+            print(f"'BL_07_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
+                  f"Modern: {modern}\nto be equal\n")
             return_var = 'BL_07_CHECK_FAILED'
 
         return return_var
@@ -1107,8 +1143,8 @@ class SNBITransition(BridgeObject):
         if historic == modern:
             return_var = None
         else:
-            print(f"'BL_08_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
-                  f"{modern}\nto be equal\nCode Conversion: {state_code_conversion(modern)}")
+            print(f"'BL_08_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
+                  f"Modern: {modern}\nto be equal\nCode Conversion: {state_code_conversion(modern)}")
             return_var = 'BL_08_CHECK_FAILED'
 
         return return_var
@@ -1123,8 +1159,8 @@ class SNBITransition(BridgeObject):
         if historic == modern:
             return_var = None
         else:
-            print(f"'BL_09_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
-                  f"{modern}\nto be equal\n")
+            print(f"'BL_09_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
+                  f"Modern: {modern}\nto be equal\n")
             return_var = 'BL_09_CHECK_FAILED'
 
         return return_var
@@ -1139,10 +1175,65 @@ class SNBITransition(BridgeObject):
         if historic == modern:
             return_var = None
         else:
-            print(f"'BL_10_CHECK_FAILED'\n\nExpected the values:\n{historic}\nand\n"
-                  f"{modern}\nto be equal\nConversion: "
+            print(f"'BL_10_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
+                  f"Modern: {modern}\nto be equal\nConversion: "
                   f"{state_code_conversion(self.historic_data['STATE_CODE_001'].iloc[0])}\n")
             return_var = 'BL_10_CHECK_FAILED'
+
+        return return_var
+
+    def bl11(self):
+        """
+        B.L.11 Function - Bridge Location
+        """
+        if self.historic_data['LOCATION_009'].iloc[0][0] == "'":
+            print('\nB.L.11 - Check entry, \' character included, removing\n')
+            historic =  self.historic_data['LOCATION_009'].iloc[0].strip("'")
+        else:
+            historic = self.historic_data['LOCATION_009'].iloc[0]
+        modern = self.str_loc
+
+        if historic == modern:
+            return_var = None
+        else:
+            print(f"'BL_11_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
+                  f"Modern: {modern}\nto be equal\n")
+            return_var = 'BL_11_CHECK_FAILED'
+
+        return return_var
+
+    def bl12(self):
+        """
+        B.L.12 Function - Metropolitan Planning Organization
+
+        Previously didn't exist
+        """
+        historic = ''
+        modern = ''
+
+        if historic == modern:
+            return_var = None
+        else:
+            print(f"'BL_12_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
+                  f"Modern: {modern}\nto be equal\nConversion: "
+                  f"{state_code_conversion(self.historic_data['STATE_CODE_001'].iloc[0])}\n")
+            return_var = 'BL_12_CHECK_FAILED'
+
+        return return_var
+
+    def bcl01(self):
+        """
+        B.CL.01 Function - Owner
+        """
+        historic = self.historic_data['OWNER_022'].iloc[0]
+        modern = self.maintenance_authority
+
+        if historic == modern:
+            return_var = None
+        else:
+            print(f"'BCL_01_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
+                  f"Modern: {modern}\nto be equal\n")
+            return_var = 'BCL_01_CHECK_FAILED'
 
         return return_var
 
