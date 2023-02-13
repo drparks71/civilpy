@@ -1,11 +1,11 @@
 import unittest
-from civilpy.state.ohio.dot import SNBITransition
+from civilpy.state.ohio.snbi import SNBITransfer
 
 
 class TestSNBITransitionObject(unittest.TestCase):
     def setUp(self, sfn=2701464):
         # Creates a 'test bridge' and makes sure none of the attributes have changed
-        self.tb = SNBITransition(sfn)
+        self.tb = SNBITransfer(sfn)
 
     def test_snbi_transfer_functions(self):
         # Creates a 'test bridge' and makes sure none of the attributes have changed

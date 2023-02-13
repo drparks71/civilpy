@@ -1,5 +1,5 @@
 import unittest
-from civilpy.state.ohio.dot import BridgeObject
+from civilpy.state.ohio.dot import TimsBridge, HistoricBridge
 
 
 class TestBridgeObject(unittest.TestCase):
@@ -13,7 +13,8 @@ class TestBridgeObject(unittest.TestCase):
 
     def setUp(self, sfn=6500609):
         # Creates a 'test bridge' and makes sure none of the attributes have changed
-        self.tb = BridgeObject(sfn)
+        self.tb = TimsBridge(sfn)
+        self.hb = HistoricBridge(sfn)
 
     def tearDown(self):
         pass
@@ -23,7 +24,7 @@ class TestBridgeObject(unittest.TestCase):
         # be changed to any SFN, //TODO - Update to a retired SFN to avoid non-tims related changes altering results
         self.assertIsInstance(self.tb.objectid, int)
 
-    def test_attribute_changes(self):
+    def test_tims_attributes_changes(self):
         # Creates a 'test bridge' and makes sure none of the attributes have changed
         self.assertEqual(self.tb.sfn, '6500609')
         self.assertEqual(self.tb.str_loc_carried, 'US 23SB')
@@ -263,8 +264,8 @@ class TestBridgeObject(unittest.TestCase):
         self.assertEqual(self.tb.last_edited_user, 'TIMS@P31_AG')
         self.assertIsInstance(self.tb.last_edited_date, int)
 
-    def test_bridge_functions(self):
-        self.tb
+    def test_historic_bridge_loading(self):
+        self.assertEqual(self.hb.historic_data['SFN'], self.tb.sfn)
 
 
 if __name__ == '__main__':

@@ -464,6 +464,7 @@ def get_bridge_data_from_tims(sfn=6500609):
     s = requests.Session()
     page = s.get(url, timeout=5)
     soup = BeautifulSoup(page.content, 'html5lib')
+    s.close()
 
     bridge_link = soup.find_all('a')
 
@@ -474,6 +475,7 @@ def get_bridge_data_from_tims(sfn=6500609):
 
     page = s.get(full_data_url_json)
     data_json = json.loads(page.content)
+    s.close()
 
     extracted_data = data_json['feature']['attributes']
 
@@ -488,8 +490,6 @@ class TimsBridge:
     def __init__(self, sfn):
         print("\nTIMS Bridge Initiated\n")
         self.SFN = sfn
-
-        super().__init__(sfn)
 
         raw_data = get_bridge_data_from_tims(sfn)
 
@@ -923,7 +923,7 @@ fips_codes = get_df_from_url("https://raw.githubusercontent.com/kjhealy/fips-cod
 ohio_fips = get_df_from_url("https://daneparks.com/Dane/civilpy/-/raw/master/res/2022AllRecordsDelimitedAllStates.txt")
 
 
-def get_historic_bridge_data(sfn='2701464', state='Ohio'):
+def get_historic_bridge_data(sfn=2701464, state='Ohio'):
     """
     Gets historic bridge values for a given sfn
 
@@ -931,13 +931,13 @@ def get_historic_bridge_data(sfn='2701464', state='Ohio'):
     """
     if state == 'Ohio':
         nbi_df = get_df_from_url(
-            "https://daneparks.com/Dane/civilpy/-/raw/snibi_tests_development/res/2022AllRecordsDelimitedAllStates.txt")
+            "https://daneparks.com/Dane/civilpy/-/raw/snibi_tests_development/res/Ohio_NBI.txt")
     else:
         nbi_df = get_df_from_url(
             "https://daneparks.com/Dane/civilpy/-/raw/snibi_tests_development/res/2022AllRecordsDelimitedAllStates.txt"
         )
     # state_bridges = nbi_df[nbi_df['STATE_CODE_001'] == state_code]
-    first_bridge_data = nbi_df[nbi_df['STRUCTURE_NUMBER_008'].str.strip() == sfn.strip()]
+    first_bridge_data = nbi_df[nbi_df['STRUCTURE_NUMBER_008'].str.strip() == sfn]
 
     return first_bridge_data
 
@@ -949,6 +949,7 @@ def get_project_data_from_tims(pid='112664'):
     page = s.get(url)
     url_base = 'https://gis.dot.state.oh.us'
     soup = BeautifulSoup(page.content, 'html5lib')
+    s.close()
 
     all_page_links = soup.find_all('a')
     project_point_links = {}
@@ -962,6 +963,7 @@ def get_project_data_from_tims(pid='112664'):
 
             page = s.get(full_data_url)
             data_json = json.loads(page.content)
+            s.close()
 
             try:
                 extracted_data = data_json['feature']['attributes']
