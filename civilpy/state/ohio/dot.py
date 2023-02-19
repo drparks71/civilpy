@@ -460,6 +460,7 @@ def get_bridge_data_from_tims(sfn=6500609):
     :param sfn: Bridge structure file number
     :return: A dictionary containing all the values relevant to the desired bridge
     """
+
     url = f"https://gis.dot.state.oh.us/arcgis/rest/services/TIMS/Assets/MapServer/5/query?where=sfn%3D{sfn}&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=true&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=html"
     s = requests.Session()
     page = s.get(url, timeout=5)
@@ -784,6 +785,8 @@ class HistoricBridge:
             1 - Pad number w/ single zero?
             2 - Pad w/ 0s to 15
         """
+        # This allows classes inheriting this one to use it's attributes
+
         print("\nHistoric Bridge Initiated\n")
         self.historic_data = {}
         # //TODO - This is slow w/ all bridges, could be sped up by filtering, splitting by state

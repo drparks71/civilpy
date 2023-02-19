@@ -1,22 +1,23 @@
-import os
 import sys
 import pint
-import importlib.util
-from pathlib import Path
-from civilpy.state.ohio.dot import HistoricBridge, get_cty_from_code, state_code_conversion, get_3_digit_st_cd_from_2
+from civilpy.state.ohio.dot import get_cty_from_code, state_code_conversion, get_3_digit_st_cd_from_2
 from civilpy.state.ohio.dot import ohio_counties, convert_latitudinal_values, convert_place_code
-from civilpy.state.ohio.dot import convert_longitudinal_values, TimsBridge
+from civilpy.state.ohio.dot import convert_longitudinal_values, TimsBridge, get_historic_bridge_data
 
 units = pint.UnitRegistry()
 
 
-class SNBITransfer(TimsBridge, HistoricBridge):
+class SNBITransfer(TimsBridge):
     def __init__(self, sfn):
         """
         This is a list of every check, or test that is run against the values, the values are defined in the
         snbi.py file and importated at the top of this file
         """
+        if type(sfn) == int:
+            sfn = str(sfn)
+
         super().__init__(sfn)
+        self.historic_data = get_historic_bridge_data(sfn)
 
         print("Starting SNBI Transfer")
         self.transition_record = {
@@ -2025,7 +2026,7 @@ class SNBITransfer(TimsBridge, HistoricBridge):
         else:
             print(f"'B.LR_03_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\n"
                   f"Modern: {modern}\n\nto be equal\n\n\n")
-            return_var = 'B.LR_03_CHECK_FAILED'
+            return_var = 'B.LR_05_CHECK_FAILED'
 
         return return_var
 
@@ -2185,7 +2186,7 @@ class SNBITransfer(TimsBridge, HistoricBridge):
         else:
             print(f"'B.EP_04_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\n"
                   f"Modern: {modern}\n\nto be equal\n\n\n")
-            return_var = 'B.EP_04_CHECK_FAILED'
+            return_var = 'B.IR_01_CHECK_FAILED'
 
         return return_var
 
@@ -2834,7 +2835,7 @@ class SNBITransfer(TimsBridge, HistoricBridge):
         else:
             print(f"'B.C_01_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\n"
                   f"Modern: {modern}\n\nto be equal\n\n\n")
-            return_var = 'B.C_01_CHECK_FAILED'
+            return_var = 'B.W_02_CHECK_FAILED'
 
         return return_var
 
