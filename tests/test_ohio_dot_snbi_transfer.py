@@ -1,14 +1,12 @@
 import unittest
 from civilpy.state.ohio.snbi import SNBITransfer
+from unittest.mock import patch, PropertyMock
 
 
 class TestSNBITransitionObject(unittest.TestCase):
-    def setUp(self, sfn=2701464):
+    def setUp(self, sfn='2701464'):
         # Creates a 'test bridge' and makes sure none of the attributes have changed
         self.tb = SNBITransfer(sfn)
-
-    def test_snbi_transfer_functions(self):
-        pass
 
     def test_snbi_transfer_results(self):
         # Creates a 'test bridge' and makes sure none of the attributes have changed
@@ -159,4 +157,8 @@ class TestSNBITransitionObject(unittest.TestCase):
         self.assertEqual(self.tb.transition_record['BW01'], 'B.W_01_CHECK_FAILED')
         self.assertEqual(self.tb.transition_record['BW02'], 'B.W_02_CHECK_FAILED')
         self.assertEqual(self.tb.transition_record['BW03'], None)
+
+    def test_snbi_transfer_bid01(self):
+        self.assertEqual(SNBITransfer.bid01(self.tb, 'test1', 'test1'), None)
+        self.assertEqual(SNBITransfer.bid01(self.tb, 'test1', 'test2'), 'B.ID_01_CHECK_FAILED')
 

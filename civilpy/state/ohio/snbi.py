@@ -10,16 +10,32 @@ units = pint.UnitRegistry()
 class SNBITransfer(TimsBridge):
     def __init__(self, sfn):
         """
-        This is a list of every check, or test that is run against the values, the values are defined in the
-        snbi.py file and importated at the top of this file
+        This init function runs every "check" of the historic value vs. the modern
+        and saves the result to its own dictionary attribute 'transition_record'
+        within the class object as well as printing out the results.
+
+        Currently inherits attributes from the ODOT TimsBridge object as the source
+        of truth for modern values, and the NBI historic records downloads from
+        2022 for the "historic" values at:
+
+        "https://daneparks.com/Dane/civilpy/-/raw/snibi_tests_development/res/Ohio_NBI.txt
+
+        Args:
+            sfn (str): The structure file number used to identify the bridge for
+                the lookup of values for modern and historic data
+
+        Returns:
+            SNBITransfer object, which includes a list of check results under the
+            attribute SNBITransfer.transition_record
         """
-        if type(sfn) == int:
+
+        if type(sfn) != str:
             sfn = str(sfn)
 
         super().__init__(sfn)
         self.historic_data = get_historic_bridge_data(sfn)
 
-        print("Starting SNBI Transfer")
+        print("Starting SNBI Transfer Checks")
         self.transition_record = {
             'BID01': self.bid01(),
             'BID02': self.bid02(),
@@ -170,12 +186,27 @@ class SNBITransfer(TimsBridge):
             'BW03': self.bw03(),
         }
 
-    def bid01(self):
+    def bid01(self, historic: str = None, modern: str = None):
         """
         B.ID.01 Function - Bridge Number Comparison
+
+        Args:
+            historic (str): Historic value used in comparison, for this function,
+            the value in the historical value dictionary stored at:
+                historic_data["STRUCTURE_NUMBER_008"]
+
+            modern (str):
         """
-        historic = self.historic_data["STRUCTURE_NUMBER_008"].iloc[0].strip()
-        modern = str(self.sfn)
+        if historic is None:
+            historic = self.historic_data["STRUCTURE_NUMBER_008"].iloc[0].strip()
+
+            # Prints an error if the historic value is not a string as expected
+            if type(historic) != str:
+                print("Expected a string stored in the historic record for SFN")
+            modern = self.sfn
+        else:
+            historic = historic
+            modern = modern
 
         if historic == modern:
             return_var = None
@@ -364,7 +395,7 @@ class SNBITransfer(TimsBridge):
         else:
             try:
                 print(f"'BL_08_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\n"
-                      f"Modern: {modern}\n\nto be equal\n\n\nCode Conversion: {state_code_conversion(modern)}")
+                      f"Modern: {modern}\n\nto be equal\nCode Conversion: {state_code_conversion(modern)}\n\n")
                 return_var = 'BL_08_CHECK_FAILED'
             except KeyError as e:
                 print(f"{e}\n'BL_08_CHECK_FAILED'\nNo modern value found: {modern}\n")

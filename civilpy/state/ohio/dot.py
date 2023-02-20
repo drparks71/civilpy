@@ -10,14 +10,14 @@ import requests
 
 def help_function():
     """
-    To use the dicts, import them into python, and then use the two letter code to get the translations, i.e.
+    To use the dicts, import them into python, and then use the two-letter code to get the translations, i.e.
     basemap_labels['BA'] will return "Aerial Mapping"
 
     General Notes:
     General File Naming Format:
         nnnnn(n)_aa###.dgn where:
             nnnnnn - 5 (or 6) digit PID
-            aa     - Two letter code signifying sheet type (see dicts)
+            aa     - Two-letter code signifying sheet type (see dicts)
             ###    - Three digit number identifying the number of drawings of the same type
 
     Bridge Design File Naming Format:
@@ -451,17 +451,26 @@ NBIS_state_codes = {
 }
 
 
-def get_bridge_data_from_tims(sfn=6500609):
+def get_bridge_data_from_tims(sfn: str = "6500609"):
     """
     Function to return Bridge data from ODOT TIMS REST server
 
-    # //TODO - Integrate with ESRIs python package or rewrite function in a way that gives users more search tools
+    :param:
+        sfn (str): Bridge structure file number
 
-    :param sfn: Bridge structure file number
     :return: A dictionary containing all the values relevant to the desired bridge
     """
 
-    url = f"https://gis.dot.state.oh.us/arcgis/rest/services/TIMS/Assets/MapServer/5/query?where=sfn%3D{sfn}&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=true&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=html"
+    url_1 = f"https://gis.dot.state.oh.us/arcgis/rest/services/TIMS/Assets/MapServer/5/query?where=sfn%3D{sfn}&text=&ob"
+    url_2 = "jectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relat"
+    url_3 = "ionParam=&outFields=&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&out"
+    url_4 = "SR=&having=&returnIdsOnly=true&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatist"
+    url_5 = "ics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resu"
+    url_6 = "ltRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&"
+    url_7 = "quantizationParameters=&featureEncoding=esriDefault&f=html"
+
+    url = url_1 + url_2 + url_3 + url_4 + url_5 + url_6 + url_7
+
     s = requests.Session()
     page = s.get(url, timeout=5)
     soup = BeautifulSoup(page.content, 'html5lib')
@@ -485,7 +494,8 @@ def get_bridge_data_from_tims(sfn=6500609):
 
 class TimsBridge:
     """
-    General Bridge object to hold data from ODOT TIMS REST SERVER
+    General Bridge object to hold data from ODOT TIMS REST SERVER, also contains
+    mapping function which can be used in jupyter to determine location
     """
 
     def __init__(self, sfn):
@@ -744,8 +754,10 @@ class TimsBridge:
 
     def get_map(self):
         """
-        Mapping function using folium JS package, //TODO - Determine a way to test this function
+        Mapping function using folium JS package,
+
         :return:
+            Folium javascript map object
         """
         f = folium.Figure(width=1500, height=700)
 
@@ -764,43 +776,6 @@ class TimsBridge:
         ).add_to(m)
 
         return m
-
-
-class HistoricBridge:
-    """
-    Class to hold bridge data and compare it to historic reported values, for the standard object to get
-    bridge data from tims, see the 'TimsBridge' class
-
-    # //TODO - Build fake bridge w/ bad data to ensure failing cases work
-    """
-
-    def __init__(self, sfn, leading_zeros=0, state='Ohio'):
-        """
-        Additional inputs to TimsBridge Class:
-
-        leading_zeros - Configuration value for SNIBI Transfer
-        leading zeros, accepts values from 0-2 under the following
-        coding;
-            0 - Do not Pad (default)
-            1 - Pad number w/ single zero?
-            2 - Pad w/ 0s to 15
-        """
-        # This allows classes inheriting this one to use it's attributes
-
-        print("\nHistoric Bridge Initiated\n")
-        self.historic_data = {}
-        # //TODO - This is slow w/ all bridges, could be sped up by filtering, splitting by state
-        print(
-            '\nGetting historic NBIS Data, this step is slow...\n')
-
-        self.historic_data = get_historic_bridge_data(sfn)
-
-        if leading_zeros == 0:
-            self.bridge_number = f"{sfn}"
-        elif leading_zeros == 1:
-            self.bridge_number = f"{str(sfn).zfill(len(str(sfn)))}"
-        elif leading_zeros == 2:
-            self.bridge_number = f"{str(sfn).zfill(15)}"
 
 
 def get_3_digit_st_cd_from_2(code):
@@ -839,8 +814,10 @@ def convert_longitudinal_values(longitude):
 def get_df_from_url(url):
     r = requests.get(url)
     if r.ok:
-        data = r.content.decode('utf8')
-        df = pd.read_csv(io.StringIO(data), low_memory=False, quotechar="'")
+        df = pd.read_csv(io.BytesIO(r.content), low_memory=False, quotechar="'")
+    else:
+        print(f"Couldn't find a dataframe at {url} make sure this page is still up")
+        df = None
 
     return df
 
@@ -922,7 +899,9 @@ def get_cty_from_code(cty_code, st_code):
     return county_name
 
 
-fips_codes = get_df_from_url("https://raw.githubusercontent.com/kjhealy/fips-codes/master/state_and_county_fips_master.csv")
+fips_url = "https://raw.githubusercontent.com/kjhealy/fips-codes/master/state_and_county_fips_master.csv"
+fips_codes = get_df_from_url(fips_url)
+
 ohio_fips = get_df_from_url("https://daneparks.com/Dane/civilpy/-/raw/master/res/2022AllRecordsDelimitedAllStates.txt")
 
 
@@ -939,14 +918,22 @@ def get_historic_bridge_data(sfn=2701464, state='Ohio'):
         nbi_df = get_df_from_url(
             "https://daneparks.com/Dane/civilpy/-/raw/snibi_tests_development/res/2022AllRecordsDelimitedAllStates.txt"
         )
-    # state_bridges = nbi_df[nbi_df['STATE_CODE_001'] == state_code]
+
     first_bridge_data = nbi_df[nbi_df['STRUCTURE_NUMBER_008'].str.strip() == sfn]
 
     return first_bridge_data
 
 
 def get_project_data_from_tims(pid='112664'):
-    url = f"https://gis.dot.state.oh.us/arcgis/rest/services/TIMS/Projects/MapServer/0/query?where=PID_NBR%3D{pid}&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=true&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=html"
+    url_1 = f"https://gis.dot.state.oh.us/arcgis/rest/services/TIMS/Projects/MapServer/0/query?where=PID_NBR%3D{pid}&te"
+    url_2 = "xt=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects"
+    url_3 = "&relationParam=&outFields=&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecisio"
+    url_4 = "n=&outSR=&having=&returnIdsOnly=true&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outS"
+    url_5 = "tatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset"
+    url_6 = "&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeVal"
+    url_7 = "ues=&quantizationParameters=&featureEncoding=esriDefault&f=html"
+
+    url = url_1 + url_2 + url_3 + url_3 + url_4 + url_5 + url_6 + url_7
 
     s = requests.Session()
     page = s.get(url)
@@ -1065,4 +1052,3 @@ class Project:
         self.created_date = single_dict['created_date']
         self.last_edited_user = single_dict['last_edited_user']
         self.last_edited_date = single_dict['last_edited_date']
-
