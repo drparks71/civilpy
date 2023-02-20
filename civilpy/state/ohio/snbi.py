@@ -14,7 +14,7 @@ class SNBITransfer(TimsBridge):
         and saves the result to its own dictionary attribute 'transition_record'
         within the class object as well as printing out the results.
 
-        Currently inherits attributes from the ODOT TimsBridge object as the source
+        Currently, inherits attributes from the ODOT TimsBridge object as the source
         of truth for modern values, and the NBI historic records downloads from
         2022 for the "historic" values at:
 
@@ -186,28 +186,47 @@ class SNBITransfer(TimsBridge):
             'BW03': self.bw03(),
         }
 
-    def bid01(self, historic: str = None, modern: str = None):
+    def bid01(self, historic: str = '', modern: str = '', leading_zeros: int = 0):
         """
         B.ID.01 Function - Bridge Number Comparison
 
-        Args:
+        Compares historically reported SFN to its modern value
+
+        Parameters:
             historic (str): Historic value used in comparison, for this function,
             the value in the historical value dictionary stored at:
                 historic_data["STRUCTURE_NUMBER_008"]
 
-            modern (str):
+            modern (str): The value stored in the modern bridge object as the
+            attribute BridgeObject.sfn
+
+            leading_zeros (int): The number of leading zeros a state chooses to
+            use in their naming conventions, Ohio doesn't use them, if you do,
+            you should stop, but if you insist, look into zfill.
+
+        Returns:
+            If the value is what was expected returns None, if they are different
+            returns both values with an error message as a string
         """
-        if historic is None:
+
+        # Assign Historic and Modern Values, the logic statements allow the
+        # function to be tested outside of being run as part of a transition
+        if historic == '':
             historic = self.historic_data["STRUCTURE_NUMBER_008"].iloc[0].strip()
 
             # Prints an error if the historic value is not a string as expected
             if type(historic) != str:
                 print("Expected a string stored in the historic record for SFN")
+
+            leading_zeros_var = leading_zeros
+            print(f'Running transition with leading_zeros set to: {leading_zeros_var}')
+
             modern = self.sfn
         else:
             historic = historic
             modern = modern
 
+        # Check Equivalency
         if historic == modern:
             return_var = None
         else:
@@ -219,46 +238,55 @@ class SNBITransfer(TimsBridge):
 
     def bid02(self):
         """
-        B.L.12 Function - Metropolitan Planning Organization
+        B.ID.02 Function - Bridge Name
 
-        Previously didn't exist - Created as placeholder
+        Previously didn't exist - Created as placeholder, does nothing
         """
-        historic = ''
-        modern = ''
+        # //TODO - Determine if there's any checks to run here against modern values
+        pass
 
-        if historic == modern:
-            return_var = None
-        else:
-            print(f"'B.ID_02_CHECK_FAILED'\n\nNot sure how, its a placeholder:\nHistoric: {historic}\n"
-                  f"Modern: {modern}\n\nto be equal\n\n\nConversion: ")
-            return_var = 'B.ID_02_CHECK_FAILED'
-
-        return return_var
-
-    def bid03(self):
+    def bid03(self, historic: str = '', modern: str = ''):
         """
         B.ID.03 Function - Previous Bridge Number
 
-        Previously didn't exist - Created as placeholder
+        Previously didn't exist - Created as placeholder, does nothing
         """
-        historic = ''
-        modern = ''
+        # //TODO - Determine if there's any checks to run here against modern values
+        pass
 
-        if historic == modern:
-            return_var = None
-        else:
-            print(f"'B.ID_03_CHECK_FAILED'\n\nNot sure how, its a placeholder:\nHistoric: {historic}\n"
-                  f"Modern: {modern}\n\nto be equal\n\n\nConversion: ")
-            return_var = 'BID_03_CHECK_FAILED'
-
-        return return_var
-
-    def bl01(self, state='Ohio'):
+    def bl01(self, historic: str = '', modern: str = '',  state: str = 'Ohio'):
         """
         B.L.01 Function - State Code Comparison
+
+        This is the first of the more complex functions, relies on two functions defined in
+        dot.py, 'state_code_conversion' and 'get_3_digit_st_cd_from_2', converts the historic
+        2 digit state code to a 3-digit code, which gets converted to the plain text
+        state name.
+
+        The default state value is set to Ohio, this determines the modern value the function
+        will check against.
+
+        Parameters:
+            historic (str): Historic value used in comparison, for this function,
+            the value in the historical value dictionary stored at:
+                historic_data["STATE_CODE_001"]
+
+            modern (str): The value stored in the modern bridge object as the
+            attribute BridgeObject.sfn
+
+            state (str): The default state to use while
+
+        Returns:
+            If the value is what was expected returns None, if they are different
+            returns both values with an error message as a string
         """
-        historic = state_code_conversion(get_3_digit_st_cd_from_2(self.historic_data["STATE_CODE_001"].iloc[0]))
-        modern = state
+
+        # Allows for overriding values for testing
+        if historic == '':
+            historic = state_code_conversion(get_3_digit_st_cd_from_2(self.historic_data["STATE_CODE_001"].iloc[0]))
+            modern = state
+        else:
+            pass
 
         if historic == modern:
             return_var = None

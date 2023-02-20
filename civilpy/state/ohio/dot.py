@@ -5,6 +5,7 @@ import folium
 import pandas as pd
 from bs4 import BeautifulSoup
 import json
+from collections import OrderedDict
 import requests
 
 
@@ -41,6 +42,7 @@ def help_function():
             aa      - Two digit wall plan sheet type
             ###     - Three digit number identifying the number of drawings of the same type
     """
+    print(help(help_function))
 
 
 basemap_labels = {
@@ -924,7 +926,17 @@ def get_historic_bridge_data(sfn=2701464, state='Ohio'):
     return first_bridge_data
 
 
-def get_project_data_from_tims(pid='112664'):
+def get_project_data_from_tims(pid: str = '96213'):
+    """
+    Uses the TIMS REST API to return json values for a given bridge sfn.
+
+    :parameter
+        pid (str): Project ID number used to look up project points (PID)
+
+    :returns:
+        dict containing the project points and the number of points
+    """
+
     url_1 = f"https://gis.dot.state.oh.us/arcgis/rest/services/TIMS/Projects/MapServer/0/query?where=PID_NBR%3D{pid}&te"
     url_2 = "xt=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects"
     url_3 = "&relationParam=&outFields=&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecisio"
@@ -952,7 +964,9 @@ def get_project_data_from_tims(pid='112664'):
             print(f"\nRetrieving data from url at {full_data_url}")
 
             page = s.get(full_data_url)
-            data_json = json.loads(page.content)
+            # Added ordered dict value to attempt to return values in same order
+            # noinspection PyTypeChecker
+            data_json = page.json(object_pairs_hook=OrderedDict)
             s.close()
 
             try:
@@ -971,9 +985,9 @@ def get_project_data_from_tims(pid='112664'):
 
 
 class Project:
-    def __init__(self, pid):
+    def __init__(self, pid: str = '96213'):
         self.PID = pid
-        raw_data = get_project_data_from_tims()
+        raw_data = get_project_data_from_tims(pid)
         # Uses the first point returned from the query to set the general class attributes
         single_dict = raw_data[list(raw_data.keys())[0]]
 

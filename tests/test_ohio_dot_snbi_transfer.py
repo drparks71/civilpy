@@ -162,3 +162,18 @@ class TestSNBITransitionObject(unittest.TestCase):
         self.assertEqual(SNBITransfer.bid01(self.tb, 'test1', 'test1'), None)
         self.assertEqual(SNBITransfer.bid01(self.tb, 'test1', 'test2'), 'B.ID_01_CHECK_FAILED')
 
+    def test_snbi_transfer_bid02(self):
+        self.assertEqual(SNBITransfer.bid02(self.tb), None)
+
+    def test_snbi_transfer_bid03(self):
+        self.assertEqual(SNBITransfer.bid03(self.tb), None)
+
+    def test_snbi_transfer_bl01(self):
+        self.assertEqual(SNBITransfer.bl01(self.tb), None)
+        self.assertEqual(SNBITransfer.bl01(self.tb, 'test1', 'test1'), None)
+        self.assertEqual(SNBITransfer.bl01(self.tb, 'test1', 'test2'), 'BL_01_CHECK_FAILED')
+
+    def test_snbi_transfer_bl02(self):
+        self.assertEqual(SNBITransfer.bl02(self.tb), None)
+
+

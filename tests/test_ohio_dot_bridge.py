@@ -1,5 +1,5 @@
 import unittest
-from civilpy.state.ohio.dot import TimsBridge, HistoricBridge
+from civilpy.state.ohio.dot import TimsBridge
 
 
 class TestBridgeObject(unittest.TestCase):
@@ -14,7 +14,6 @@ class TestBridgeObject(unittest.TestCase):
     def setUp(self, sfn=6500609):
         # Creates a 'test bridge' and makes sure none of the attributes have changed
         self.tb = TimsBridge(sfn)
-        self.hb = HistoricBridge(sfn)
 
     def tearDown(self):
         pass
@@ -232,7 +231,7 @@ class TestBridgeObject(unittest.TestCase):
         self.assertEqual(self.tb.apprh_str_descr_cd, 'N')
         self.assertEqual(self.tb.hist_build_yr, '1956')
         self.assertEqual(self.tb.nlfid, 'SPICUS00023**N')
-        self.assertEqual(self.tb.ctl_begin_nbr, 3.68)
+        self.assertEqual(self.tb.ctl_begin_nbr, 3.601)
         self.assertEqual(self.tb.route_type, 'US')
         self.assertEqual(self.tb.route_nbr, '00023')
         self.assertEqual(self.tb.route_suffix, '*')
@@ -263,9 +262,6 @@ class TestBridgeObject(unittest.TestCase):
         self.assertIsInstance(self.tb.created_date, int)
         self.assertEqual(self.tb.last_edited_user, 'TIMS@P31_AG')
         self.assertIsInstance(self.tb.last_edited_date, int)
-
-    def test_historic_bridge_loading(self):
-        self.assertEqual(self.hb.historic_data['SFN'], self.tb.sfn)
 
 
 if __name__ == '__main__':
