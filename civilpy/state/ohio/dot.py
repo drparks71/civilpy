@@ -1,30 +1,24 @@
+import io
 import os
 import re
 import folium
 import pandas as pd
-from pathlib import Path
-from PIL import Image, ImageSequence
-import math
-import tifftools
-from natsort import natsorted
 from bs4 import BeautifulSoup
 import json
+from collections import OrderedDict
 import requests
-import pint
-import time
-from datetime import datetime
 
 
 def help_function():
     """
-    To use the dicts, import them into python, and then use the two letter code to get the translations, i.e.
+    To use the dicts, import them into python, and then use the two-letter code to get the translations, i.e.
     basemap_labels['BA'] will return "Aerial Mapping"
 
     General Notes:
     General File Naming Format:
         nnnnn(n)_aa###.dgn where:
             nnnnnn - 5 (or 6) digit PID
-            aa     - Two letter code signifying sheet type (see dicts)
+            aa     - Two-letter code signifying sheet type (see dicts)
             ###    - Three digit number identifying the number of drawings of the same type
 
     Bridge Design File Naming Format:
@@ -48,6 +42,7 @@ def help_function():
             aa      - Two digit wall plan sheet type
             ###     - Three digit number identifying the number of drawings of the same type
     """
+    print(help(help_function))
 
 
 basemap_labels = {
@@ -402,9 +397,6 @@ ohio_counties = {
     "WYANDOT": "WYA",
 }
 
-fips_codes = pd.read_csv("https://raw.githubusercontent.com/kjhealy/fips-codes/master/state_and_county_fips_master.csv")
-ohio_fips = pd.read_csv("https://daneparks.com/Dane/civilpy/-/raw/master/res/ohio_fips.csv")
-
 NBIS_state_codes = {
     '014': 'Alabama',
     '308': 'Montana',
@@ -461,18 +453,30 @@ NBIS_state_codes = {
 }
 
 
-def get_bridge_data_from_tims(sfn=6500609):
+def get_bridge_data_from_tims(sfn: str = "6500609"):
     """
     Function to return Bridge data from ODOT TIMS REST server
 
-    # //TODO - Integrate with ESRIs python package or rewrite function in a way that gives users more search tools
+    :param:
+        sfn (str): Bridge structure file number
 
-    :param sfn: Bridge structure file number
     :return: A dictionary containing all the values relevant to the desired bridge
     """
-    url = f"https://gis.dot.state.oh.us/arcgis/rest/services/TIMS/Assets/MapServer/5/query?where=sfn%3D{sfn}&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=true&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=html"
-    page = requests.get(url, timeout=5)
+
+    url_1 = f"https://gis.dot.state.oh.us/arcgis/rest/services/TIMS/Assets/MapServer/5/query?where=sfn%3D{sfn}&text=&ob"
+    url_2 = "jectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relat"
+    url_3 = "ionParam=&outFields=&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&out"
+    url_4 = "SR=&having=&returnIdsOnly=true&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatist"
+    url_5 = "ics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resu"
+    url_6 = "ltRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&"
+    url_7 = "quantizationParameters=&featureEncoding=esriDefault&f=html"
+
+    url = url_1 + url_2 + url_3 + url_4 + url_5 + url_6 + url_7
+
+    s = requests.Session()
+    page = s.get(url, timeout=5)
     soup = BeautifulSoup(page.content, 'html5lib')
+    s.close()
 
     bridge_link = soup.find_all('a')
 
@@ -481,19 +485,23 @@ def get_bridge_data_from_tims(sfn=6500609):
 
     print(f"\nRetrieving data from url at {full_data_url_json}\n")
 
-    page = requests.get(full_data_url_json)
+    page = s.get(full_data_url_json)
     data_json = json.loads(page.content)
+    s.close()
 
     extracted_data = data_json['feature']['attributes']
 
     return extracted_data
 
 
-class BridgeObject:
+class TimsBridge:
     """
-    General Bridge object to hold data from ODOT TIMS REST SERVER
+    General Bridge object to hold data from ODOT TIMS REST SERVER, also contains
+    mapping function which can be used in jupyter to determine location
     """
+
     def __init__(self, sfn):
+        print("\nTIMS Bridge Initiated\n")
         self.SFN = sfn
 
         raw_data = get_bridge_data_from_tims(sfn)
@@ -748,8 +756,10 @@ class BridgeObject:
 
     def get_map(self):
         """
-        Mapping function using folium JS package, //TODO - Determine a way to test this function
+        Mapping function using folium JS package,
+
         :return:
+            Folium javascript map object
         """
         f = folium.Figure(width=1500, height=700)
 
@@ -770,480 +780,12 @@ class BridgeObject:
         return m
 
 
-class SNBITransition(BridgeObject):
-    """
-    Class to hold bridge data and compare it to historic reported values, for the standard object to get
-    bridge data from tims, see the 'BridgeObject' class
-
-    # //TODO - Build fake bridge w/ bad data to ensure failing cases work
-    """
-    def __init__(self, sfn, leading_zeros=0):
-        """
-        Additional inputs to BridgeObject Class:
-
-        leading_zeros - Configuration value for SNIBI Transfer
-        leading zeros, accepts values from 0-2 under the following
-        coding;
-            0 - Do not Pad (default)
-            1 - Pad number w/ single zero?
-            2 - Pad w/ 0s to 15
-        """
-
-        super().__init__(sfn)
-        self.historic_data = {}
-        self.historic_data = get_historic_bridge_data()
-
-        if leading_zeros == 0:
-            self.bridge_number = f"{self.sfn}"
-        elif leading_zeros == 1:
-            self.bridge_number = f"{str(self.sfn).zfill(len(str(self.sfn)))}"
-        elif leading_zeros == 2:
-            self.bridge_number = f"{str(self.sfn).zfill(15)}"
-
-        # This is a list of every check, or test that is run against the values
-        self.transition_record = {
-            'BID01': self.bid01(),
-            'BID02': self.bid02(),
-            'BID03': self.bid03(),
-            'BL01': self.bl01(),
-            'BL02': self.bl02(),
-            'BL03': self.bl03(),
-            'BL04': self.bl04(),
-            'BL05': self.bl05(),
-            'BL06': self.bl06(),
-            'BL07': self.bl07(),
-            'BL08': self.bl08(),
-            'BL09': self.bl09(),
-            'BL10': self.bl10(),
-            'BL11': self.bl11(),
-            'BL12': self.bl12(),
-            'BCL01': self.bcl01(),
-            'BCL02': '',
-            'BCL03': '',
-            'BCL04': '',
-            'BCL05': '',
-            'BCL06': '',
-            'BSP01': '',
-            'BSP02': '',
-            'BSP03': '',
-            'BSP04': '',
-            'BSP05': '',
-            'BSP06': '',
-            'BSP07': '',
-            'BSP08': '',
-            'BSP09': '',
-            'BSP10': '',
-            'BSP11': '',
-            'BSP12': '',
-            'BSP13': '',
-            'BSB01': '',
-            'BSB02': '',
-            'BSB03': '',
-            'BSB04': '',
-            'BSB05': '',
-            'BSB06': '',
-            'BSB07': '',
-            'BRH01': '',
-            'BRH02': '',
-            'BG01': '',
-            'BG02': '',
-            'BG03': '',
-            'BG04': '',
-            'BG05': '',
-            'BG06': '',
-            'BG07': '',
-            'BG08': '',
-            'BG09': '',
-            'BG10': '',
-            'BG11': '',
-            'BG12': '',
-            'BG13': '',
-            'BG14': '',
-            'BG15': '',
-            'BG16': '',
-            'BF01': '',
-            'BF02': '',
-            'BF03': '',
-            'BRT01': '',
-            'BRT02': '',
-            'BRT03': '',
-            'BRT04': '',
-            'BRT05': '',
-            'BH01': '',
-            'BH02': '',
-            'BH03': '',
-            'BH04': '',
-            'BH05': '',
-            'BH06': '',
-            'BH07': '',
-            'BH08': '',
-            'BH09': '',
-            'BH10': '',
-            'BH11': '',
-            'BH12': '',
-            'BH13': '',
-            'BH14': '',
-            'BH15': '',
-            'BH16': '',
-            'BH17': '',
-            'BH18': '',
-            'BRR01': '',
-            'BRR02': '',
-            'BRR03': '',
-            'BN01': '',
-            'BN02': '',
-            'BN03': '',
-            'BN04': '',
-            'BN05': '',
-            'BN06': '',
-            'BLR01': '',
-            'BLR02': '',
-            'BLR03': '',
-            'BLR04': '',
-            'BLR05': '',
-            'BLR06': '',
-            'BLR07': '',
-            'BLR08': '',
-            'BPS01': '',
-            'BPS02': '',
-            'BEP01': '',
-            'BEP02': '',
-            'BEP03': '',
-            'BEP04': '',
-            'BIR01': '',
-            'BIR02': '',
-            'BIR03': '',
-            'BIR04': '',
-            'BIE01': '',
-            'BIE02': '',
-            'BIE03': '',
-            'BIE04': '',
-            'BIE05': '',
-            'BIE06': '',
-            'BIE07': '',
-            'BIE08': '',
-            'BIE09': '',
-            'BIE10': '',
-            'BIE11': '',
-            'BIE12': '',
-            'BC01': '',
-            'BC02': '',
-            'BC03': '',
-            'BC04': '',
-            'BC05': '',
-            'BC06': '',
-            'BC07': '',
-            'BC08': '',
-            'BC09': '',
-            'BC10': '',
-            'BC11': '',
-            'BC12': '',
-            'BC13': '',
-            'BC14': '',
-            'BC15': '',
-            'BAP01': '',
-            'BAP02': '',
-            'BAP03': '',
-            'BAP04': '',
-            'BAP05': '',
-            'BW01': '',
-            'BW02': '',
-            'BW03': '',
-        }
-
-    def bid01(self):
-        """
-        B.ID.01 Function - Bridge Number Comparison
-        """
-        historic = self.historic_data["STRUCTURE_NUMBER_008"].iloc[0].strip()
-        modern = str(self.sfn)
-
-        if historic == modern:
-            return_var = None
-        else:
-            print(f"'B.ID_01_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
-                  f"Modern: {modern}\nto match")
-            return_var = 'B.ID_01_CHECK_FAILED'
-
-        return return_var
-
-    def bid02(self):
-        """
-        B.L.12 Function - Metropolitan Planning Organization
-
-        Previously didn't exist - Created as placeholder
-        """
-        historic = ''
-        modern = ''
-
-        if historic == modern:
-            return_var = None
-        else:
-            print(f"'B.ID_02_CHECK_FAILED'\n\nNot sure how, its a placeholder:\nHistoric: {historic}\nand\n"
-                  f"Modern: {modern}\nto be equal\nConversion: ")
-            return_var = 'B.ID_02_CHECK_FAILED'
-
-        return return_var
-
-    def bid03(self):
-        """
-        B.ID.03 Function - Previous Bridge Number
-
-        Previously didn't exist - Created as placeholder
-        """
-        historic = ''
-        modern = ''
-
-        if historic == modern:
-            return_var = None
-        else:
-            print(f"'B.ID_03_CHECK_FAILED'\n\nNot sure how, its a placeholder:\nHistoric: {historic}\nand\n"
-                  f"Modern: {modern}\nto be equal\nConversion: ")
-            return_var = 'BID_03_CHECK_FAILED'
-
-        return return_var
-
-    def bl01(self, state='Ohio'):
-        """
-        B.L.01 Function - State Code Comparison
-        """
-        historic = state_code_conversion(get_3_digit_st_cd_from_2(self.historic_data["STATE_CODE_001"].iloc[0]))
-        modern = state
-
-        if historic == modern:
-            return_var = None
-        else:
-            print(f"'BL_01_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
-                  f"Modern: {modern}\nto match")
-            return_var = 'BL_01_CHECK_FAILED'
-
-        return return_var
-
-    def bl02(self):
-        """
-        B.L.02 Function - County Code Comparison
-        """
-        county_name = get_cty_from_code(
-            self.historic_data["COUNTY_CODE_003"].iloc[0],
-            self.historic_data["STATE_CODE_001"].iloc[0])
-        county_short = county_name.split(' ')[0]
-        historic = ohio_counties[county_short.upper()]
-
-        modern = self.county_cd
-
-        if historic == modern:
-            return_var = None
-        else:
-            print(f"'BL_02_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
-                  f"Modern: {modern}\nto match")
-            return_var = 'BL_02_CHECK_FAILED'
-
-        return return_var
-
-    def bl03(self):
-        """
-        B.L.03 Function - Place Code Comparison
-        """
-        historic = str(self.historic_data["PLACE_CODE_004"].iloc[0])
-
-        modern = self.fips_cd
-
-        if historic == modern:
-            return_var = None
-        else:
-            print(f"'BL_03_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
-                  f"Modern: {modern}\nto match\nAttempted Conversion: {convert_place_code(self.fips_cd)}")
-            return_var = 'BL_03_CHECK_FAILED'
-
-        return return_var
-
-    def bl04(self):
-        """
-        B.L.04 Function - Highway Agency District
-        """
-        historic = str(self.historic_data["HIGHWAY_DISTRICT_002"].iloc[0])
-        modern = self.district
-
-        if historic == modern:
-            return_var = None
-        else:
-            print(f"'BL_04_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
-                  f"Modern: {modern}\nto match\n")
-            return_var = 'BL_04_CHECK_FAILED'
-
-        return return_var
-
-    def bl05(self):
-        """
-        B.L.05 Function - Latitude
-        """
-        historic = float(convert_latitudinal_values(self.historic_data["LAT_016"].iloc[0]))
-        modern = self.latitude_dd
-
-        # Gets the error from the new and old latitude in feet (estimate based on equator) returns an error if over
-        # 500'
-        error_magnitude = abs(
-            (modern - historic) / 2.7e-6
-        )
-
-        if error_magnitude < 50:
-            return_var = None
-        else:
-            print(f"'BL_05_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
-                  f"Modern: {modern}\nto be less than 50' apart\n")
-            return_var = 'BL_05_CHECK_FAILED'
-
-        return return_var
-
-    def bl06(self):
-        """
-        B.L.06 Function - Longitude
-        """
-        historic = float(convert_longitudinal_values(self.historic_data["LONG_017"].iloc[0]))
-        modern = self.longitude_dd
-
-        # Gets the error from the new and old latitude in feet (estimate based on equator) returns an error if over
-        # 500'
-        error_magnitude = abs(
-            (modern - historic) / 5.9e-6
-        )
-
-        if error_magnitude < 50:
-            return_var = None
-        else:
-            print(f"'BL_06_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
-                  f"Modern: {modern}\nto be less than 50' apart\n")
-            return_var = 'BL_06_CHECK_FAILED'
-
-        return return_var
-
-    def bl07(self):
-        """
-        B.L.07 Function - Border Bridge Number
-        """
-        historic = self.historic_data["OTHR_STATE_STRUC_NO_099"].iloc[0]
-        modern = self.brdr_brg_sfn
-
-        if historic == modern:
-            return_var = None
-        else:
-            print(f"'BL_07_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
-                  f"Modern: {modern}\nto be equal\n")
-            return_var = 'BL_07_CHECK_FAILED'
-
-        return return_var
-
-    def bl08(self):
-        """
-        B.L.08 Function - Border Bridge State or Country Code
-        """
-        historic = self.historic_data["OTHER_STATE_CODE_098A"].iloc[0]
-        modern = self.brdr_brg_state
-
-        if historic == modern:
-            return_var = None
-        else:
-            print(f"'BL_08_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
-                  f"Modern: {modern}\nto be equal\nCode Conversion: {state_code_conversion(modern)}")
-            return_var = 'BL_08_CHECK_FAILED'
-
-        return return_var
-
-    def bl09(self):
-        """
-        B.L.09 Function - Border Bridge Inspection Responsibility
-        """
-        historic = str(int(self.historic_data["OTHER_STATE_PCNT_098B"].iloc[0]))
-        modern = self.brdr_brg_pct_resp
-
-        if historic == modern:
-            return_var = None
-        else:
-            print(f"'BL_09_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
-                  f"Modern: {modern}\nto be equal\n")
-            return_var = 'BL_09_CHECK_FAILED'
-
-        return return_var
-
-    def bl10(self, state='Ohio'):
-        """
-        B.L.10 Function - Border Bridge Designated Lead State
-        """
-        historic = state_code_conversion(self.historic_data["STATE_CODE_001"].iloc[0])
-        modern = state  # //TODO - Determine how to handle this value during transfer
-
-        if historic == modern:
-            return_var = None
-        else:
-            print(f"'BL_10_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
-                  f"Modern: {modern}\nto be equal\nConversion: "
-                  f"{state_code_conversion(self.historic_data['STATE_CODE_001'].iloc[0])}\n")
-            return_var = 'BL_10_CHECK_FAILED'
-
-        return return_var
-
-    def bl11(self):
-        """
-        B.L.11 Function - Bridge Location
-        """
-        if self.historic_data['LOCATION_009'].iloc[0][0] == "'":
-            print('\nB.L.11 - Check entry, \' character included, removing\n')
-            historic =  self.historic_data['LOCATION_009'].iloc[0].strip("'")
-        else:
-            historic = self.historic_data['LOCATION_009'].iloc[0]
-        modern = self.str_loc
-
-        if historic == modern:
-            return_var = None
-        else:
-            print(f"'BL_11_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
-                  f"Modern: {modern}\nto be equal\n")
-            return_var = 'BL_11_CHECK_FAILED'
-
-        return return_var
-
-    def bl12(self):
-        """
-        B.L.12 Function - Metropolitan Planning Organization
-
-        Previously didn't exist
-        """
-        historic = ''
-        modern = ''
-
-        if historic == modern:
-            return_var = None
-        else:
-            print(f"'BL_12_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
-                  f"Modern: {modern}\nto be equal\nConversion: "
-                  f"{state_code_conversion(self.historic_data['STATE_CODE_001'].iloc[0])}\n")
-            return_var = 'BL_12_CHECK_FAILED'
-
-        return return_var
-
-    def bcl01(self):
-        """
-        B.CL.01 Function - Owner
-        """
-        historic = self.historic_data['OWNER_022'].iloc[0]
-        modern = self.maintenance_authority
-
-        if historic == modern:
-            return_var = None
-        else:
-            print(f"'BCL_01_CHECK_FAILED'\n\nExpected the values:\nHistoric: {historic}\nand\n"
-                  f"Modern: {modern}\nto be equal\n")
-            return_var = 'BCL_01_CHECK_FAILED'
-
-        return return_var
-
-
 def get_3_digit_st_cd_from_2(code):
     for key, value in NBIS_state_codes.items():
         if key[:-1] == str(code):
-            return key
-        else:
-            pass
+            code = key
+
+    return code
 
 
 def convert_longitudinal_values(longitude):
@@ -1269,6 +811,17 @@ def convert_longitudinal_values(longitude):
         print("\nLongitude outside the range of continental US, check values, should be negative\n")
 
     return f"{converted_value:.6f}"
+
+
+def get_df_from_url(url):
+    r = requests.get(url)
+    if r.ok:
+        df = pd.read_csv(io.BytesIO(r.content), low_memory=False, quotechar="'")
+    else:
+        print(f"Couldn't find a dataframe at {url} make sure this page is still up")
+        df = None
+
+    return df
 
 
 def convert_latitudinal_values(latitude):
@@ -1301,10 +854,6 @@ def convert_place_code(code):
 
     returns: Human readable version of 5 digit fips code
     """
-    # //TODO - Find a better way to convert these values
-    url = "https://raw.githubusercontent.com/kjhealy/fips-codes/master/county_fips_master.csv"
-    place_codes = pd.read_csv(url, encoding="ISO-8859-1", sep=',')
-
     # Searches ohio fips results and converts the township and county to readable values
     results_df = ohio_fips[ohio_fips['FIPS CODE'] == int(code)][['COUNTY CODE', 'TOWNSHIP']]
     cty_cd = [i for i in ohio_counties if ohio_counties[i] == results_df.values[0][0]][0]
@@ -1352,23 +901,57 @@ def get_cty_from_code(cty_code, st_code):
     return county_name
 
 
-def get_historic_bridge_data(state_code=39, sfn='2701464'):
+fips_url = "https://raw.githubusercontent.com/kjhealy/fips-codes/master/state_and_county_fips_master.csv"
+fips_codes = get_df_from_url(fips_url)
+
+ohio_fips = get_df_from_url("https://daneparks.com/Dane/civilpy/-/raw/master/res/2022AllRecordsDelimitedAllStates.txt")
+
+
+def get_historic_bridge_data(sfn=2701464, state='Ohio'):
     """
     Gets historic bridge values for a given sfn
+
+    // TODO - Create database of values to speed this up
     """
-    nbi_df = pd.read_csv("https://daneparks.com/Dane/civilpy/-/raw/snibi_tests_development/res/2022AllRecordsDelimitedAllStates.txt", low_memory=False)
-    state_bridges = nbi_df[nbi_df['STATE_CODE_001'] == state_code]
-    first_bridge_data = state_bridges[state_bridges['STRUCTURE_NUMBER_008'] == sfn.rjust(15, ' ')]
+    if state == 'Ohio':
+        nbi_df = get_df_from_url(
+            "https://daneparks.com/Dane/civilpy/-/raw/snibi_tests_development/res/Ohio_NBI.txt")
+    else:
+        nbi_df = get_df_from_url(
+            "https://daneparks.com/Dane/civilpy/-/raw/snibi_tests_development/res/2022AllRecordsDelimitedAllStates.txt"
+        )
+
+    first_bridge_data = nbi_df[nbi_df['STRUCTURE_NUMBER_008'].str.strip() == sfn]
 
     return first_bridge_data
 
 
-def get_project_data_from_tims(pid='112664'):
-    url = f"https://gis.dot.state.oh.us/arcgis/rest/services/TIMS/Projects/MapServer/0/query?where=PID_NBR%3D{pid}&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=true&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=html"
+def get_project_data_from_tims(pid: str = '96213'):
+    """
+    Uses the TIMS REST API to return json values for a given bridge sfn.
 
-    page = requests.get(url)
+    :parameter
+        pid (str): Project ID number used to look up project points (PID)
+
+    :returns:
+        dict containing the project points and the number of points
+    """
+
+    url_1 = f"https://gis.dot.state.oh.us/arcgis/rest/services/TIMS/Projects/MapServer/0/query?where=PID_NBR%3D{pid}&te"
+    url_2 = "xt=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects"
+    url_3 = "&relationParam=&outFields=&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecisio"
+    url_4 = "n=&outSR=&having=&returnIdsOnly=true&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outS"
+    url_5 = "tatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset"
+    url_6 = "&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeVal"
+    url_7 = "ues=&quantizationParameters=&featureEncoding=esriDefault&f=html"
+
+    url = url_1 + url_2 + url_3 + url_3 + url_4 + url_5 + url_6 + url_7
+
+    s = requests.Session()
+    page = s.get(url)
     url_base = 'https://gis.dot.state.oh.us'
     soup = BeautifulSoup(page.content, 'html5lib')
+    s.close()
 
     all_page_links = soup.find_all('a')
     project_point_links = {}
@@ -1380,12 +963,15 @@ def get_project_data_from_tims(pid='112664'):
             full_data_url = url_base + link.get('href') + '?f=pjson'
             print(f"\nRetrieving data from url at {full_data_url}")
 
-            page = requests.get(full_data_url)
-            data_json = json.loads(page.content)
+            page = s.get(full_data_url)
+            # Added ordered dict value to attempt to return values in same order
+            # noinspection PyTypeChecker
+            data_json = page.json(object_pairs_hook=OrderedDict)
+            s.close()
 
             try:
                 extracted_data = data_json['feature']['attributes']
-            except KeyError as e:
+            except KeyError:
                 return data_json
 
             project_point_links[link.text] = extracted_data
@@ -1399,9 +985,9 @@ def get_project_data_from_tims(pid='112664'):
 
 
 class Project:
-    def __init__(self, pid):
+    def __init__(self, pid: str = '96213'):
         self.PID = pid
-        raw_data = get_project_data_from_tims()
+        raw_data = get_project_data_from_tims(pid)
         # Uses the first point returned from the query to set the general class attributes
         single_dict = raw_data[list(raw_data.keys())[0]]
 
@@ -1480,4 +1066,3 @@ class Project:
         self.created_date = single_dict['created_date']
         self.last_edited_user = single_dict['last_edited_user']
         self.last_edited_date = single_dict['last_edited_date']
-
