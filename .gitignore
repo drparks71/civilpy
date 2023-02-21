@@ -142,3 +142,4 @@ django/
 /.coverage
 /res/photos/*
 /Training/map.html
+/res/2022AllRecordsDelimitedAllStates.txt
