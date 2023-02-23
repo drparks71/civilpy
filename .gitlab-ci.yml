@@ -52,6 +52,11 @@ pages:
   only:
     - main
 
+verify-3.7:
+    extends: test_code_coverage
+    stage: test
+    image: python:3.7
+
 verify-3.8:
     extends: test_code_coverage
     stage: test
@@ -61,3 +66,13 @@ verify-3.9:
     extends: test_code_coverage
     stage: test
     image: python:3.9
+
+verify-3.10:
+    extends: test_code_coverage
+    stage: test
+    image: python:3.10
+
+verify-3.11:
+    extends: test_code_coverage
+    stage: test
+    image: python:3.11
