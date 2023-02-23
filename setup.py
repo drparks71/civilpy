@@ -46,9 +46,9 @@ setup(
     install_requires=[
         "numpy>=1.14.5",
         "folium>=0.12.1",
-        "pandas>=1.1.2",
+        "pandas>=1.3.2",
         "Pillow>=9.4.0",
-        "Pint>=0.19.2",
+        "Pint>=0.18.2",
         "coverage>=7.1.0",
         "matplotlib>=3.6.3",
         "webdriver-manager>=3.8.5",
