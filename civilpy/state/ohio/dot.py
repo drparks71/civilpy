@@ -901,6 +901,39 @@ def get_cty_from_code(cty_code, st_code):
     return county_name
 
 
+factors_for_design_feature = {
+    "Lane_Width_Rural": ["Function Classification", "Traffic Data", "Terrain", "Design Speed"],
+    "Lane_Width_Urban": ["Function Classification", "Local"],
+    "Shoulder_Width_Type_Rural": ["Function Classification", "Traffic Data"],
+    "Shoulder_Width_Type_Urban": ["Function Classification", "Local"],
+    "Guardrail_Offset": ["Function Classification", "Traffic Data"],
+    "Degree_of_Curvature ": ["Local", "Design Speed"],
+    "Grades": ["Function Classification", "Terrain", "Local", "Design Speed"],
+    "Bridge_Clearances": ["Function Classification", "Traffic Data"],
+    "Stopping_Sight_Distance": ["Design Speed"],
+    "Passing_Intersection_Sight_Distances": ["Design Speed"],
+    "Decision_Sight_Distance": ["Design Speed"],
+    "Superelevation": ["Local", "Design Speed"],
+    "Curve_Widening": ["Design Speed"],
+    "Design_Speed_Rural": ["Function Classification", "Traffic Data", "Terrain"],
+    "Design_Speed_Urban": ["Function Classification", "Local"],
+    "Vertical_Alignment": ["Function Classification", "Terrain", "Local", "Design Speed"],
+    "Horizontal_Alignment": ["Local", "Design Speed"]
+}
+
+design_feature_criteria = {
+    "Lane_Width": {"Sections": ["301.1.2", "303.1"], "Figures": ["301-2", "301-4", "303-1"]},
+    "Shoulder_Width": {"Sections": ["301.2.3", "303.1"], "Figures": ["301-3", "301-4", "303-1"]},
+    "Design_Loading_Structural_Capacity": {"Sections": ["302.1"], "Figures": ["BDM"]},
+    "Horizontal_Curve_Radius": {"Sections": ["202.3"], "Figures": ["202-2"]},
+    "Maximum_Grade": {"Sections": ["203.2"], "Figures": ["203-1"]},
+    "Stopping_Sight_Distance": {"Sections": ["201.2"], "Figures": ["201-1", "203-3", "203-4"]},
+    "Pavement_Cross_Slope": {"Sections": ["301.1.5"], "Figures": [""]},
+    "Superelevation": {"Sections": ["202.4.1", "202.4.3"], "Figures": ["202-3", "202-7", "202-8", "202-9", "202-10"]},
+    "Vertical_Clearance": {"Sections": ["302.1"], "Figures": ["302-1", "302-2", "302-3"]},
+}
+
+
 fips_url = "https://raw.githubusercontent.com/kjhealy/fips-codes/master/state_and_county_fips_master.csv"
 fips_codes = get_df_from_url(fips_url)
 
