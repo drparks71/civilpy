@@ -52,7 +52,7 @@ setup(
         "coverage>=7.1.0",
         "matplotlib>=3.6.3",
         "webdriver-manager>=3.8.5",
-        "selenium>=4.8.0",
+        "selenium>=3.141.0",
         "msedge-selenium-tools>=3.141.4",
         "jupyter>=1.0.0",
         "Flask>=2.2.2",
