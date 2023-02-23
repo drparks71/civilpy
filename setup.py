@@ -46,7 +46,7 @@ setup(
     install_requires=[
         "numpy>=1.14.5",
         "folium>=0.12.1",
-        "pandas>=1.4.2",
+        "pandas>=1.1.2",
         "Pillow>=9.4.0",
         "Pint>=0.19.2",
         "coverage>=7.1.0",
