@@ -1,7 +1,7 @@
 # CivilPy
 
 <img alt="Project badge" aria-hidden="" class="project-badge" src="https://daneparks.com/Dane/civilpy/badges/master/pipeline.svg">
-
+<img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/civilpy">
 <img alt="Project badge" aria-hidden="" class="project-badge" src="https://daneparks.com/Dane/civilpy/badges/master/coverage.svg">
 
 Code snippets for Civil Engineering related tasks
