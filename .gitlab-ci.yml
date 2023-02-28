@@ -52,8 +52,6 @@ pages:
   only:
     - main
 
-
-
 verify-3.8:
     extends: test_code_coverage
     stage: test
