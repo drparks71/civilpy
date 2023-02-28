@@ -297,17 +297,22 @@ class SNBITransfer(TimsBridge):
 
         return return_var
 
-    def bl02(self):
+    def bl02(self, historic: str = '', modern: str = ''):
         """
         B.L.02 Function - County Code Comparison
-        """
-        county_name = get_cty_from_code(
-            self.historic_data["COUNTY_CODE_003"].iloc[0],
-            self.historic_data["STATE_CODE_001"].iloc[0])
-        county_short = county_name.split(' ')[0]
-        historic = ohio_counties[county_short.upper()]
 
-        modern = self.county_cd
+
+        """
+        if historic == '':
+            county_name = get_cty_from_code(
+                self.historic_data["COUNTY_CODE_003"].iloc[0],
+                self.historic_data["STATE_CODE_001"].iloc[0])
+            county_short = county_name.split(' ')[0]
+            historic = ohio_counties[county_short.upper()]
+
+            modern = self.county_cd
+        else:
+            pass
 
         if historic == modern:
             return_var = None
