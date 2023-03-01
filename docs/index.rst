@@ -10,7 +10,7 @@ Welcome to CivilPy's documentation!
    :maxdepth: 4
    :caption: Contents:
 
-
+   modules
 
 Indices and tables
 ==================
