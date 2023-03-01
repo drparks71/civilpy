@@ -5,8 +5,7 @@
 # from the environment for the first two.
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
-SPHINXPROJ    = CivilPy
-SOURCEDIR     = docs
+SOURCEDIR     = ../CivilPy
 BUILDDIR      = _build
 
 # Put it first so that "make" without argument is like "make help".

@@ -5,4 +5,3 @@ civilpy
    :maxdepth: 4
 
    civilpy
-   setup
