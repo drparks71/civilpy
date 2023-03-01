@@ -62,7 +62,9 @@ civilpy/scrapers/__pycache__/
 /Notebooks/Load Rating Reference/
 /civilpy/scrapers/
 /Data/
-/docs/
+/docs/_build
+/docs/_static
+/docs/_templates
 /flask/
 /ODOT/
 /projects/03486 - Tydings Bridge/
