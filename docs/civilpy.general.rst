@@ -76,14 +76,6 @@ civilpy.general.plan\_development module
    :undoc-members:
    :show-inheritance:
 
-civilpy.general.tello\_drone module
------------------------------------
-
-.. automodule:: civilpy.general.tello_drone
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Module contents
 ---------------
 
