@@ -21,7 +21,7 @@ test_code_coverage:
         path: coverage.xml
 
 pypi_publish:
-  stage: test
+  stage: deploy
   cache: {}
   only:
     - master
@@ -53,11 +53,6 @@ pages:
     - public
   only:
     - main
-
-verify-3.6:
-    extends: test_code_coverage
-    stage: test
-    image: python:3.6
 
 verify-3.8:
     extends: test_code_coverage
