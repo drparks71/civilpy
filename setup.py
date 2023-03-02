@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='civilpy',
-    version='0.0.30',
+    version='0.0.29',
     description='Civil Engineering Tools in Python',
     url="https://daneparks.com/Dane/civilpy",
     author_email="Dane@daneparks.com",
@@ -46,12 +46,11 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     install_requires=[
-        "numpy",
+        "numpy>=1.14.5",
         "folium>=0.12.1",
-        "pandas",
-        "pytest",
+        "pandas>=1.1.5",
         "Pillow>=9.4.0",
-        "Pint",
+        "Pint>=0.18.2",
         "coverage>=7.1.0",
         "matplotlib>=3.6.3",
         "webdriver-manager>=3.8.5",
@@ -68,7 +67,7 @@ setup(
         "icalendar>=4.0.7",
         "latex>=0.7.0",
         "html5lib>=1.1",
-        "geopandas",
+        "geopandas>=0.6.2",
         "fiona>=1.8.22",
         "tifftools>=1.3.7",
         "natsort>=8.2.0",
