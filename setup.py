@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -6,6 +6,7 @@ with open("README.md", "r") as fh:
 setup(
     name='civilpy',
     version='0.0.30',
+    packages=find_packages('src', exclude=['test', 'secrets', 'docs', 'res']),
     description='Civil Engineering Tools in Python',
     url="https://daneparks.com/Dane/civilpy",
     author_email="Dane@daneparks.com",
@@ -29,18 +30,7 @@ setup(
         "civilpy.water_resources.hydraulics",
         "civilpy.CLI"
     ],
-    package_dir={'civilpy': 'civilpy'},
-    packages=[
-        "civilpy.structural",
-        "civilpy.construction",
-        "civilpy.environmental",
-        "civilpy.general",
-        "civilpy.geotechnical",
-        "civilpy.state",
-        "civilpy.state.ohio",
-        "civilpy.transportation",
-        "civilpy.water_resources"
-    ],
+    package_dir={'': 'src'},
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
@@ -92,7 +82,3 @@ setup(
         ]
     }
 )
-
-
-if __name__ == "__main__":
-    setup()
