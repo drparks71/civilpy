@@ -49,7 +49,7 @@ setup(
         "numpy",
         "folium>=0.12.1",
         "pandas",
-        "pytest"
+        "pytest",
         "Pillow>=9.4.0",
         "Pint",
         "coverage>=7.1.0",
