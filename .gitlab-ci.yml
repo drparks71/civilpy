@@ -1,5 +1,5 @@
 test_code_coverage:
-  stage: test
+  stage: test1
   rules:
     - if: $CI_COMMIT_TITLE =~ /-no_tests$/
       when: never
@@ -20,22 +20,22 @@ test_code_coverage:
 
 verify-3.8:
     extends: test_code_coverage
-    stage: verify
+    stage: test2
     image: python:3.8
 
 verify-3.9:
     extends: test_code_coverage
-    stage: verify
+    stage: test2
     image: python:3.9
 
 verify-3.10:
     extends: test_code_coverage
-    stage: verify
+    stage: test2
     image: python:3.10
 
 verify-3.11:
     extends: test_code_coverage
-    stage: verify
+    stage: test2
     image: python:3.11
 
 pypi_publish:
