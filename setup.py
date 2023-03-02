@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='civilpy',
-    version='0.0.29',
+    version='0.0.30',
     description='Civil Engineering Tools in Python',
     url="https://daneparks.com/Dane/civilpy",
     author_email="Dane@daneparks.com",
