@@ -1,5 +1,4 @@
 beautifulsoup4==4.11.2
-djitellopy==2.4.0
 folium==0.14.0
 matplotlib==3.6.3
 numpy==1.24.1

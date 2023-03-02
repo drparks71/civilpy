@@ -7,7 +7,7 @@ Welcome to CivilPy's documentation!
 ===================================
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 4
    :caption: Contents:
 
    modules

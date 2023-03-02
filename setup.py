@@ -48,7 +48,7 @@ setup(
     install_requires=[
         "numpy>=1.14.5",
         "folium>=0.12.1",
-        "pandas>=1.3.2",
+        "pandas>=1.1.5",
         "Pillow>=9.4.0",
         "Pint>=0.18.2",
         "coverage>=7.1.0",
@@ -72,7 +72,9 @@ setup(
         "tifftools>=1.3.7",
         "natsort>=8.2.0",
         "html5lib>=1.1",
-        "requests>=2.28.2"
+        "requests>=2.28.2",
+        "pyntcloud>=0.3.1",
+        "laspy>=2.4.1"
     ],
 
     extras_require={
