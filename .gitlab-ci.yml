@@ -7,18 +7,20 @@ test_code_coverage:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   image: python:latest
   script:
+    - pip install --upgrade pip
     - pip install civilpy
     - pip install pytest
     - pip install coverage
     - coverage run -m pytest
     - coverage report
     - coverage xml
+    - cp -r $(pwd)/target/*.html $CI_PROJECT_DIR/report
   coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
   artifacts:
     reports:
       coverage_report:
         coverage_format: cobertura
-        path: coverage.xml
+        path: ./coverage.xml
 
 pypi_publish:
   stage: deploy
