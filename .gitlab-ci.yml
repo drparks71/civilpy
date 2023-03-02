@@ -8,6 +8,7 @@ test_code_coverage:
   image: python:latest
   script:
     - pip install civilpy
+    - pip install pytest
     - coverage run -m pytest
     - coverage report
     - coverage xml
@@ -19,7 +20,7 @@ test_code_coverage:
         path: coverage.xml
 
 pypi_publish:
-  stage: deploy
+  stage: test
   cache: {}
   only:
     - master
@@ -51,6 +52,11 @@ pages:
     - public
   only:
     - main
+
+verify-3.6:
+    extends: test_code_coverage
+    stage: test
+    image: python:3.6
 
 verify-3.8:
     extends: test_code_coverage
