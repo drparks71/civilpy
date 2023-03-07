@@ -50,7 +50,7 @@ hello_world()
 
 # Developing CivilPy
 
-To install the development environment, instead of just the bare-bones base package,
+To install the development environment (No major difference), instead of just the bare-bones base package,
 you can run the following once setting up your virtual environment:
 
 ```bash
