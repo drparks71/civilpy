@@ -8,8 +8,8 @@ Code snippets for Civil Engineering related tasks
 
 ## About (Skip to the "Installation" section to start running code)
 
-Welcome to the CivilPy repository.  This program is a simple terminal based software package to give users easier access
-to some of the packages from the python repository.  The package is focused on civil engineering related tasks such as 
+Welcome to the CivilPy repository.  This repository is a simple software package to give civil engineers cleaner access
+to some of the packages from the python ecosystem.  The package is focused on civil engineering related tasks such as 
 file management, pdf data extraction, image manipulation mapping and unit conversions.  I did my best to make the user 
 interface obvious to use and tried to keep the functionality compatible with tools available to the average Civil 
 engineer.
@@ -25,6 +25,9 @@ lessons or <a href=https://stackoverflow.com/>Stack Overflow</a> for specific is
 <a href=https://www.youtube.com/user/cs50tv>Harvard CS50 YouTube Channel</a> for conceptual level programming lessons or
 <a href=https://www.youtube.com/user/schafer5>CoreyMS's Youtube Channel</a> for lessons in practical uses of 
 programming. 
+
+For an interesting somewhat working examples see the files `Useful Tricks and Tools.ipynb` and `NBI STandards - Conversion`
+files to have a better understanding of what function the DOT/SNBI files are performing. 
 
 ## Installation
 
