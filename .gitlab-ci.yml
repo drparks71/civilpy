@@ -7,7 +7,7 @@ test_code_coverage:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   image: python:latest
   script:
-    - pip install civilpy[dev]
+    - pip install civilpy
     - coverage run -m pytest
     - coverage report
     - coverage xml
@@ -42,7 +42,8 @@ pypi_publish:
   stage: deploy
   cache: {}
   only:
-    - master
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /^Publish .*$/
   image: python:latest
   script:
     - pip install -U build twine
@@ -53,7 +54,8 @@ gitlab_publish:
   stage: deploy
   cache: {}
   only:
-    - master
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /^Publish .*$/
   image: python:latest
   script:
     - pip install build twine
