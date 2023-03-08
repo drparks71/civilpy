@@ -8,6 +8,7 @@ test_code_coverage:
   image: python:latest
   script:
     - pip install civilpy
+    - pip install pytest
     - coverage run -m pytest
     - coverage report
     - coverage xml
