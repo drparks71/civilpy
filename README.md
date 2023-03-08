@@ -8,7 +8,7 @@ Code snippets for Civil Engineering related tasks
 
 ## About (Skip to the "Installation" section to start running code)
 
-Welcome to the CivilPy repository.  This repository is a simple software package to give civil engineers cleaner access
+Welcome to the CivilPy repository.  This is a simple software package to give civil engineers cleaner access
 to some of the packages from the python ecosystem.  The package is focused on civil engineering related tasks such as 
 file management, pdf data extraction, image manipulation mapping and unit conversions.  I did my best to make the user 
 interface obvious to use and tried to keep the functionality compatible with tools available to the average Civil 
