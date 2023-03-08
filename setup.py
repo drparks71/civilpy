@@ -75,10 +75,5 @@ setup(
     ],
 
     extras_require={
-        "dev": [
-            "pytest>=3.7",
-            "pytest-cov>=4.0.0",
-            "jupyter>=1.0.0",
-        ]
     }
 )

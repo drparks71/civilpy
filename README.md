@@ -48,14 +48,6 @@ from civilpy.structural.steel import hello_world
 hello_world()
 ```
 
-# Developing CivilPy
-
-To install the development environment (No major difference), instead of just the bare-bones base package,
-you can run the following once setting up your virtual environment:
-
-```bash
-$ pip install -e .[dev]
-```
 
 # How to determine where to store functions within the package
 
