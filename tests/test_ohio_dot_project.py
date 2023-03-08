@@ -12,6 +12,7 @@ class TestProject(unittest.TestCase):
         pass
 
     def test_init(self):
+        # //TODO - make tests less dependent on getting specific values from project points arrays
         self.assertIsInstance(self.tp.objectid, int)
         self.assertIsInstance(self.tp.gis_id, int)
         self.assertEqual(self.tp.pid_nbr, 96213)
