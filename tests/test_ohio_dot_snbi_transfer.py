@@ -177,4 +177,11 @@ class TestSNBITransitionObject(unittest.TestCase):
         self.assertEqual(SNBITransfer.bl02(self.tb, 'test1', 'test1'), None)
         self.assertEqual(SNBITransfer.bl02(self.tb), None)
 
+    def test_snbi_transfer_bl03(self):
+        self.assertEqual(SNBITransfer.bl02(self.tb, 'test1', 'test1'), None)
+        self.assertEqual(SNBITransfer.bl02(self.tb), None)
 
+    def test_snbi_transfer_bl04(self):
+        self.assertEqual(SNBITransfer.bl02(self.tb, 'test1', 'test1'), None)
+        self.assertEqual(SNBITransfer.bl02(self.tb, '000test1', 'test1'), None)
+        self.assertEqual(SNBITransfer.bl02(self.tb), None)

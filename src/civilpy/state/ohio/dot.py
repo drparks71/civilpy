@@ -937,7 +937,7 @@ design_feature_criteria = {
 fips_url = "https://raw.githubusercontent.com/kjhealy/fips-codes/master/state_and_county_fips_master.csv"
 fips_codes = get_df_from_url(fips_url)
 
-ohio_fips = get_df_from_url("https://daneparks.com/Dane/civilpy/-/raw/master/res/2022AllRecordsDelimitedAllStates.txt")
+ohio_fips = get_df_from_url("https://daneparks.com/Dane/civilpy/-/raw/Data/res/2022AllRecordsDelimitedAllStates.txt")
 
 
 def get_historic_bridge_data(sfn=2701464, state='Ohio'):
@@ -948,10 +948,10 @@ def get_historic_bridge_data(sfn=2701464, state='Ohio'):
     """
     if state == 'Ohio':
         nbi_df = get_df_from_url(
-            "https://daneparks.com/Dane/civilpy/-/raw/snibi_tests_development/res/Ohio_NBI.txt")
+            "https://daneparks.com/Dane/civilpy/-/raw/Data/res/Ohio_NBI.txt")
     else:
         nbi_df = get_df_from_url(
-            "https://daneparks.com/Dane/civilpy/-/raw/snibi_tests_development/res/2022AllRecordsDelimitedAllStates.txt"
+            "https://daneparks.com/Dane/civilpy/-/raw/Data/res/2022AllRecordsDelimitedAllStates.txt"
         )
 
     first_bridge_data = nbi_df[nbi_df['STRUCTURE_NUMBER_008'].str.strip() == sfn]

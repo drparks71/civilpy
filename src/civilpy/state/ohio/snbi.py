@@ -301,7 +301,19 @@ class SNBITransfer(TimsBridge):
         """
         B.L.02 Function - County Code Comparison
 
+        Direct Transition
 
+        Parameters:
+            historic (str): Historic value used in comparison, for this function,
+            the value in the historical value dictionary stored at:
+                historic_data["STATE_CODE_001"]
+
+            modern (str): The value stored in the modern bridge object as the
+            attribute BridgeObject.sfn
+
+        Returns:
+            If the value is what was expected returns None, if they are different
+            returns both values with an error message as a string
         """
         if historic == '':
             county_name = get_cty_from_code(
@@ -323,13 +335,18 @@ class SNBITransfer(TimsBridge):
 
         return return_var
 
-    def bl03(self):
+    def bl03(self, historic: str = '', modern: str = ''):
         """
         B.L.03 Function - Place Code Comparison
-        """
-        historic = str(self.historic_data["PLACE_CODE_004"].iloc[0])
 
-        modern = self.fips_cd
+        Direct Transition
+        """
+        if historic == '':
+            historic = str(self.historic_data["PLACE_CODE_004"].iloc[0])
+
+            modern = self.fips_cd
+        else:
+            pass
 
         if historic == modern:
             return_var = None
@@ -340,12 +357,17 @@ class SNBITransfer(TimsBridge):
 
         return return_var
 
-    def bl04(self):
+    def bl04(self, historic: str = '', modern: str = ''):
         """
         B.L.04 Function - Highway Agency District
+
+        (Trim Leading Zeros)
         """
-        historic = str(self.historic_data["HIGHWAY_DISTRICT_002"].iloc[0])
-        modern = self.district
+        if historic == '':
+            historic = str(self.historic_data["HIGHWAY_DISTRICT_002"].iloc[0])
+            modern = self.district
+        else:
+            pass
 
         if historic == modern:
             return_var = None
