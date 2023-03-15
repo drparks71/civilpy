@@ -169,19 +169,19 @@ class TestSNBITransitionObject(unittest.TestCase):
         self.assertEqual(SNBITransfer.bid03(self.tb), None)
 
     def test_snbi_transfer_bl01(self):
-        self.assertEqual(SNBITransfer.bl01(self.tb), None)
-        self.assertEqual(SNBITransfer.bl01(self.tb, 'test1', 'test1'), None)
-        self.assertEqual(SNBITransfer.bl01(self.tb, 'test1', 'test2'), 'BL_01_CHECK_FAILED')
+        self.assertEqual(self.tb.bl01(), None)
+        self.assertEqual(self.tb.bl01('test1', 'test1'), None)
+        self.assertEqual(self.tb.bl01('test1', 'test2'), 'BL_01_CHECK_FAILED')
 
     def test_snbi_transfer_bl02(self):
-        self.assertEqual(SNBITransfer.bl02(self.tb, 'test1', 'test1'), None)
-        self.assertEqual(SNBITransfer.bl02(self.tb), None)
+        self.assertEqual(self.tb.bl02('test1', 'test1'), None)
+        self.assertEqual(self.tb.bl02(), None)
 
     def test_snbi_transfer_bl03(self):
-        self.assertEqual(SNBITransfer.bl02(self.tb, 'test1', 'test1'), None)
-        self.assertEqual(SNBITransfer.bl02(self.tb), None)
+        self.assertEqual(self.tb.bl02('test1', 'test1'), None)
+        self.assertEqual(self.tb.bl02(), None)
 
     def test_snbi_transfer_bl04(self):
-        self.assertEqual(SNBITransfer.bl02(self.tb, 'test1', 'test1'), None)
-        self.assertEqual(SNBITransfer.bl02(self.tb, '000test1', 'test1'), None)
-        self.assertEqual(SNBITransfer.bl02(self.tb), None)
+        self.assertEqual(self.tb.bl02('test1', 'test1'), None)
+        self.assertEqual(self.tb.bl02('000test1', 'test1'), None)
+        self.assertEqual(self.tb.bl02(), None)

@@ -67,7 +67,7 @@ pages:
   stage: deploy
   script:
   - mkdir .public
-  - cp -r civilpy/webpages/* .public
+  - cp -r src/civilpy/webpages/* .public
   - mv .public public
   artifacts:
     paths:
