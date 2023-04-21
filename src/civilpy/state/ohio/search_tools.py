@@ -1,4 +1,5 @@
 import os
+import re
 import math
 import tifftools
 import pandas as pd
@@ -168,6 +169,27 @@ class D6BridgeLookup:
                     (float(dirty_long[2:4]) / 60) + (float(f'{dirty_long[4:6]}.{dirty_long[6:]}') / 3600)))
 
         self.cty_rte_sec = self.get_summary()
+
+    def get_summary(self):
+        substring_1 = f"{self.raw_data['County Code']} - "
+        substring_2 = f"{self.raw_data['Facility Carried By Structure']} over "
+        substring_3 = f"{self.raw_data['Feature Intersected']}"
+
+        temp_string = substring_1 + substring_2 + substring_3
+        print(f'Report for SFN: {self.raw_data["Structure File Number"]} ({temp_string})')
+
+        print(f'\nLatitude: {self.clean_lat:.5f}, Longitude: {self.clean_long:.5f}')
+
+        county_code = self.raw_data['County Code']
+        # The next two values use regex to adjust them after being pulled from the database
+        route_num = self.raw_data['Inventory Route']
+        route_num = re.sub('\D', '', route_num).lstrip('0')
+        # Inserts a decimal to convert text based milepost to usable value
+        section_num = self.raw_data['Straight Line Mileage'][:-3] + '.' + self.raw_data['Straight Line Mileage'][2:]
+        section_num = re.sub('/[^0-9.]/g', '', section_num).lstrip('0')
+
+        return f"{county_code}-{route_num}-{section_num}"
+
 
     def get_d6_plan_sets(self, district_df_path="G:\\ref\\New folder\\PLANINDX.TXT"):
         """
