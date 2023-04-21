@@ -11,18 +11,18 @@ def update_listbox(listbox_element, folder, extension, substring):
     if folder != '' and path.is_dir():
         files = list(path.glob("*.*"))
         lst = [file for file in files if file.suffix.lower() in extension
-            and filter_ in str(file).lower() and file.is_file()]
+               and filter_ in str(file).lower() and file.is_file()]
     listbox_element.update(lst)
 
 
 def update_image(image_element, filename):
     im = Image.open(filename)
     w, h = size_of_image
-    scale = max(im.width/w, im.height/h)
+    scale = max(im.width / w, im.height / h)
     if scale <= 1:
         image_element.update(filename=filename)
     else:
-        im = im.resize((int(im.width/scale), int(im.height/scale)),
+        im = im.resize((int(im.width / scale), int(im.height / scale)),
                        resample=Image.CUBIC)
         with BytesIO() as output:
             im.save(output, format="PNG")
@@ -43,7 +43,7 @@ layout_top = [
 ]
 layout_bottom = [
     [sg.Listbox([], size=(52, 30), enable_events=True,
-        select_mode=sg.LISTBOX_SELECT_MODE_SINGLE, key='-LISTBOX-')],
+                select_mode=sg.LISTBOX_SELECT_MODE_SINGLE, key='-LISTBOX-')],
 ]
 layout_left = [
     [sg.Column(layout_top, pad=(0, 0))],
@@ -52,7 +52,7 @@ layout_left = [
 layout_right = [[sg.Image(background_color='green', key='-IMAGE-')]]
 layout = [
     [sg.Column(layout_left), sg.Column(layout_right, pad=(0, 0),
-                                       size=(w+15, h+15), background_color='blue', key='-COLUMN-')],
+                                       size=(w + 15, h + 15), background_color='blue', key='-COLUMN-')],
 ]
 
 window = sg.Window("Plan Viewer", layout, finalize=True)
