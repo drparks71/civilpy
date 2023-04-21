@@ -56,7 +56,7 @@ gitlab_publish:
   cache: {}
   only:
     variables:
-      - $CI_COMMIT_MESSAGE =~ /^Publish .*$/
+      - $CI_COMMIT_MESSAGE =~ /^Release .*$/
   image: python:latest
   script:
     - pip install build twine
