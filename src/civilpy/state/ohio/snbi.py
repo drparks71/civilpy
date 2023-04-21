@@ -18,7 +18,7 @@ class SNBITransfer(TimsBridge):
         of truth for modern values, and the NBI historic records downloads from
         2022 for the "historic" values at:
 
-        "https://daneparks.com/Dane/civilpy/-/raw/snibi_tests_development/res/Ohio_NBI.txt
+        "https://daneparks.com/Dane/civilpy/-/raw/snibi_tests_development/res/Ohio_NBI.txt"
 
         Args:
             sfn (str): The structure file number used to identify the bridge for

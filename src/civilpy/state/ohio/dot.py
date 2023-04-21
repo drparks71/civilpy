@@ -948,7 +948,7 @@ def get_historic_bridge_data(sfn=2701464, state='Ohio'):
     """
     if state == 'Ohio':
         nbi_df = get_df_from_url(
-            "https://daneparks.com/Dane/civilpy/-/raw/Data/res/Ohio_NBI.txt")
+            "https://daneparks.com/Dane/civilpy/-/raw/snibi_tests_development/res/Ohio_NBI.txt")
     else:
         nbi_df = get_df_from_url(
             "https://daneparks.com/Dane/civilpy/-/raw/Data/res/2022AllRecordsDelimitedAllStates.txt"
