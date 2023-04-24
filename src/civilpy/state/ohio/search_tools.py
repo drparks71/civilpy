@@ -7,6 +7,8 @@ from pathlib import Path
 from natsort import natsorted
 from PIL import Image, ImageSequence
 
+from civilpy.state.ohio.dot import TimsBridge
+
 
 default_bridge_labels = [
     'Bridge Status Code', 'Bridge Status Description calc',
@@ -148,7 +150,7 @@ default_bridge_labels = [
 ]
 
 
-class D6BridgeLookup:
+class D6BridgeLookup(TimsBridge):
     def __init__(self, sfn, column_labels=default_bridge_labels, data_path="G:\\ref\\New folder\\Bridges.tsv"):
         df = pd.read_csv(f'{data_path}', sep='\t', low_memory=False)
         self.SFN = sfn

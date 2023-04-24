@@ -1,12 +1,11 @@
-import numbers
 import unittest
 from civilpy.state.ohio.dot import Project
 
 
 class TestProject(unittest.TestCase):
-    def setUp(self, pid=96213):
-        # Creates a 'test bridge' and makes sure none of the attributes have changed
-        self.tp = Project(pid)
+    def setUp(self):
+        # Creates a 'test project' and makes sure none of the attributes have changed
+        self.tp = Project(pid='96213')
 
     def tearDown(self):
         pass

@@ -45,6 +45,7 @@ def help_function():
     print(help(help_function))
 
 
+
 basemap_labels = {
     'KB': '3D Model KB',
     'KM': '3D Modeling KM',
@@ -818,10 +819,16 @@ def get_df_from_url(url):
     if r.ok:
         df = pd.read_csv(io.BytesIO(r.content), low_memory=False, quotechar="'")
     else:
-        print(f"Couldn't find a dataframe at {url} make sure this page is still up")
+        # print(f"Couldn't find a dataframe at {url} make sure this page is still up")
         df = None
 
     return df
+
+
+fips_url = "https://raw.githubusercontent.com/kjhealy/fips-codes/master/state_and_county_fips_master.csv"
+fips_codes = get_df_from_url(fips_url)
+
+ohio_fips = get_df_from_url("https://daneparks.com/Dane/civilpy/-/raw/Data/res/2022AllRecordsDelimitedAllStates.txt")
 
 
 def convert_latitudinal_values(latitude):
@@ -932,12 +939,6 @@ design_feature_criteria = {
     "Superelevation": {"Sections": ["202.4.1", "202.4.3"], "Figures": ["202-3", "202-7", "202-8", "202-9", "202-10"]},
     "Vertical_Clearance": {"Sections": ["302.1"], "Figures": ["302-1", "302-2", "302-3"]},
 }
-
-
-fips_url = "https://raw.githubusercontent.com/kjhealy/fips-codes/master/state_and_county_fips_master.csv"
-fips_codes = get_df_from_url(fips_url)
-
-ohio_fips = get_df_from_url("https://daneparks.com/Dane/civilpy/-/raw/Data/res/2022AllRecordsDelimitedAllStates.txt")
 
 
 def get_historic_bridge_data(sfn=2701464, state='Ohio'):
