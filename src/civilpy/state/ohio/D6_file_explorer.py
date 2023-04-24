@@ -3,7 +3,6 @@ from io import BytesIO
 from PIL import Image
 import PySimpleGUI as sg
 
-
 def update_listbox(listbox_element, folder, extension, substring):
     path = Path(folder)
     filter_ = substring.lower()
