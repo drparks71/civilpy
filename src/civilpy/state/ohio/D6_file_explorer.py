@@ -1,7 +1,7 @@
+import PySimpleGUI as sg
 from pathlib import Path
 from io import BytesIO
 from PIL import Image
-import PySimpleGUI as sg
 
 
 def update_listbox(listbox_element, folder, extension, substring):
