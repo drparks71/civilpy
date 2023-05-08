@@ -71,7 +71,9 @@ setup(
         "html5lib>=1.1",
         "requests>=2.28.2",
         "pyntcloud>=0.3.1",
-        "laspy>=2.4.1"
+        "laspy>=2.4.1",
+        "openpyxl>=3.1.2",
+        "earthpy>=0.9.4"
     ],
 
     extras_require={
