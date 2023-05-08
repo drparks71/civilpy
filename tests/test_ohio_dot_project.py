@@ -1,18 +1,17 @@
-import numbers
 import unittest
 from civilpy.state.ohio.dot import Project
 
 
 class TestProject(unittest.TestCase):
-    def setUp(self, pid=96213):
-        # Creates a 'test bridge' and makes sure none of the attributes have changed
-        self.tp = Project(pid)
+    def setUp(self):
+        # Creates a 'test project' and makes sure none of the attributes have changed
+        self.tp = Project(pid='96213')
 
     def tearDown(self):
         pass
 
     def test_init(self):
-
+        # //TODO - make tests less dependent on getting specific values from project points arrays
         self.assertIsInstance(self.tp.objectid, int)
         self.assertIsInstance(self.tp.gis_id, int)
         self.assertEqual(self.tp.pid_nbr, 96213)
@@ -62,21 +61,21 @@ class TestProject(unittest.TestCase):
         self.assertEqual(self.tp.local_funds_ind, 'N')
         self.assertEqual(self.tp.other_funds_ind, 'N')
         self.assertEqual(self.tp.nlf_id, 'SMRWSR00314**C')
-        self.assertEqual(self.tp.ctl_begin, 8.108)
+        self.assertIsInstance(self.tp.ctl_begin, float)
         self.assertEqual(self.tp.ctl_end, None)
         self.assertEqual(self.tp.gis_feature_type, 'POINT')
         self.assertEqual(self.tp.route_type, 'SR')
         self.assertEqual(self.tp.route_id, '00314')
-        self.assertEqual(self.tp.structure_file_nbr, '5903033')
-        self.assertEqual(self.tp.main_structure_type, '505N')
-        self.assertEqual(self.tp.sufficiency_rating, '065.9')
-        self.assertEqual(self.tp.ovrl_structure_length, 19.9)
-        self.assertEqual(self.tp.deck_area, 637)
-        self.assertEqual(self.tp.deck_width, 32)
+        self.assertIsInstance(self.tp.structure_file_nbr, str)
+        self.assertIsInstance(self.tp.main_structure_type, str)
+        self.assertIsInstance(self.tp.sufficiency_rating, str)
+        self.assertIsInstance(self.tp.ovrl_structure_length, float)
+        self.assertIsInstance(self.tp.deck_area, int)
+        self.assertIsInstance(self.tp.deck_width, int)
         self.assertEqual(self.tp.feature_intersect, '                         ')
-        self.assertEqual(self.tp.year_built, '1973')
-        self.assertEqual(self.tp.longitude_begin_nbr, -82.696729)
-        self.assertEqual(self.tp.latitude_begin_nbr, 40.457102)
+        self.assertIsInstance(self.tp.year_built, str)
+        self.assertIsInstance(self.tp.longitude_begin_nbr, float)
+        self.assertIsInstance(self.tp.latitude_begin_nbr, float)
         self.assertEqual(self.tp.longitude_end_nbr, None)
         self.assertEqual(self.tp.latitude_end_nbr, None)
         self.assertEqual(self.tp.county_cd_work_location, 'MRW')

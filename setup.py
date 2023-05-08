@@ -1,39 +1,36 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
     name='civilpy',
-    version='0.0.27',
+    version='0.0.37',
+    packages=find_packages('src', exclude=['test', 'secrets', 'docs', 'res']),
     description='Civil Engineering Tools in Python',
     url="https://daneparks.com/Dane/civilpy",
     author_email="Dane@daneparks.com",
     author="Dane Parks",
     py_modules=[
-        "civilpy",
-        "civilpy.state.ohio",
-        "civilpy.structural",
-        "civilpy.construction",
-        "civilpy.environmental",
-        "civilpy.general",
-        "civilpy.geotechnical",
-        "civilpy.state",
-        "civilpy.transportation",
-        "civilpy.water_resources"
+        "civilpy.state.ohio.dot",
+        "civilpy.state.ohio.snbi",
+        "civilpy.general.database_tools",
+        "civilpy.general.gis",
+        "civilpy.general.kml_tools",
+        "civilpy.general.math",
+        "civilpy.general.microstation",
+        "civilpy.general.pdf",
+        "civilpy.general.photos",
+        "civilpy.general.physics",
+        "civilpy.general.plan_development",
+        "civilpy.general.pointclouds",
+        "civilpy.structural.beam_bending",
+        "civilpy.structural.search_tools",
+        "civilpy.structural.steel",
+        "civilpy.water_resources.hydraulics",
+        "civilpy.CLI"
     ],
-    package_dir={'civilpy': 'civilpy'},
-    packages=[
-        "civilpy.structural",
-        "civilpy.construction",
-        "civilpy.environmental",
-        "civilpy.general",
-        "civilpy.geotechnical",
-        "civilpy.state",
-        "civilpy.state.ohio",
-        "civilpy.transportation",
-        "civilpy.water_resources"
-    ],
+    package_dir={'': 'src'},
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
@@ -48,7 +45,7 @@ setup(
     install_requires=[
         "numpy>=1.14.5",
         "folium>=0.12.1",
-        "pandas>=1.3.2",
+        "pandas>=1.1.5",
         "Pillow>=9.4.0",
         "Pint>=0.18.2",
         "coverage>=7.1.0",
@@ -72,14 +69,13 @@ setup(
         "tifftools>=1.3.7",
         "natsort>=8.2.0",
         "html5lib>=1.1",
-        "requests>=2.28.2"
+        "requests>=2.28.2",
+        "pyntcloud>=0.3.1",
+        "laspy>=2.4.1",
+        "openpyxl>=3.1.2",
+        "earthpy>=0.9.4"
     ],
 
     extras_require={
-        "dev": [
-            "pytest>=3.7",
-            "pytest-cov>=4.0.0",
-            "jupyter>=1.0.0",
-        ]
     }
 )

@@ -1,5 +1,5 @@
 test_code_coverage:
-  stage: test
+  stage: .pre
   rules:
     - if: $CI_COMMIT_TITLE =~ /-no_tests$/
       when: never
@@ -7,7 +7,8 @@ test_code_coverage:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   image: python:latest
   script:
-    - pip install civilpy[dev]
+    - pip install civilpy
+    - pip install pytest
     - coverage run -m pytest
     - coverage report
     - coverage xml
@@ -17,40 +18,6 @@ test_code_coverage:
       coverage_report:
         coverage_format: cobertura
         path: coverage.xml
-
-pypi_publish:
-  stage: deploy
-  cache: {}
-  only:
-    - master
-  image: python:latest
-  script:
-    - pip install -U build twine
-    - python setup.py sdist
-    - twine upload --verbose dist/*
-
-gitlab_publish:
-  stage: deploy
-  cache: {}
-  only:
-    - master
-  image: python:latest
-  script:
-    - pip install build twine
-    - python -m build
-    - TWINE_PASSWORD=${CI_JOB_TOKEN} TWINE_USERNAME=gitlab-ci-token python -m twine upload --verbose --repository-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi dist/*
-
-pages:
-  stage: deploy
-  script:
-  - mkdir .public
-  - cp -r civilpy/webpages/* .public
-  - mv .public public
-  artifacts:
-    paths:
-    - public
-  only:
-    - main
 
 verify-3.8:
     extends: test_code_coverage
@@ -71,3 +38,39 @@ verify-3.11:
     extends: test_code_coverage
     stage: test
     image: python:3.11
+
+# pypi_publish:
+#   stage: deploy
+#   cache: {}
+#   image: python:latest
+#   only:
+#     refs:
+#       - master
+#   script:
+#     - pip install -U build twine
+#     - python setup.py sdist
+#     - twine upload --verbose dist/*
+
+# gitlab_publish:
+#   stage: deploy
+#   cache: {}
+#   image: python:latest
+#   only:
+#     refs:
+#       - master
+#   script:
+#     - pip install build twine
+#     - python -m build
+#     - TWINE_PASSWORD=${CI_JOB_TOKEN} TWINE_USERNAME=gitlab-ci-token python -m twine upload --verbose --repository-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi dist/*
+
+pages:
+  stage: deploy
+  script:
+  - mkdir .public
+  - cp -r src/civilpy/webpages/* .public
+  - mv .public public
+  artifacts:
+    paths:
+    - public
+  only:
+    - main
