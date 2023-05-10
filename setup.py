@@ -73,7 +73,8 @@ setup(
         "pyntcloud>=0.3.1",
         "laspy>=2.4.1",
         "openpyxl>=3.1.2",
-        "earthpy>=0.9.4"
+        "earthpy>=0.9.4",
+        "open3d>=0.17.0"
     ],
 
     extras_require={
