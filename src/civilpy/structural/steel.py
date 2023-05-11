@@ -1,9 +1,13 @@
 import pandas as pd
+import requests
+import io
 import pint
 
 units = pint.UnitRegistry()
 
-steel_tables = pd.read_csv('https://raw.githubusercontent.com/drparks71w/CivilPy/master/civilpy/structural/res/steel_shapes.csv')
+url = 'https://daneparks.com/Dane/civilpy/-/raw/master/src/civilpy/structural/res/steel_shapes.csv'
+s = requests.get(url).content
+steel_tables = pd.read_csv(io.StringIO(s.decode('utf-8')))
 
 
 def hello_world(user_input="World"):
