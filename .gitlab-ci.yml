@@ -1,76 +1,76 @@
-#test_code_coverage:
-#  stage: .pre
-#  rules:
-#    - if: $CI_COMMIT_TITLE =~ /-no_tests$/
-#      when: never
-#    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-#    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-#  image: python:latest
-#  script:
-#    - pip install civilpy
-#    - pip install pytest
-#    - coverage run -m pytest
-#    - coverage report
-#    - coverage xml
-#  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
-#  artifacts:
-#    reports:
-#      coverage_report:
-#        coverage_format: cobertura
-#        path: coverage.xml
+test_code_coverage:
+  stage: .pre
+  rules:
+    - if: $CI_COMMIT_TITLE =~ /-no_tests$/
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  image: python:latest
+  script:
+    - pip install civilpy
+    - pip install pytest
+    - coverage run -m pytest
+    - coverage report
+    - coverage xml
+  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
 
-#verify-3.8:
-#    extends: test_code_coverage
-#    stage: test
-#    image: python:3.8
+verify-3.8:
+    extends: test_code_coverage
+    stage: test
+    image: python:3.8
+
+verify-3.9:
+    extends: test_code_coverage
+    stage: test
+    image: python:3.9
+
+verify-3.10:
+    extends: test_code_coverage
+    stage: test
+    image: python:3.10
+
+verify-3.11:
+    extends: test_code_coverage
+    stage: test
+    image: python:3.11
+
+# pypi_publish:
+#   stage: deploy
+#   cache: {}
+#   image: python:latest
+#   only:
+#     refs:
+#       - master
+#   script:
+#     - pip install -U build twine
+#     - python setup.py sdist
+#     - twine upload --verbose dist/*
 #
-#verify-3.9:
-#    extends: test_code_coverage
-#    stage: test
-#    image: python:3.9
+# gitlab_publish:
+#   stage: deploy
+#   cache: {}
+#   image: python:latest
+#   only:
+#     refs:
+#       - master
+#   script:
+#     - pip install build twine
+#     - python -m build
+#     - TWINE_PASSWORD=${CI_JOB_TOKEN} TWINE_USERNAME=gitlab-ci-token python -m twine upload --verbose --repository-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi dist/*
 #
-#verify-3.10:
-#    extends: test_code_coverage
-#    stage: test
-#    image: python:3.10
-#
-#verify-3.11:
-#    extends: test_code_coverage
-#    stage: test
-#    image: python:3.11
-
- pypi_publish:
-   stage: deploy
-   cache: {}
-   image: python:latest
-   only:
-     refs:
-       - master
-   script:
-     - pip install -U build twine
-     - python setup.py sdist
-     - twine upload --verbose dist/*
-
- gitlab_publish:
-   stage: deploy
-   cache: {}
-   image: python:latest
-   only:
-     refs:
-       - master
-   script:
-     - pip install build twine
-     - python -m build
-     - TWINE_PASSWORD=${CI_JOB_TOKEN} TWINE_USERNAME=gitlab-ci-token python -m twine upload --verbose --repository-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi dist/*
-
-#pages:
-#  stage: deploy
-#  script:
-#  - mkdir .public
-#  - cp -r src/civilpy/webpages/* .public
-#  - mv .public public
-#  artifacts:
-#    paths:
-#    - public
-#  only:
-#    - main
+pages:
+  stage: deploy
+  script:
+  - mkdir .public
+  - cp -r src/civilpy/webpages/* .public
+  - mv .public public
+  artifacts:
+    paths:
+    - public
+  only:
+    - main
