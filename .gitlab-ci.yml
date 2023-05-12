@@ -1,14 +1,13 @@
 test_code_coverage:
   stage: .pre
-  rules:
-    - if: $CI_COMMIT_TITLE =~ /-no_tests$/
-      when: never
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   image: python:latest
   script:
-    - pip install civilpy
-    - pip install pytest
+    - python3 -V  # Print out python version for debugging
+    - pip3 install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+    - pip3 install civilpy
+    - pip3 install pytest
     - coverage run -m pytest
     - coverage report
     - coverage xml
