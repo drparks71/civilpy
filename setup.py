@@ -74,7 +74,8 @@ setup(
         "laspy>=2.4.1",
         "openpyxl>=3.1.2",
         "earthpy>=0.9.4",
-        "pymupdf>=1.22.3"
+        "pymupdf>=1.22.3",
+        "tqdm>="
     ],
 
     extras_require={
