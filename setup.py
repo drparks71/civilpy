@@ -75,7 +75,8 @@ setup(
         "openpyxl>=3.1.2",
         "earthpy>=0.9.4",
         "pymupdf>=1.22.3",
-        "tqdm>="
+        "tqdm>=4.65.0",
+        "pyodbc>=4.0.39"
     ],
 
     extras_require={
