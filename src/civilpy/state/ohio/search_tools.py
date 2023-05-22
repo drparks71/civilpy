@@ -192,7 +192,6 @@ class D6BridgeLookup(TimsBridge):
 
         return f"{county_code}-{route_num}-{section_num}"
 
-
     def get_d6_plan_sets(self, district_df_path="G:\\ref\\New folder\\PLANINDX.TXT"):
         """
         Using the "CTY-RT-SEC" from a SFN, this function finds the various
@@ -304,7 +303,8 @@ class D6BridgeLookup(TimsBridge):
         :return:
         """
         pdf_path = tiff_path.replace('.tiff', '.pdf')
-        if not os.path.exists(tiff_path): raise Exception(f'{tiff_path} does not find.')
+        if not os.path.exists(tiff_path):
+            raise Exception(f'{tiff_path} Not found.')
         image = Image.open(tiff_path)
 
         images = []
