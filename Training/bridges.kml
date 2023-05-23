@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">
+    <Document id="79">
+        <Style id="82">
+            <BalloonStyle>
+                <text>&lt;H1&gt;SFN:2100967&lt;/H1&gt;&lt;br&gt;&lt;br&gt;&lt;p&gt;latitude=40.297654&lt;br&gt;longitude=-83.046938&lt;/p&gt;&lt;br&gt;original PID: UNKNWN&lt;br&gt;BIA Report: https://smsreports.dot.state.oh.us/CreateReport.aspx?SFN=2100967&amp;IsBIA=true&lt;br&gt;Photos: &lt;br&gt;StRtBrPhotos: None</text>
+                <displayMode>default</displayMode>
+            </BalloonStyle>
+        </Style>
+        <Style id="86">
+            <BalloonStyle>
+                <text>&lt;H1&gt;SFN:2100932&lt;/H1&gt;&lt;br&gt;&lt;br&gt;&lt;p&gt;latitude=40.298254&lt;br&gt;longitude=-83.05799&lt;/p&gt;&lt;br&gt;original PID: UNKNWN&lt;br&gt;BIA Report: https://smsreports.dot.state.oh.us/CreateReport.aspx?SFN=2100932&amp;IsBIA=true&lt;br&gt;Photos: &lt;br&gt;StRtBrPhotos: None</text>
+                <displayMode>default</displayMode>
+            </BalloonStyle>
+        </Style>
+        <Style id="90">
+            <BalloonStyle>
+                <text>&lt;H1&gt;SFN:2100908&lt;/H1&gt;&lt;br&gt;&lt;br&gt;&lt;p&gt;latitude=40.298308&lt;br&gt;longitude=-83.058777&lt;/p&gt;&lt;br&gt;original PID: UNKNWN&lt;br&gt;BIA Report: https://smsreports.dot.state.oh.us/CreateReport.aspx?SFN=2100908&amp;IsBIA=true&lt;br&gt;Photos: &lt;br&gt;StRtBrPhotos: None</text>
+                <displayMode>default</displayMode>
+            </BalloonStyle>
+        </Style>
+        <Placemark id="81">
+            <name>2100967</name>
+            <styleUrl>#82</styleUrl>
+            <Point id="80">
+                <coordinates>-83.046938,40.297654,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="85">
+            <name>2100932</name>
+            <styleUrl>#86</styleUrl>
+            <Point id="84">
+                <coordinates>-83.05799,40.298254,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="89">
+            <name>2100908</name>
+            <styleUrl>#90</styleUrl>
+            <Point id="88">
+                <coordinates>-83.058777,40.298308,0.0</coordinates>
+            </Point>
+        </Placemark>
+    </Document>
+</kml>
