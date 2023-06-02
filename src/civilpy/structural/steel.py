@@ -3,7 +3,7 @@ import pint
 
 units = pint.UnitRegistry()
 
-steel_tables = pd.read_csv('https://raw.githubusercontent.com/drparks71w/CivilPy/master/civilpy/structural/res/steel_shapes.csv')
+steel_tables = pd.read_csv('https://raw.githubusercontent.com/drparks71w/CivilPy/master/src/civilpy/structural/res/steel_shapes.csv')
 
 
 def hello_world(user_input="World"):
