@@ -28,7 +28,8 @@ setup(
         "civilpy.structural.search_tools",
         "civilpy.structural.steel",
         "civilpy.water_resources.hydraulics",
-        "civilpy.CLI"
+        "civilpy.CLI",
+        "civilpy.kivy"
     ],
     package_dir={'': 'src'},
     classifiers=[
@@ -77,7 +78,8 @@ setup(
         "pymupdf>=1.22.3",
         "tqdm>=4.65.0",
         "pyodbc>=4.0.39",
-        "pytesseract>=0.3.10"
+        "pytesseract>=0.3.10",
+        "kivy>=2.2.0"
     ],
 
     extras_require={
