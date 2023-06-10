@@ -149,3 +149,7 @@ django/
 /res/0617.laz
 /Training/img/
 /Training/temp/
+/identifier.sqlite
+/src/civilpy/kivy/demo_apps/ToDo/.buildozer/
+/src/civilpy/kivy/demo_apps/ToDo/bin/
+/src/civilpy/kivy/demo_apps/ToDo/todo.db

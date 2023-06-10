@@ -79,7 +79,8 @@ setup(
         "tqdm>=4.65.0",
         "pyodbc>=4.0.39",
         "pytesseract>=0.3.10",
-        "kivy>=2.2.0"
+        "kivymd>=1.1.1",
+        "PyQt5>=5.15.9"
     ],
 
     extras_require={
