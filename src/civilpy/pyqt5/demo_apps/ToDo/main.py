@@ -1,21 +1,44 @@
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QFont
+# https://www.youtube.com/watch?v=rZcdhles6vQ&list=PLCC34OHNcOtpmCA8s_dpPMvQLyHbvxocY
+import PyQt5.QtWidgets as qtw
+import PyQt5.QtGui as qtg
 
-def main():
-    app = QApplication([])
-    window = QWidget()
-    window.setGeometry(100, 100, 200, 300)
-    window.setWindowTitle("Hello App")
+class MainWindow(qtw.QWidget):
+    def __init__(self):
+        super().__init__()
+        # Add a title
+        self.setWindowTitle("Hello World!!")
 
-    label = QLabel(window)
-    label.setText("Hello World!")
-    label.setFont(QFont("Arial", 16))
-    label.move(50, 100)
+        # Set Vertical layout
+        self.setLayout(qtw.QVBoxLayout())
 
-    window.show()
-    app.exec_()
+        # Create a Label
+        my_label = qtw.QLabel("What's your name?")
+        # Change the font size of label
+        my_label.setFont(qtg.QFont('Helvetica', 18))
+        self.layout().addWidget(my_label)
+
+        # Create an entry box
+        my_entry = qtw.QLineEdit()
+        my_entry.setObjectName('name_field')
+        my_entry.setText("")
+        self.layout().addWidget(my_entry)
+
+        # Create a button
+        my_button = qtw.QPushButton("Press Me!", clicked = lambda: press_it())
+        self.layout().addWidget(my_button)
+
+        self.show()
+
+        def press_it():
+            # Add name to label
+            my_label.setText(f'Hello {my_entry.text()}!')
+            # Clear the entry box
+            my_entry.setText("")
 
 
-if __name__ == "__main__":
-    main()
+app = qtw.QApplication([])
+mw = MainWindow()
+
+# Run the App
+app.exec_()
 
