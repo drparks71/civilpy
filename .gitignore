@@ -142,12 +142,7 @@ django/
 /Training/scratch.py
 /Training/scratch.ipynb
 /.coverage
-/res/photos/*
 /Training/map.html
-/res/sample.tif
-/res/0617_Cloud.xyz
-/res/0617.laz
-/Training/img/
 /Training/temp/
 /identifier.sqlite
 /src/civilpy/kivy/demo_apps/ToDo/.buildozer/
