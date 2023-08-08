@@ -19,7 +19,8 @@ class TestSteelMemberFunctions(unittest.TestCase):
         test_beam2 = SteelSection("W44x335")  # Lowercase correction
         test_beam3 = SteelSection("W 44x335")  # Space in label
 
-        self.assertEqual(test_beam.weight, test_beam2.weight)  # Verify all three names are imported identically
+        # Verify all three names are imported identically
+        self.assertEqual(test_beam.weight, test_beam2.weight)
         self.assertEqual(test_beam2.weight, test_beam3.weight)
 
     def test_general_attributes(self):
