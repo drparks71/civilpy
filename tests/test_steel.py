@@ -24,7 +24,7 @@ class TestSteelMemberFunctions(unittest.TestCase):
 
     def test_general_attributes(self):
         test_beam = SteelSection("W44X335")
-        self.assertEqual(test_beam.weight, 335 * units('lb/ft'))
+        self.assertEqual(test_beam.weight, 335 * units('lbf/ft'))
         self.assertEqual(test_beam.area, 98.5 * units('in^2'))
         self.assertEqual(test_beam.special_note, 'F')
         self.assertEqual(test_beam.I_x, 31100.0 * units('in^4'))
