@@ -1,0 +1,55 @@
+BoxLayout:
+    orientation: "vertical"
+
+    MDTopAppBar:
+        title: "KivyMD Database App"
+        md_bg_color: app.theme_cls.primary_color
+        elevation: 10
+
+    BoxLayout:
+        orientation: "horizontal"
+
+        MDNavigationLayout:
+            ScreenManager:
+                id: screen_manager
+
+                Screen:
+                    name: "home_screen"
+
+                    MDBoxLayout:
+                        orientation: "vertical"
+
+                        MDTextField:
+                            id: search_field
+                            hint_text: "Search"
+
+                        MDRaisedButton:
+                            text: "Search"
+                            on_press: app.search_db(search_field.text)
+
+                        ScrollView:
+                            MDList:
+                                id: search_results
+
+                Screen:
+                    name: "entry_details"
+
+                    MDLabel:
+                        id: entry_content
+                        text: "Details will appear here."
+
+        MDNavigationDrawer:
+            id: nav_drawer
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: '8dp'
+                padding: '8dp'
+
+                Image:
+                    source: 'your_logo.png'
+
+                MDLabel:
+                    text: 'KivyMD Database App'
+                    font_style: 'Button'
+                    size_hint_y: None
+                    height: self.texture_size[1]
