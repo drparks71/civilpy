@@ -84,22 +84,23 @@ class SteelSection:
             return shape_values
         except KeyError as e:
             print("Value not found in shape table,"
-                  "check spelling and try again")
+                  "check spelling and try again"
+                  f"\n\n{e}")
 
 
-class WBeam(SteelSection):
+class W(SteelSection):
     """
     Class to provide more specific attributes and functions related to designing
-    with steel W beams. Splitting values into multiple classes allows dropping
+    with steel W s. Splitting values into multiple classes allows dropping
     of empty values in the database.
 
-    >>> t = WBeam("W36X150")
+    >>> t = W("W36X150")
     >>> t.weight
     150.0 pound/foot
     """
 
     def __init__(self, label):
-        super(WBeam, self).__init__(label)
+        super(W, self).__init__(label)
         self.depth = float(self.aisc_value['d'].values[0]) * units('in')
         self.detailing_depth = (
                 float(self.aisc_value['ddet'].values[0]) * units('in')
@@ -126,9 +127,6 @@ class WBeam(SteelSection):
         self.k_design = float(self.aisc_value['kdes'].values[0]) * units('in')
         self.k_detailing = (
                 float(self.aisc_value['kdet'].values[0]) * units('in')
-        )
-        self.slenderness_ratio_flange = (
-            float(self.aisc_value['bf/2tf'].values[0])
         )
         self.slenderness_ratio_web = float(self.aisc_value['h/tw'].values[0])
         self.J = float(self.aisc_value['J'].values[0]) * units('in^4')
@@ -159,79 +157,87 @@ class WBeam(SteelSection):
                 float(self.aisc_value['T'].values[0]) * units('in')
         )
 
+        # These values are used in most shapes, but not all, hence the ifs
+        if self.aisc_value['bf/2tf'].values[0] == '–':
+            self.slenderness_ratio_flange = None
+        else:
+            self.slenderness_ratio_flange = (
+                float(self.aisc_value['bf/2tf'].values[0]) * units('in')
+            )
+
         if self.aisc_value['k1'].values[0] == '–':
             self.k1 = None
         else:
             self.k1 = (
                 float(self.aisc_value['k1'].values[0]) * units('in')
-        )
+            )
 
         if self.aisc_value['WGi'].values[0] == '–':
             self.fastener_workable_gage = None
         else:
             self.fastener_workable_gage = (
                 float(self.aisc_value['WGi'].values[0]) * units('in')
-        )
+            )
 
 
-class MBeam(WBeam):
+class M(W):
     """
     Class to provide more specific attributes and functions related to designing
-    with steel M beams. Splitting values into multiple classes allows dropping
+    with steel M s. Splitting values into multiple classes allows dropping
     of empty values in the database.
 
-    >>> t = MBeam("M10X9")
+    >>> t = M("M10X9")
     >>> t.weight
     9.0 pound/foot
     """
 
     def __init__(self, label):
-        super(MBeam, self).__init__(label)
+        super(M, self).__init__(label)
 
 
-class SBeam(WBeam):
+class S(W):
     """
     Class to provide more specific attributes and functions related to designing
-    with steel M beams. Splitting values into multiple classes allows dropping
+    with steel M s. Splitting values into multiple classes allows dropping
     of empty values in the database.
 
-    >>> t = SBeam("S24X121")
+    >>> t = S("S24X121")
     >>> t.weight
     121.0 pound/foot
     """
 
     def __init__(self, label):
-        super(SBeam, self).__init__(label)
+        super(S, self).__init__(label)
 
 
-class HPBeam(WBeam):
+class HP(W):
     """
     Class to provide more specific attributes and functions related to designing
-    with steel M beams. Splitting values into multiple classes allows dropping
+    with steel M s. Splitting values into multiple classes allows dropping
     of empty values in the database.
 
-    >>> t = HPBeam("HP18X204")
+    >>> t = HP("HP18X204")
     >>> t.weight
     204.0 pound/foot
     """
 
     def __init__(self, label):
-        super(HPBeam, self).__init__(label)
+        super(HP, self).__init__(label)
 
 
-class CBeam(WBeam):
+class C(W):
     """
     Class to provide more specific attributes and functions related to designing
-    with steel C beams. Splitting values into multiple classes allows dropping
+    with steel C s. Splitting values into multiple classes allows dropping
     of empty values in the database.
 
-    >>> t = CBeam("C15X50")
+    >>> t = C("C15X50")
     >>> t.weight
     50.0 pound/foot
     """
 
     def __init__(self, label):
-        super(CBeam, self).__init__(label)
+        super(C, self).__init__(label)
         self.x = float(self.aisc_value['x'].values[0]) * units('in')
         self.eo = float(self.aisc_value['eo'].values[0]) * units('in')
         self.xp = float(self.aisc_value['xp'].values[0]) * units('in')
@@ -246,34 +252,34 @@ class CBeam(WBeam):
         self.H = float(self.aisc_value['H'].values[0])
 
 
-class MCBeam(CBeam):
+class MC(C):
     """
     Class to provide more specific attributes and functions related to designing
-    with steel MC beams. Splitting values into multiple classes allows dropping
+    with steel MC s. Splitting values into multiple classes allows dropping
     of empty values in the database.
 
-    >>> t = MCBeam("MC18X58")
+    >>> t = MC("MC18X58")
     >>> t.weight
     58.0 pound/foot
     """
 
     def __init__(self, label):
-        super(MCBeam, self).__init__(label)
+        super(MC, self).__init__(label)
 
 
-class LBeam(CBeam):
+class L(C):
     """
     Class to provide more specific attributes and functions related to designing
-    with steel L beams. Splitting values into multiple classes allows dropping
+    with steel L s. Splitting values into multiple classes allows dropping
     of empty vain the database.
 
-    >>> t = LBeam("L12x12x1-3/8")
+    >>> t = L("L12x12x1-3/8")
     >>> t.weight
     105.0 pound/foot
     """
 
     def __init__(self, label):
-        super(LBeam, self).__init__(label)
+        super(L, self).__init__(label)
         self.b = float(self.aisc_value['b'].values[0]) * units('in')
         self.t = float(self.aisc_value['t'].values[0]) * units('in')
         self.y = float(self.aisc_value['y'].values[0]) * units('in')
@@ -297,19 +303,19 @@ class LBeam(CBeam):
         self.PA2 = float(self.aisc_value['PA2'].values[0]) * units('in')
 
 
-class WTBeam(WBeam):
+class WT(W):
     """
     Class to provide more specific attributes and functions related to designing
-    with steel WT beams. Splitting values into multiple classes allows dropping
+    with steel WT s. Splitting values into multiple classes allows dropping
     of empty values in the database.
 
-    >>> t = WTBeam("WT22x145")
+    >>> t = WT("WT22x145")
     >>> t.weight
     145.0 pound/foot
     """
 
     def __init__(self, label):
-        super(WTBeam, self).__init__(label)
+        super(WT, self).__init__(label)
         self.d_t = float(self.aisc_value['D/t'].values[0])
         self.ro = float(self.aisc_value['ro'].values[0]) * units('in')
         self.y = float(self.aisc_value['y'].values[0]) * units('in')
@@ -317,67 +323,67 @@ class WTBeam(WBeam):
         self.H = float(self.aisc_value['H'].values[0])
 
 
-class MTBeam(WTBeam):
+class MT(WT):
     """
     Class to provide more specific attributes and functions related to designing
-    with steel WT beams. Splitting values into multiple classes allows dropping
+    with steel WT s. Splitting values into multiple classes allows dropping
     of empty values in the database.
 
-    >>> t = MTBeam("MT5x4")
+    >>> t = MT("MT5x4")
     >>> t.weight
     4.0 pound/foot
     """
 
     def __init__(self, label):
-        super(MTBeam, self).__init__(label)
+        super(MT, self).__init__(label)
 
 
-class STBeam(WTBeam):
+class ST(WT):
     """
     Class to provide more specific attributes and functions related to designing
-    with steel ST beams. Splitting values into multiple classes allows dropping
+    with steel ST s. Splitting values into multiple classes allows dropping
     of empty values in the database.
 
-    >>> t = STBeam("ST10x48")
+    >>> t = ST("ST10x48")
     >>> t.weight
     48.0 pound/foot
     """
 
     def __init__(self, label):
-        super(STBeam, self).__init__(label)
+        super(ST, self).__init__(label)
 
 
-class TwoLBeam(WTBeam):
+class TwoL(WT):
     """
     Class to provide more specific attributes and functions related to designing
-    with steel 2L beams. Splitting values into multiple classes allows dropping
+    with steel 2L s. Splitting values into multiple classes allows dropping
     of empty values in the database.
 
-    >>> t = 2LBeam("2L10X10X1-1/4")
+    >>> t = TwoL("2L10X10X1-1/4")
     >>> t.weight
     48.0 pound/foot
     """
 
     def __init__(self, label):
-        super(STBeam, self).__init__(label)
+        super(TwoL, self).__init__(label)
         self.b = float(self.aisc_value['b'].values[0]) * units('in')
         self.t = float(self.aisc_value['t'].values[0]) * units('in')
         self.slenderness_ratio = float(self.aisc_value['b/t'].values[0])
 
 
-class HSSBeam(WBeam):
+class HSS(W):
     """
     Class to provide more specific attributes and functions related to designing
-    with steel HSS beams. Splitting values into multiple classes allows dropping
+    with steel HSS sections. Splitting values into multiple classes allows dropping
     of empty values in the database.
 
-    >>> t = HSSBeam("HSS20X20X.500")
+    >>> t = HSS("HSS20X20X.500")
     >>> t.weight
     130.52 pound/foot
     """
 
     def __init__(self, label):
-        super(HSSBeam, self).__init__(label)
+        super(HSS, self).__init__(label)
         self.tnom = float(self.aisc_value['tnom'].values[0]) * units('in')
         self.tdes = float(self.aisc_value['tdes'].values[0]) * units('in')
         self.C = float(self.aisc_value['C'].values[0]) * units('in^3')
@@ -385,11 +391,11 @@ class HSSBeam(WBeam):
         self.ID = float(self.aisc_value['ID'].values[0]) * units('in')
 
 
-class Pipe(HSSBeam):
+class Pipe(HSS):
     """
     Class to provide more specific attributes and functions related to designing
-    with steel HSS beams. Splitting values into multiple classes allows dropping
-    of empty values in the database.
+    with steel Pipe Sections. Splitting values into multiple classes allows
+    dropping of empty values in the database.
 
     >>> t = Pipe("Pipe10SCH140")
     >>> t.weight
@@ -401,6 +407,7 @@ class Pipe(HSSBeam):
         self.OD = float(self.aisc_value['OD'].values[0]) * units('in')
         self.ID = float(self.aisc_value['ID'].values[0]) * units('in')
         self.D_t = float(self.aisc_value['D/t'].values[0])
+
 
 if __name__ == '__main__':
     import doctest
