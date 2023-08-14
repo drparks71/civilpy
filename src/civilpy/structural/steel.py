@@ -1,7 +1,5 @@
 import pandas as pd
-import pint
-
-units = pint.UnitRegistry()
+from civilpy.general import units
 
 steel_tables = pd.read_csv(
     'https://raw.githubusercontent.com/drparks71w/'
