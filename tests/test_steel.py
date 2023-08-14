@@ -1,5 +1,5 @@
 import unittest
-from src.civilpy.structural.steel import SteelSection, WBeam, hello_world
+from src.civilpy.structural.steel import SteelSection, W, hello_world
 import pint
 
 units = pint.UnitRegistry()
@@ -38,7 +38,7 @@ class TestSteelMemberFunctions(unittest.TestCase):
         self.assertEqual(test_beam.r_y, 3.49 * units('in'))
 
     def test_WBeam_import(self):
-        t = WBeam("W36X150")
+        t = W("W36X150")
         self.assertEqual(t.depth, 35.9 * units.inch)
         self.assertEqual(t.detailing_depth, 35.875 * units.inch)
         self.assertEqual(t.flange_width, 12.0 * units.inch)
