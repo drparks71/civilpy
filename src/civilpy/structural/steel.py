@@ -127,7 +127,6 @@ class WBeam(SteelSection):
         self.k_detailing = (
                 float(self.aisc_value['kdet'].values[0]) * units('in')
         )
-        self.k1 = float(self.aisc_value['k1'].values[0]) * units('in')
         self.slenderness_ratio_flange = (
             float(self.aisc_value['bf/2tf'].values[0])
         )
@@ -159,7 +158,18 @@ class WBeam(SteelSection):
         self.web_face_depth = self.T = (
                 float(self.aisc_value['T'].values[0]) * units('in')
         )
-        self.fastener_workable_gage = self.WGi = (
+
+        if self.aisc_value['k1'].values[0] == '–':
+            self.k1 = None
+        else:
+            self.k1 = (
+                float(self.aisc_value['k1'].values[0]) * units('in')
+        )
+
+        if self.aisc_value['WGi'].values[0] == '–':
+            self.fastener_workable_gage = None
+        else:
+            self.fastener_workable_gage = (
                 float(self.aisc_value['WGi'].values[0]) * units('in')
         )
 
