@@ -51,7 +51,7 @@ class TestSteelMemberFunctions(unittest.TestCase):
         self.assertEqual(t.k_design, 1.69 * units.inch)
         self.assertEqual(t.k_detailing, 2.1875 * units.inch)
         self.assertEqual(t.k1, 1.5 * units.inch)
-        self.assertEqual(t.slenderness_ratio_flange, 6.37)
+        self.assertEqual(t.slenderness_ratio_flange, 6.37 * units('inch'))
         self.assertEqual(t.slenderness_ratio_web, 51.9)
         self.assertEqual(t.J, 10.1 * units('in^4'))
         self.assertEqual(t.Cw, 82200.0 * units('in^6'))
