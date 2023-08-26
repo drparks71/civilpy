@@ -238,7 +238,9 @@ def photo_renaming_tool(root_folder=testing_root_folder, excel_file=None):
         excel_file = [file for file in full_file_list if re.search("(xlsx|xls|xlsm)$", str(file), re.IGNORECASE)][0]
 
     photo_list = get_photos_from_file_list(full_file_list)
-    print(photo_list)
+
+    for photo in photo_list:
+        print(photo)
 
     input('Copy the files and names into the excel sheet, then hit "enter"')
     create_folder_for_renamed_files(root_folder)
