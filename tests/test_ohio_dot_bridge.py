@@ -223,7 +223,7 @@ class TestBridgeObject(unittest.TestCase):
         self.assertEqual(self.tb.apprh_str_descr_cd, 'N')
         self.assertEqual(self.tb.hist_build_yr, '1956')
         self.assertEqual(self.tb.nlfid, 'SPICUS00023**N')
-        self.assertEqual(self.tb.ctl_begin_nbr, 3.601)
+        self.assertEqual(self.tb.ctl_begin_nbr, 3.61)
         self.assertEqual(self.tb.route_type, 'US')
         self.assertEqual(self.tb.route_nbr, '00023')
         self.assertEqual(self.tb.route_suffix, '*')
