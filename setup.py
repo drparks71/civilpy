@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='civilpy',
-    version='0.0.53',
+    version='0.0.54',
     packages=find_packages('src', exclude=['test', 'secrets', 'docs', 'res']),
     description='Civil Engineering Tools in Python',
     url="https://daneparks.com/Dane/civilpy",
@@ -62,6 +62,7 @@ setup(
         "psycopg2-binary>=2.9.5",
         "sympy>=1.10.0",
         "sshtunnel>=0.4.0",
+        "termcolor>=1.1.0",
         "icalendar>=4.0.7",
         "latex>=0.7.0",
         "html5lib>=1.1",

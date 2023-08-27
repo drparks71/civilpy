@@ -1,5 +1,7 @@
 from civilpy.structural.steel import W, MC
 from civilpy.general import units
+from termcolor import colored
+import math
 
 
 class GlobalDefinitions:
@@ -31,7 +33,7 @@ class GlobalDefinitions:
         super().__init__()
         self.F_y = f_y
         self.F_u = f_u
-        self.E_steel = e_steel
+        self.E_steel = self.E = e_steel
         self.tie_length = tie_length
         self.tie_width = tie_width
         self.tie_depth = tie_depth
@@ -367,27 +369,27 @@ class TPG(GlobalDefinitions, LoadDefinitions):
         self.girder_S_x_net = self.girder_S_xx
 
         #                                    # Dead Load Calculations
-        # Girder
+        # Girder Dead Loads
         self.girder_weight_per_ft = (self.girder_weight_per_ft_no_cont *
                                      (1 + self.steel_connection_contingency)).to('kip/ft')
         self.girder_self_load = (
                     self.girder_area * self.girder_length * self.steel_unit_weight * self.girder_quantity * (
                         1 + self.steel_connection_contingency)).to('kip')
 
-        # Intermediate Floorbeams
+        # Intermediate Floor beams Dead Loads
         self.int_floorbeam_weight = (
                     self.girder_spacing *
                     self.floorbeam.weight *
                     self.floorbeam_quantity * (1 + self.steel_connection_contingency)).to('kips')
 
-        # End Floor Beams
+        # End Floor Beams Dead Loads
         self.end_floorbeam_weight = (
                     self.girder_spacing * self.end_floorbeam.weight *
                     self.end_floorbeam_quantity * (1 + self.steel_connection_contingency)).to('kips')
 
         self.total_floorbeam_weight = self.end_floorbeam_weight + self.int_floorbeam_weight
 
-        # Diaphragms
+        # Diaphragms Dead Loads
         self.total_diaphragm_weight = (
                     self.floorbeam_spacing *
                     self.diaphragm.weight *
@@ -398,7 +400,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
                                      self.lateral_bracing.weight *
                                      self.lateral_bracing_quantity * (1 + self.steel_connection_contingency)).to('kips')
 
-        # Floor
+        # Floor Dead Loads
         self.deck_plate_lin_weight_per_girder = (self.deck_plate_thickness *
                                                  self.ballast_plates_clear_space * self.steel_unit_weight * (
                                                          1 + self.steel_connection_contingency) / 2).to('lbf/ft')
@@ -444,4 +446,335 @@ class TPG(GlobalDefinitions, LoadDefinitions):
                     self.steel_unit_weight * self.horizontal_upper_floor_pl_quantity * (
                         1 + self.steel_connection_contingency)).to('kip')
 
-        
+        self.waterproofing_width = self.ballast_plates_clear_space + 2 * self.dia_stop_pl_width
+        self.waterproofing_length = self.floor_length
+        self.waterproofing_weight_per_girder = (self.waterproofing_width * self.waterproofing_unit_weight /
+                                                self.girder_quantity)
+        self.waterproofing_area_load = self.waterproofing_unit_weight
+        self.waterproofing_area_load_2 = self.waterproofing_unit_weight * (self.waterproofing_width - 14 * units(
+            'ft')) / 2 / self.stop_plate_detail_width
+        self.waterproofing_weight = (
+                    self.waterproofing_width * self.waterproofing_length *
+                    self.waterproofing_unit_weight * self.waterproofing_quant).to('kips')
+
+        # Asphaltic Plank Dead load
+        # Asphaltic Plank
+        self.asp_plank_width = self.waterproofing_width
+        self.asp_plank_length = self.floor_length
+        self.asp_lin_weight_per_girder = (self.asp_plank_width * self.asphaltic_plank_t *
+                                          self.asphalt_unit_weight / self.girder_quantity).to('lbf/ft')
+        self.asp_plank_area_load = (self.asphaltic_plank_t * self.asphalt_unit_weight).to('lbf/ft^2')
+        # Between stop Plates        # //TODO - Hardcoded values
+        self.asp_plank_area_load_2 = (self.asphaltic_plank_t * self.asphalt_unit_weight * (
+                    self.asp_plank_width - 14 * units('ft')) / 2 / self.stop_plate_detail_width).to('lbf/ft^2')
+
+        self.asp_plank_weight = (
+                    self.asp_plank_width * self.asp_plank_length * self.asphalt_unit_weight * self.asphaltic_plank_t *
+                    self.asphaltic_plank_quant).to('kips')
+
+        # Flooring linear weight per girder
+        self.floor_weight_per_girder = self.asp_lin_weight_per_girder + self.waterproofing_weight_per_girder + \
+            self.horizontal_upper_fl_pl_weight_per_girder + self.dia_stop_pl_lin_w_per_girder + \
+            self.deck_plate_lin_weight_per_girder
+
+        # Flooring Load on FBs between stop plates and deck plate
+        self.floor_load_on_fbs = (self.asp_plank_area_load + self.waterproofing_area_load +
+                                  self.floor_area_load).to('lbf/ft^2')
+
+        # Flooring Load on FBs over stop plates
+        self.floor_load_over_stop_plates = (self.asp_plank_area_load_2 + self.waterproofing_area_load_2 +
+                                            self.horizontal_upper_fl_pl_area_load + self.dia_stop_pl_area_load)
+
+        # Ballast
+        # Ballast Under Ties
+        self.ballast_under_ties_width = (self.ballast_plates_clear_space + 9 / 12 *
+                                         self.ballast_under_ties_t * 2 / 2).to('ft')  # //TODO - What is the 9/12?
+        self.ballast_under_ties_length = self.floor_length
+        self.ballast_volume = (self.ballast_under_ties_width * self.ballast_under_ties_t *
+                               self.ballast_under_ties_length).to('ft^3')
+        self.ballast_area_load = (
+                    self.ballast_under_ties_t * self.ballast_under_ties_width * self.ballast_unit_weight /
+                    self.ballast_plates_clear_space).to('lbf/ft^2')
+        self.ballast_area_load_2 = (self.ballast_under_ties_t * self.ballast_unit_weight).to('lbf/ft^2')
+
+        self.ballast_weight = (
+                    self.ballast_under_ties_t * self.ballast_under_ties_width * self.ballast_under_ties_length *
+                    self.ballast_unit_weight * self.ballast_under_ties_quant).to('kips')
+
+        # Tie Dead Load
+        self.tie_quantity = self.floor_length / self.tie_spacing
+        self.tie_volume = self.tie_depth * self.tie_width * self.tie_length * self.tie_quantity
+        self.tie_vol_per_ft = (self.tie_depth * self.tie_width * self.tie_length / self.tie_spacing).to('ft^3/ft')
+        self.tie_area_load = (self.tie_depth * self.tie_width * self.tie_length * self.tie_unit_weight * 1 /
+                              self.tie_spacing / self.ballast_plates_clear_space).to('lbf / ft^2')
+        self.tie_area_load_2 = (self.tie_depth * self.tie_width * self.tie_length * self.tie_unit_weight * 1 /
+                                self.tie_spacing / self.tie_length).to('lbf/ft^2')
+
+        self.tie_weight = (self.tie_depth * self.tie_width * self.tie_length *
+                           self.tie_unit_weight * self.tie_quantity).to('kips')
+
+        # Ballast at Tie Level
+        self.ballast_tie_lvl_t = self.tie_depth
+        self.ballast_tie_lvl_width = self.ballast_under_ties_width + 9 / 12 * self.ballast_tie_lvl_t
+        self.ballast_tie_level_length = self.ballast_under_ties_length
+
+        self.ballast_tie_lvl_vol = ((self.ballast_tie_lvl_t * self.ballast_tie_lvl_width -
+                                     self.tie_level_ballast_sloped_reduction) * self.ballast_tie_level_length -
+                                    self.tie_volume).to('ft^3')
+        self.ballast_tie_lvl_area_load = ((self.ballast_tie_lvl_t * self.ballast_tie_lvl_width - self.tie_vol_per_ft -
+                                           self.tie_level_ballast_sloped_reduction) * self.ballast_unit_weight /
+                                          self.ballast_plates_clear_space).to('lbf/ft^2')
+        self.ballast_tie_lvl_area_load_2 = (self.ballast_tie_lvl_t * self.ballast_unit_weight * (1 - (
+                                            self.tie_width / self.tie_spacing))).to('lbf/ft^2')
+
+        self.ballast_tie_lvl_subtotal = (self.ballast_tie_lvl_t *
+                                         self.ballast_tie_lvl_width -
+                                         self.tie_level_ballast_sloped_reduction).to('ft^2')
+
+        self.ballast_tie_level_weight = (((self.ballast_tie_lvl_t * self.ballast_tie_lvl_width -
+                                           self.tie_level_ballast_sloped_reduction) * self.ballast_tie_level_length -
+                                          self.tie_volume) * self.ballast_unit_weight *
+                                         self.tie_level_ballast_quant).to('kip')
+
+        # Rail Dead Load
+        self.rail_area_load = self.track_unit_weight / self.ballast_plates_clear_space
+
+        # (track_unit_weight / tie_length).to('lbf/ft^2')
+        # //TODO - Don't think this is calculating correctly replaced tie width w/ tie length to be closer to same value
+        self.rail_area_load_2 = 25 * units('lbf/ft^2')
+
+        self.rail_weight = (self.track_unit_weight * self.floor_length * self.rail_quantity).to('kip')
+
+        # Future ballast Allowance/Dead Load
+
+        self.future_ballast_width = self.ballast_plates_clear_space + 9 / 12 * (
+                self.ballast_under_ties_t + self.future_ballast)
+
+        self.future_ballast_vol = (self.future_ballast *
+                                   self.future_ballast_width *
+                                   self.ballast_tie_level_length).to('ft^3')
+        self.future_ballast_area_load = (
+                self.future_ballast *
+                self.future_ballast_width *
+                self.ballast_unit_weight /
+                self.ballast_plates_clear_space).to('lbf/ft^2')
+
+        self.future_ballast_area_load_2 = (self.future_ballast * self.ballast_unit_weight).to('lbf/ft^2')
+
+        self.future_ballast_weight = (self.future_ballast_vol *
+                                      self.ballast_unit_weight *
+                                      self.future_ballast_quantity).to('kip')
+
+        # Summary Calcs
+        self.track_weight_per_girder = (
+            self.ballast_weight +
+            self.tie_weight +
+            self.ballast_tie_level_weight +
+            self.rail_weight +
+            self.future_ballast_weight) / self.ballast_tie_level_length
+        self.track_area_load_on_fbs = sum(
+            [self.ballast_area_load,
+             self.tie_area_load,
+             self.ballast_tie_lvl_area_load,
+             self.rail_area_load,
+             self.future_ballast_area_load
+             ]
+        )
+
+        self.track_assembly_load_on_deck_plate = sum(
+            [self.ballast_area_load_2, self.tie_area_load_2, self.ballast_tie_lvl_area_load_2, self.rail_area_load_2,
+             self.future_ballast_area_load_2]).to('lbf/ft^2')
+
+        self.fb_bracket_vol = (
+                self.fb_bracket_flange_t *
+                self.fb_bracket_flange_web *
+                self.fb_bracket_flange_len +
+                self.fb_bracket_web_t *
+                self.fb_bracket_web_width *
+                self.fb_bracket_web_height).to('ft^3')
+
+        self.floorbeam_bracket_weight = (
+                    (self.fb_bracket_vol *
+                     self.steel_unit_weight *
+                     self.fb_bracket_quantity) * (
+                     1 + self.steel_connection_contingency)).to('kip')
+
+        self.list_of_dead_load_factors = [
+            self.floorbeam_bracket_weight,
+            self.future_ballast_weight,
+            self.rail_weight,
+            self.ballast_tie_level_weight,
+            self.tie_weight,
+            self.ballast_weight,
+            self.asp_plank_weight,
+            self.waterproofing_weight,
+            self.horizontal_upper_fl_pl_weight,
+            self.dia_stop_pl_weight,
+            self.total_floor_weight,
+            self.total_lateral_weight,
+            self.total_diaphragm_weight,
+            self.total_floorbeam_weight,
+            self.girder_self_load
+        ]
+
+        self.lifting_dead_load_factors = [
+            self.floorbeam_bracket_weight,
+            self.rail_weight,
+            self.tie_weight,
+            self.ballast_weight,  # //TODO - Shouldn't this not be included here?
+            self.asp_plank_weight,
+            self.waterproofing_weight,
+            self.horizontal_upper_fl_pl_weight,
+            self.dia_stop_pl_weight,
+            self.total_floor_weight,
+            self.total_lateral_weight,
+            self.total_diaphragm_weight,
+            self.total_floorbeam_weight,
+            self.girder_self_load
+        ]
+
+        # Calculate the Bridges Deadloads
+        self.total_dead_load = sum(self.list_of_dead_load_factors)
+        self.total_dead_load_lifting = sum(self.lifting_dead_load_factors)
+
+        self.distributed_load = self.total_dead_load / self.span_length / self.girder_quantity
+
+        # Girder Calcs and Checks
+        self.floorbeam_load_on_girder = self.total_floorbeam_weight / self.girder_quantity / self.span_length
+        self.diaphragm_load_on_girder = self.total_diaphragm_weight / self.girder_quantity / self.span_length
+
+        self.lat_bracing_load_on_girder = self.total_lateral_weight / self.girder_quantity / self.span_length
+
+        self.track_assembly = self.track_weight_per_girder
+        self.total_dl_over_total_length = sum(
+            [self.girder_weight_per_ft, self.floorbeam_load_on_girder, self.diaphragm_load_on_girder,
+             self.floor_weight_per_girder, self.lat_bracing_load_on_girder, self.track_assembly]
+        )
+
+        self.w = self.total_dl_over_total_length
+        self.L = self.span_length
+
+        self.M_dl = (self.w * self.L ** 2 / 8).to('kips*ft')
+
+        # //TODO - Values are hardcoded
+        self.span_live_load = (self.e80_55_ft - self.e80_50_ft) / (55 * units.ft - 50 * units.ft) * (
+                    self.span_length - 50 * units.ft) + self.e80_50_ft
+        self.M_ll = self.span_live_load
+
+        # Impact Load      AREMA 15.1.3.5.d
+        # //TODO - Hardcoded Values, make sure they match AREMA Formula
+        self.impact_percent = (40 - 3 * self.span_length ** 2 / (
+                    1600 * units('ft^2'))) / 100
+
+        # //TODO - Dimensionality off, /100 should adjustment probably be in the percentage calc
+        self.M_i = (self.M_ll * self.ballasted_deck_reduction * self.impact_percent)
+
+        # Rocking Effect    AREMA 15.1.3.5.d
+        self.eqiv_uniform_live_load = 8 * self.M_ll / self.span_length ** 2
+
+        self.P = self.eqiv_uniform_live_load * self.rocking_percent
+
+        self.a = (self.girder_spacing - self.railroad_gage) / 2
+
+        self.load_on_girder_rocking = self.P * (1 - 2 * self.a / self.girder_spacing)
+
+        self.M_re = self.load_on_girder_rocking * self.L ** 2 / 8
+
+        # Centrifugal Force    AREMA 15-1.3.6
+        # //TODO - Hardcoded Values, should be inputs
+        self.design_speed = 35 * units('miles/hour')
+
+        # //TODO - Hardcoded Values, should be inputs
+        self.curve_radius = 2000 * units('ft')
+
+        # //TODO - Find a better way to handle units
+        self.deg_curve = 2 * math.atan(100 / (2 * self.curve_radius.magnitude)) * units('rad')
+        self.centrifugal_percentage = (0.00117 * self.design_speed ** (2 * self.deg_curve))
+
+        # Wind Load    # AREMA 15-1.3.7
+        self.wind_load_8_ft_offset = 300 * units('lbf/ft')
+        self.P = 8 * units('ft') * self.wind_load_8_ft_offset / self.railroad_gage
+        self.a = (self.girder_spacing - self.railroad_gage) / 2
+
+        self.girder_reaction_from_wind = (self.P * (1 - 2 * self.a / self.girder_spacing)).to('kip/ft')
+
+        self.V_wind = self.girder_reaction_from_wind * self.span_length / 2
+        self.M_wind = self.girder_reaction_from_wind * self.span_length ** 2 / 8
+
+        # Case 1 = M_dl + M_ll + M_i + M_re
+        self.case_1 = sum([self.M_dl, self.M_ll, self.M_i, self.M_re])
+
+        # Case 2 = (M_dl + M_ll + M_i + M_wind) / 1.25
+        self.case_2 = sum([self.M_dl, self.M_ll, self.M_i, self.M_wind]) / 1.25
+
+        self.M_tot = max(self.case_1, self.case_2)
+
+        # Req. Section Modulus
+        self.F_b = (0.55 * self.F_y).to('kips/in^2')
+        self.S_req_moment = (self.M_tot / self.F_b).to('in^3')
+
+        # Fatigue Section Required
+        # AREMA 15 - Table 15-1-7, Table 15-1-8
+        self.M_if = self.M_i * self.impact_percent
+        self.M_f = self.M_ll + self.M_if
+
+        self.F_b_fat = 16 * units('ksi')  # AREMA 15 - Table 15-1-10
+
+        self.S_req_fat = (self.M_f / self.F_b_fat).to('in^3')
+
+        # Required Section Modulus
+        self.S_req = max(self.S_req_moment, self.S_req_fat)
+
+        # Deflection requirements for member sizing
+        # AREMA 15-1.2.5b
+        self.delta_max = (self.span_length / 640).to('inch')
+
+        self.M_ll_and_M_i = self.M_ll + self.M_i
+
+        self.w_deflection = (self.M_ll_and_M_i * 8 / self.span_length ** 2).to('kip/in')
+
+        self.I_x_req = (5 * self.w_deflection * self.span_length ** 4 / (384 * self.E_steel *
+                                                                         self.delta_max)).to('in^4')
+
+        #                # AREMA Requirements Checks
+        # Flange Compression Check
+        if (self.L_brace / self.girder_r_yy) <= 5.55 * (self.E_steel / self.F_y) ** .5:
+            print(colored('OK', 'green'))
+        else:
+            print(colored('No Good - Compression Flange Check Failed', 'red'))
+
+        # Web Thickness     AREMA 15-1.7.3
+        # Web Thickness Check 1
+        if self.girder_web_thickness >= 0.18 * (self.F_y / self.E) ** .5 * self.girder_web_height:
+            print(colored('OK', 'green'))
+        else:
+            print(colored('No Good - Web Compression Check Failed', 'red'))
+
+        # Web Thickness Check 2
+        if self.girder_web_thickness >= self.girder_flange_thickness / 6:
+            print(colored('OK', 'green'))
+        else:
+            print(colored('No Good - Web Compression Check Failed', 'red'))
+
+        # Outstanding Elements in Compression (AREMA 15-1.6.2)
+        # Flange_compression
+        if self.girder_flange_width / 2 <= 0.43 * self.girder_flange_thickness * (self.E / self.F_y) ** .5:
+            print(colored('OK', 'green'))
+        else:
+            print(colored('No Good - Compression Flange Check Failed', 'red'))
+
+        # Allowable Stress
+        # AREMA Table 15-1-12
+        self.comp_value_1 = 0.55 * self.F_y - ((0.55 * self.F_y ** 2) / (6.3 * math.pi ** 2 * self.E_steel)) * \
+            (self.L_brace / self.girder_r_yy) ** 2
+
+        self.girder_depth = self.girder_web_height + 2 * self.girder_flange_thickness
+        self.girder_flange_area = self.girder_flange_width * self.girder_flange_thickness
+
+        self.comp_value_2 = ((0.131 * math.pi * self.E_steel) / (
+                    (self.L_brace * self.girder_depth * (1 + self.poisson_ratio) ** .5) /
+                    self.girder_flange_area)).to('psi')
+
+        self.comp_value_3 = 0.55 * self.F_y
+
+        self.F_b_comp = min(self.comp_value_3, max(self.comp_value_2, self.comp_value_1))
