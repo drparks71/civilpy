@@ -44,8 +44,8 @@ pypi_publish:
   cache: {}
   image: python:latest
   only:
-    refs:
-      - master
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /^Release .*$/
   script:
     - pip install -U build twine
     - python setup.py sdist
@@ -56,8 +56,8 @@ gitlab_publish:
   cache: {}
   image: python:latest
   only:
-    refs:
-      - master
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /^Release .*$/
   script:
     - pip install build twine
     - python -m build
