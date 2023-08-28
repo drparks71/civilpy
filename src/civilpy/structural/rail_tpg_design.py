@@ -183,6 +183,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
             # Loads Global Variables (Non-bridge specific)
             global_values=GlobalDefinitions(),
 
+
     ):
         GlobalDefinitions.__init__(self, f_y=global_values.F_y, f_u=global_values.F_u,
                                    e_steel=global_values.E_steel,
@@ -228,7 +229,6 @@ class TPG(GlobalDefinitions, LoadDefinitions):
                                  axel_alternative_live_load=load_values.axel_alternative_live_load,
                                  jack_pt_offset=load_values.jack_pt_offset
                                  )
-
         # Global Input
         self.floorbeam_spacing = floorbeam_spacing
         self.floorbeam_quantity = floorbeam_quantity
@@ -319,6 +319,9 @@ class TPG(GlobalDefinitions, LoadDefinitions):
         else:
             pass
 
+        self.run_calcs()
+
+    def run_calcs(self):
         self.L_brace = 4 * self.floorbeam_spacing
         # AREMA 15- 1.7.7.a
         self.bearing_stiffener_width_bsb = ((self.girder_flange_width - self.girder_web_thickness) / 2)
@@ -809,9 +812,9 @@ class TPG(GlobalDefinitions, LoadDefinitions):
             print(colored('No Good - Girder Bending Fatigue Check Failed', 'red'))
 
         # Deflection AREMA 15-1.2.5
-        self.w = ((self.M_ll + self.M_i) / (span_length ** 2) * 8)
+        self.w = ((self.M_ll + self.M_i) / (self.span_length ** 2) * 8)
 
-        self.delta_total = ((5 * self.w * (span_length ** 4)) / (384 * self.E_steel * self.girder_I_xx)).to('in')
+        self.delta_total = ((5 * self.w * (self.span_length ** 4)) / (384 * self.E_steel * self.girder_I_xx)).to('in')
 
         # Deflection # //TODO - Not sure the ratio matters as much for this one
         if self.delta_total <= self.delta_max:
