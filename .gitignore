@@ -148,3 +148,4 @@ django/
 /src/civilpy/kivy/demo_apps/ToDo/.buildozer/
 /src/civilpy/kivy/demo_apps/ToDo/bin/
 /src/civilpy/kivy/demo_apps/ToDo/todo.db
+/Training/user_secrets.py

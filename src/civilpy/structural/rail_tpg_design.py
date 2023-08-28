@@ -997,3 +997,513 @@ class TPG(GlobalDefinitions, LoadDefinitions):
             print(colored('Case 3 Controls', 'green'))
             self.bearing_stiff_F_a = self.case_3_all_stress
             print(f"Bearing stiffener stress: {self.bearing_stiff_F_a}")
+
+        self.bearing_stress_act = (self.V_tot / self.bearing_stiff_area).to('psi')
+
+        # Longitudinal Stiffeners
+        if self.bearing_stress_act <= self.bearing_stiff_F_a:
+            print(colored(f'OK, Stress Ratio: {self.bearing_stress_act / self.bearing_stiff_F_a}', 'green'))
+        else:
+            print(colored('No Good - End Bearing Compression Check', 'red'))
+
+        # Bearing Stiff Weld      AREMA 15-1.7.7.a
+        self.fillet_weld_area = 4 * 0.707 * self.bearing_stiffener_fillet_weld_leg * (
+                    self.girder_web_height - 2 * self.bearing_stiffener_corner_clip)
+
+        self.weld_stress_act = (self.V_tot / self.fillet_weld_area).to('psi')
+
+        self.allowable_weld_stress = min(19000 * units('psi'), 0.35 * self.F_y)  # AREMA Table 15-1-14
+
+        # Bearing Stiff Weld Check
+        if self.weld_stress_act <= self.allowable_weld_stress:
+            print(colored(f'OK, Stress Ratio: {self.weld_stress_act / self.allowable_weld_stress}', 'green'))
+        else:
+            print(colored('No Good - Bearing Stiff Weld Check', 'red'))
+
+        # Bearing Stiff bearing area
+        self.stiff_bearing_area = 2 * self.bearing_stiffener_thickness_tsb * (
+                    self.bearing_stiffener_width_bsb - 2 * self.bearing_stiffener_corner_clip)
+
+        self.bearing_area_stress_act = (self.V_tot / self.stiff_bearing_area).to('psi')
+        self.bearing_area_stress_all = (.83 * self.F_y).to('psi')
+
+        # Bearing area allowable stress
+        if self.bearing_area_stress_act <= self.bearing_area_stress_all:
+            print(colored(f'OK, Stress Ratio: {self.bearing_area_stress_act / self.bearing_area_stress_all}', 'green'))
+        else:
+            print(colored('No Good - Bearing Stiff Weld Check', 'red'))
+
+        # Diaphragms
+        self.diaphragm.weight = 61 * units('lbf/ft')  # //TODO - Doesn't match section: W16x89
+        self.diaphragm_quantity = 1  # //TODO - Why is this only 1 in excel?
+
+        self.diaphragm_length = self.floorbeam_spacing
+
+        self.lateral_bracing_length = 8.20 * units('ft')  # //TODO - why is this redefined and lower
+
+        self.diaphragm_P = self.diaphragm.weight * self.diaphragm_quantity * self.diaphragm_length
+        self.bracing_P = self.lateral_bracing.weight * self.bracing_quant * self.lateral_bracing_length
+
+        self.floorbeam_dl_V = (self.floorbeam.weight * self.girder_spacing) / 2
+        self.floorbeam_dl_M = self.floorbeam.weight * self.girder_spacing ** 2 / 8
+
+        self.diaphragm_dl_V = self.diaphragm_P / 2
+        self.diaphragm_dl_M = self.diaphragm_P * self.girder_spacing / 4
+
+        self.lateral_bracing_V = self.bracing_P / 2
+        self.lateral_bracing_M = self.bracing_P * self.girder_spacing / 4
+
+        # Floor assembly between stop plates
+        self.floor_assembly_V = self.ballast_plates_clear_space * self.floor_load_on_fbs * self.floorbeam_spacing / 2
+        self.floor_assembly_M = (self.floor_load_on_fbs * self.floorbeam_spacing * self.ballast_plates_clear_space) / \
+                                4 * (self.girder_spacing - self.ballast_plates_clear_space / 2)
+
+        # Floor assembly over stop plates
+        self.fb_applied_width = (self.girder_spacing - self.ballast_plates_clear_space) / 2
+
+        self.floor_over_stop_pl_V = self.floor_load_over_stop_plates * self.fb_applied_width * self.floorbeam_spacing
+        self.floor_over_stop_pl_M = self.floor_load_over_stop_plates * self.fb_applied_width ** 2 / 2 * \
+                                    self.floorbeam_spacing
+
+        # Track assembly weight
+        self.track_area_load_V = self.track_area_load_on_fbs * self.ballast_plates_clear_space / 2 * \
+            self.floorbeam_spacing
+        self.track_area_load_M = self.track_area_load_on_fbs * self.ballast_plates_clear_space / 4 * (
+                    self.girder_spacing - self.ballast_plates_clear_space / 2) * self.floorbeam_spacing
+
+        self.total_fb_dl_shear = sum([
+            self.floorbeam_dl_V,
+            self.diaphragm_dl_V,
+            self.lateral_bracing_V,
+            self.floor_assembly_V,
+            self.floor_over_stop_pl_V,
+            self.track_area_load_V
+        ])
+
+        self.total_fb_dl_moment = sum([
+            self.floorbeam_dl_M,
+            self.diaphragm_dl_M,
+            self.lateral_bracing_M,
+            self.floor_assembly_M,
+            self.floor_over_stop_pl_M,
+            self.track_area_load_M
+        ])
+
+        # Live Load
+        # AREMA 15-1.3.4.2.3 Alternative live load axel
+        self.fb_P_ll = 1.15 * self.fb_a * self.floorbeam_spacing / self.fb_s
+        self.fb_P_2_ll = self.fb_P_ll / 2
+
+        self.fb_V_ll = self.fb_P_2_ll
+        self.fb_M_ll = self.fb_P_ll * self.fb_a / 2
+
+        # Impact Live Load
+        self.fb_impact_ll_percent = (40 - 3 * self.girder_spacing.magnitude ** 2 / 1600) / 100
+
+        self.fb_P_imp_ll = self.fb_impact_ll_percent * self.fb_P_2_ll * self.ballasted_deck_reduction
+
+        self.fb_M_imp = self.fb_P_imp_ll * self.fb_a
+
+        # Rocking Load  AREMA 1.3.5.d
+        self.R1_rocking = self.fb_P_2_ll * self.rocking_percent * (1 - 2 * self.a / self.girder_spacing)
+
+        self.fb_M_re = self.R1_rocking * self.a
+
+        # Wind Force on Loaded Bridge
+        self.wind_load = 300 * units('lbf/ft')
+        self.fb_pws = self.wind_load * self.wind_load_h * self.floorbeam_spacing / self.railroad_gage
+
+        self.fb_wind_R1 = self.fb_pws * (1 - 2 * self.a / self.girder_spacing)
+
+        self.M_wl = self.fb_wind_R1 * self.fb_a
+
+        # Required Section Properties  # AREMA Table 15-1-11
+        self.fb_M_tot_1 = sum([self.total_fb_dl_moment, self.fb_M_ll, self.fb_M_imp, self.M_re])
+        self.fb_M_tot_2 = sum([self.total_fb_dl_moment, self.fb_M_ll, self.fb_M_imp, self.M_re, self.M_wl]) / 1.25
+        self.fb_M_tot = max(self.fb_M_tot_1, self.fb_M_tot_2)
+
+        self.fb_S_x_req = (self.fb_M_tot / (0.55 * self.F_y)).to('in^3')
+
+        # Holes - Assume 4 x 1" holes in web for diaphragm
+        self.D1 = 3 * units('in')  # //TODO - is this a constant?
+        self.D2 = 3 * units('in') + self.D1
+
+        self.I_holes_web = (self.diaphragm_num_holes / 2 * (self.diaphragm_dia_hole * self.floorbeam.web_thickness) *
+                            self.D1 ** 2) + (self.diaphragm_num_holes / 2 * (self.diaphragm_dia_hole *
+                                self.floorbeam.web_thickness) * self.D2 ** 2)
+
+        self.I_holes_flange = self.lateral_num_holes * self.lateral_dia_holes * self.floorbeam.flange_thickness * (
+                    self.floorbeam.depth / 2 - self.floorbeam.flange_thickness / 2) ** 2
+
+        self.I_net = self.floorbeam.I_x - self.I_holes_web - self.I_holes_flange
+
+        self.S_x_net = self.I_net / (self.floorbeam.depth / 2)
+
+        # Allowable Stress (AREMA Table 15-1-12)
+        self.Fb_ten = 0.55 * self.F_y
+
+        # Compression in extreme fiber
+        self.Fb_comp_1 = 0.55 * self.F_y - (0.55 * self.F_y ** 2 / (6.3 * math.pi ** 2 * self.E_steel)) * (
+                    self.max_diaphragm_spacing / self.floorbeam.r_y) ** 2
+        self.Fb_comp_2 = (0.131 * math.pi * self.E_steel / (
+                    self.max_diaphragm_spacing * self.floorbeam.depth * (1 + self.poisson_ratio) ** .5 / (
+                        self.floorbeam.flange_thickness * self.floorbeam.flange_width))).to('psi')
+        self.Fb_comp_3 = 0.55 * self.F_y
+
+        self.F_b_comp = (min(self.Fb_comp_3, max(self.Fb_comp_1, self.Fb_comp_2))).to('ksi')
+
+        self.f_b_act = (self.fb_M_tot / self.S_x_net).to('ksi')
+
+        # Bearing area allowable stress
+        if self.f_b_act < self.F_b_comp:
+            print(colored(f'OK, Stress Ratio: {self.f_b_act / self.F_b_comp}', 'green'))
+        else:
+            print(colored('No Good - Floor Beam Allowable Stress Check', 'red'))
+
+        # End Shear
+        self.R_dl = self.total_fb_dl_shear
+        self.R_ll = self.fb_P_ll
+        self.R_imp = self.fb_P_imp_ll * 2
+        self.R_re = self.R1_rocking
+        self.R_wl = self.fb_wind_R1
+
+        self.R_tot = sum([self.R_dl, self.R_ll, self.R_imp, self.R_re, self.R_wl])
+
+        # Assume 6x1" dia holes in web to connect to girder
+        self.fs_net = (self.R_tot / ((self.floorbeam.depth - self.web_conn_girder_holes_num *
+                                      self.web_conn_girder_holes_dia) * self.floorbeam.web_thickness)).to('ksi')
+
+        self.F_v = (0.35 * self.F_y).to('ksi')
+
+        # Bearing area allowable stress
+        if self.fs_net < self.F_v:
+            print(colored(f'OK, Stress Ratio: {self.fs_net / self.F_v}', 'green'))
+        else:
+            print(colored('No Good - Floor Beam End Shear Check', 'red'))
+
+        # Bolted Connection - Checked in sep. calc, they account for combined effect so no 1.25 increase
+        # AREMA 15 1.5.9.a.1 # //TODO - Investigate this standard
+
+        # Floor beam fatigue
+        self.fb_fat_imp_M = self.assumed_mean_impact_perc * self.fb_M_imp
+        self.fb_M_fat = self.fb_M_ll + self.fb_fat_imp_M
+
+        self.fb_live_load_stress_range = (self.fb_M_fat / self.S_x_net).to('ksi')
+
+        # N >= 2,000,000 Category B Table 15-1-10 Detail 2.2
+        self.fb_fsr = 16 * units('ksi')
+
+        # Bearing area allowable stress
+        if self.fb_live_load_stress_range < self.fb_fsr:
+            print(colored(f'OK, Stress Ratio: {self.fb_live_load_stress_range / self.fb_fsr}', 'green'))
+        else:
+            print(colored('No Good - Floor Beam Fatigue Check', 'red'))
+
+        # Deflection
+        self.fb_defl_M = self.fb_M_ll + self.fb_M_imp + self.fb_M_re
+
+        self.fb_w = 8 * self.fb_defl_M / (self.girder_spacing ** 2)
+
+        self.fb_deflection = ((5 * self.fb_w * self.girder_spacing ** 4) / (384 * self.E_steel *
+                                                                            self.floorbeam.I_x)).to('in')
+        self.max_deflection = (self.girder_spacing / 640).to('in')
+
+        # Deflection Check
+        if self.fb_deflection <= self.max_deflection:
+            print(colored(f'OK, Stress Ratio: {self.fb_deflection / self.max_deflection}', 'green'))
+        else:
+            print(colored('No Good - Floor Beam Fatigue Check', 'red'))
+
+        # Key Dimensions
+        self.track_distribution_width = self.tie_design_width + self.min_ballast_below_tie  # AREMA 1.3.4.2.2.b
+        self.track_dist_length = 3 * units('ft') + self.min_ballast_below_tie  # AREMA 1.3.4.2.2.a
+
+        # Dead Loads
+        self.flooring_load = self.floor_load_on_fbs
+        self.track_load = self.track_assembly_load_on_deck_plate
+
+        # Live Load
+        self.longitudinal_dist = self.track_dist_length
+        self.lateral_dist = self.track_distribution_width
+
+        self.dist_axel_load = self.axel_load / (self.longitudinal_dist * self.lateral_dist)
+
+        # Impact Load # AREMA 15.1.3.5
+        self.L = self.floorbeam_spacing
+        self.deck_pl_impact_L = (40 - (3 * self.L ** 2 / (1600 * units('ft^2')))) * .9
+
+        self.impact_load = (self.dist_axel_load * self.deck_pl_impact_L / 100).to('lbf/ft^2')
+
+        # Rocking Effect
+        self.rocking_effect = self.rocking_percent * self.dist_axel_load / 2
+
+        self.deck_pl_dead_load = self.flooring_load + self.track_load
+        self.deck_pl_live_load_impact_re = self.dist_axel_load + self.impact_load + self.rocking_effect
+
+        self.total_dist_load = self.deck_pl_dead_load + self.deck_pl_live_load_impact_re
+
+        # Compute Forces and Stresses over a 1' unit width
+        self.flange_width = min(self.end_floorbeam.flange_width, self.floorbeam.flange_width)
+
+        self.flange_width.to('ft')
+
+        self.M1_w = (1 / 12 * ((3 * self.floorbeam_spacing * self.flange_width / 2) - (self.floorbeam_spacing ** 2) - (
+                    3 * self.flange_width ** 2 / 8))).to('ft^2')
+        self.M2_w = self.floorbeam_spacing ** 2 / 24
+
+        self.gov_M_w = max(abs(self.M1_w), abs(self.M2_w))
+
+        self.deck_pl_dl_M = self.gov_M_w * self.deck_pl_dead_load
+        self.deck_pl_ll_M = self.gov_M_w * self.deck_pl_live_load_impact_re
+        self.deck_pl_tot_M = self.deck_pl_dl_M + self.deck_pl_ll_M
+
+        self.deck_pl_S_x = self.deck_plate_width * self.deck_plate_thickness ** 2 / 6
+
+        # //TODO - Check Units on this one
+        self.deck_pl_F_b = (self.deck_pl_tot_M * (12 * units('in')) / self.deck_pl_S_x).to('psi')
+
+        self.deck_pl_F_b_allow = (0.55 * self.F_y)
+
+        # Stress Check
+        if self.deck_pl_F_b <= self.deck_pl_F_b_allow:
+            print(colored(f'OK, Stress Ratio: {self.deck_pl_F_b / self.deck_pl_F_b_allow}', 'green'))
+        else:
+            print(colored('No Good - Floor Plate Allowable Stress Check', 'red'))
+
+        # Floor Plate Deflection
+        self.deck_plate_I_x = self.deck_plate_width * self.deck_plate_thickness ** 3 / 12
+        self.deck_plate_span_L = self.floorbeam_spacing
+
+        self.deck_pl_live_load_deflection = (self.deck_pl_live_load_impact_re * units('in') *
+                                        self.floorbeam_spacing ** 4) / (384 * self.E_steel * self.deck_plate_I_x)
+        self.deck_pl_allow_deflection = (self.floorbeam_spacing / 640).to('in').to('in')
+
+        self.deck_pl_live_load_deflection = self.deck_pl_live_load_deflection.to('in')
+
+        # Deflection Check
+        if self.deck_pl_live_load_deflection <= self.deck_pl_allow_deflection:
+            print(colored(f'OK, Stress Ratio: {self.deck_pl_live_load_deflection / self.deck_pl_allow_deflection}',
+                          'green'))
+        else:
+            print(colored('No Good - Floor Plate Deflection Check', 'red'))
+
+        # Floor Beams
+        # end_bearing_stiff_width = (end_floorbeam.flange_width - end_floorbeam.web_thickness) / 2 * 4 / 4
+        self.end_bearing_stiff_width = 5.75 * units('in')
+
+        # Geometrics
+        self.end_fb_spacing = 2.6 * units('ft')  # //TODO - References VOID fb - non-bracing sheet
+        self.flooring_on_girder = self.end_fb_spacing / 2 + (self.floor_length - self.span_length) / 2
+        # railroad_gage  # //TODO - Defined twice in excel
+
+        # Dead Load
+        # Diaphragms
+        self.diaphragm.weight = 61 * units('lbf/ft')  # //TODO - Doesn't match section: W16x89
+        self.diaphragm_quantity = 1  # //TODO - Why is this only 1 in excel?
+
+        self.diaphragm_length = self.floorbeam_spacing / 2
+
+        self.lateral_bracing_length = 8.20 * units('ft')  # //TODO - why is this redefined and lower
+
+        self.diaphragm_P = self.diaphragm.weight * self.diaphragm_quantity * self.diaphragm_length
+
+        self.end_floorbeam_dl_V = (self.end_floorbeam.weight * self.girder_spacing) / 2
+        self.end_floorbeam_dl_M = self.end_floorbeam.weight * self.girder_spacing ** 2 / 8
+
+        self.end_diaphragm_dl_V = self.diaphragm_P / 2
+        self.end_diaphragm_dl_M = self.diaphragm_P * self.end_bearing_stiff_width / 4  # //TODO - Verify End stiff width
+
+        # //TODO - Verify no bracing on end floorbeams
+        # bracing_P = lateral_bracing.weight * bracing_quant * lateral_bracing_length
+        # end_lateral_bracing_V = bracing_P / 2
+        # end_lateral_bracing_M = bracing_P * girder_spacing / 4
+
+        # Floor assembly between stop plates
+        self.end_floor_assembly_V = self.ballast_plates_clear_space * self.floor_load_on_fbs * \
+                                    self.flooring_on_girder / 2
+        # //TODO - Verify Flooring on girder, not fb spacing
+
+        self.end_floor_assembly_M = (self.floor_load_on_fbs * self.flooring_on_girder *
+                                     self.ballast_plates_clear_space) / 4 * (self.girder_spacing -
+                                                                             self.ballast_plates_clear_space / 2)
+
+        # Floor assembly over stop plates
+        self.end_fb_applied_width = (self.girder_spacing - self.ballast_plates_clear_space) / 2
+
+        self.end_floor_over_stop_pl_V = self.floor_load_over_stop_plates * self.end_fb_applied_width * \
+                                        self.flooring_on_girder
+        self.end_floor_over_stop_pl_M = self.floor_load_over_stop_plates * self.end_fb_applied_width ** 2 / 2 * \
+                                        self.flooring_on_girder
+
+        # Track assembly weight
+        self.end_track_area_load_V = self.track_area_load_on_fbs * self.ballast_plates_clear_space / 2 * \
+                                     self.flooring_on_girder
+        self.end_track_area_load_M = self.track_area_load_on_fbs * self.ballast_plates_clear_space / 4 * (
+                    self.girder_spacing - self.ballast_plates_clear_space / 2) * self.flooring_on_girder
+
+        self.total_end_fb_dl_shear = sum([
+            self.end_floorbeam_dl_V,
+            self.end_diaphragm_dl_V,
+            self.end_floor_assembly_V,
+            self.end_floor_over_stop_pl_V,
+            self.end_track_area_load_V
+        ])
+
+        self.total_end_fb_dl_moment = sum([
+            self.end_floorbeam_dl_M,
+            self.end_diaphragm_dl_M,
+            self.end_floor_assembly_M,
+            self.end_floor_over_stop_pl_M,
+            self.end_track_area_load_M
+        ])
+
+        # Live Load
+        # AREMA 15-1.3.4.2.3 Alternative live load axel
+        self.end_fb_P_ll = 1.15 * self.fb_a * self.floorbeam_spacing / self.fb_s
+        self.end_fb_P_2_ll = self.fb_P_ll / 2
+
+        self.end_fb_A = self.fb_a
+        self.end_fb_D = self.floorbeam_spacing
+        self.end_fb_S = self.fb_s
+        self.end_fb_a = self.fb_a
+
+        self.end_fb_M_ll = self.end_fb_P_ll * self.end_fb_a / 2
+
+        # Impact Live Load
+        self.end_fb_impact_ll_percent = (40 - 3 * self.girder_spacing.magnitude ** 2 / 1600) / 100
+
+        self.end_fb_P_imp_ll = self.end_fb_impact_ll_percent * self.end_fb_P_2_ll * self.ballasted_deck_reduction
+
+        self.end_fb_M_imp = self.fb_P_imp_ll * self.fb_a
+
+        # Rocking Load  AREMA 1.3.5.d
+        self.end_R1_rocking = self.end_fb_P_2_ll * self.rocking_percent * (1 - 2 * self.a / self.girder_spacing)
+
+        self.end_fb_M_re = self.R1_rocking * self.a
+
+        # Wind Force on Loaded Bridge
+        self.wind_load = 300 * units('lbf/ft')
+        self.end_fb_pws = self.wind_load * self.wind_load_h * self.floorbeam_spacing / self.railroad_gage
+
+        self.end_fb_wind_R1 = self.end_fb_pws * (1 - 2 * self.a / self.girder_spacing)
+
+        self.end_fb_M_wl = self.end_fb_wind_R1 * self.fb_a
+
+        # Required Section Properties and gov moment  # AREMA Table 15-1-11
+        self.end_fb_M_tot_1 = sum([self.total_end_fb_dl_moment, self.end_fb_M_ll, self.end_fb_M_imp, self.end_fb_M_re])
+        self.end_fb_M_tot_2 = sum([self.total_end_fb_dl_moment, self.end_fb_M_ll, self.end_fb_M_imp, self.end_fb_M_re,
+                                   self.end_fb_M_wl]) / 1.25
+        self.end_fb_M_tot = max(self.end_fb_M_tot_1, self.fb_M_tot_2)
+
+        # Governing shear # //TODO - Ensure this isn't need in other calc
+        self.end_fb_V_tot_1 = sum([self.total_end_fb_dl_shear, self.end_fb_P_2_ll, self.end_fb_P_imp_ll,
+                                   self.end_R1_rocking])
+        self.end_fb_V_tot_2 = sum(
+            [self.total_end_fb_dl_shear, self.end_fb_P_2_ll, self.end_fb_P_imp_ll, self.end_R1_rocking,
+             self.end_fb_wind_R1]) / 1.25
+        self.end_fb_V_tot = max(self.end_fb_V_tot_1, self.end_fb_V_tot_2)
+
+        self.dead_load_per_jack = self.total_dead_load / 4
+
+        # Shear and moment doubled to meet requirements of 11-1.8.1
+        self.jacking_V_tot = self.dead_load_per_jack * 2
+        self.jacking_M_tot = 2 * self.dead_load_per_jack * self.jack_pt_offset
+
+        # Required Section Properties
+        self.end_fb_gov_M = max(self.jacking_M_tot, self.end_fb_M_tot)
+        self.end_fb_gov_V = max(self.jacking_V_tot, self.end_fb_V_tot)
+
+        self.end_fb_S_x_req = (self.end_fb_gov_M / (0.55 * self.F_y)).to('in^3')
+
+        # Holes - Assume 4 x 1" holes in web for diaphragm
+        self.D1 = 3 * units('in')  # //TODO - is this a constant?
+        self.D2 = 3 * units('in') + self.D1
+
+        self.I_holes_web = (self.diaphragm_num_holes / 2 * (self.diaphragm_dia_hole * self.end_floorbeam.web_thickness)
+                            * self.D1 ** 2) + (self.diaphragm_num_holes / 2 * (self.diaphragm_dia_hole *
+                                                                                 self.end_floorbeam.web_thickness) *
+                                                 self.D2 ** 2)
+
+        self.I_holes_flange = self.lateral_num_holes * self.lateral_dia_holes * self.floorbeam.flange_thickness * (
+                    self.floorbeam.depth / 2 - self.floorbeam.flange_thickness / 2) ** 2
+
+        self.I_net = self.floorbeam.I_x - self.I_holes_web - self.I_holes_flange
+
+        self.S_x_net = self.I_net / (self.floorbeam.depth / 2)
+
+        # Allowable Stress (AREMA Table 15-1-12)
+        self.Fb_ten = 0.55 * self.F_y
+
+        # Compression in extreme fiber
+        self.Fb_comp_1 = 0.55 * self.F_y - (0.55 * self.F_y ** 2 / (6.3 * math.pi ** 2 * self.E_steel)) * (
+                    self.max_diaphragm_spacing / self.floorbeam.r_y) ** 2
+        self.Fb_comp_2 = (0.131 * math.pi * self.E_steel / (
+                    self.max_diaphragm_spacing * self.floorbeam.depth * (1 + self.poisson_ratio) ** .5 / (
+                        self.floorbeam.flange_thickness * self.floorbeam.flange_width))).to('psi')
+        self.Fb_comp_3 = 0.55 * self.F_y
+
+        self.F_b_comp = (min(self.Fb_comp_3, max(self.Fb_comp_1, self.Fb_comp_2))).to('ksi')
+
+        self.f_b_act = (self.fb_M_tot / self.S_x_net).to('ksi')
+
+        # Bearing area allowable stress
+        if self.f_b_act < self.F_b_comp:
+            print(colored(f'OK, Stress Ratio: {self.f_b_act / self.F_b_comp}', 'green'))
+        else:
+            print(colored('No Good - Floor Beam Allowable Stress Check', 'red'))
+
+        # End Shear
+        self.R_dl = self.total_fb_dl_shear
+        self.R_ll = self.fb_P_ll
+        self.R_imp = self.fb_P_imp_ll * 2
+        self.R_re = self.R1_rocking
+        self.R_wl = self.fb_wind_R1
+
+        self.R_tot = sum([self.R_dl, self.R_ll, self.R_imp, self.R_re, self.R_wl])
+
+        # Assume 6x1" dia holes in web to connect to girder
+        self.fs_net = (self.R_tot / ((
+                self.floorbeam.depth - self.web_conn_girder_holes_num * self.web_conn_girder_holes_dia) *
+                                     self.floorbeam.web_thickness)).to(
+            'ksi')
+
+        self.F_v = (0.35 * self.F_y).to('ksi')
+
+        # Bearing area allowable stress
+        if self.fs_net < self.F_v:
+            print(colored(f'OK, Stress Ratio: {self.fs_net / self.F_v}', 'green'))
+        else:
+            print(colored('No Good - Floor Beam End Shear Check', 'red'))
+
+        # Bolted Connection - Checked in sep. calc, they account for combined effect so no 1.25 increase
+        # AREMA 15 1.5.9.a.1 # //TODO - Investigate this standard
+
+        # Floor beam fatigue
+        self.fb_fat_imp_M = self.assumed_mean_impact_perc * self.fb_M_imp
+        self.fb_M_fat = self.fb_M_ll + self.fb_fat_imp_M
+
+        self.fb_live_load_stress_range = (self.fb_M_fat / self.S_x_net).to('ksi')
+
+        # N >= 2,000,000 Category B Table 15-1-10 Detail 2.2
+        self.fb_fsr = 16 * units('ksi')
+
+        # Bearing area allowable stress
+        if self.fb_live_load_stress_range < self.fb_fsr:
+            print(colored(f'OK, Stress Ratio: {self.fb_live_load_stress_range / self.fb_fsr}', 'green'))
+        else:
+            print(colored('No Good - Floor Beam Fatigue Check', 'red'))
+
+        # Deflection
+        self.fb_defl_M = self.fb_M_ll + self.fb_M_imp + self.fb_M_re
+
+        self.fb_w = 8 * self.fb_defl_M / (self.girder_spacing ** 2)
+
+        self.fb_deflection = ((5 * self.fb_w * self.girder_spacing ** 4) / (384 * self.E_steel *
+                                                                            self.floorbeam.I_x)).to('in')
+        self.max_deflection = (self.girder_spacing / 640).to('in')
+
+        # Deflection Check
+        if self.fb_deflection <= self.max_deflection:
+            print(colored(f'OK, Stress Ratio: {self.fb_deflection / self.max_deflection}', 'green'))
+        else:
+            print(colored('No Good - Floor Beam Fatigue Check', 'red'))
