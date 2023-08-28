@@ -45,7 +45,7 @@ pypi_publish:
   image: python:latest
   only:
     variables:
-      - $CI_COMMIT_MESSAGE =~ /^Release .*$/
+      - $CI_COMMIT_MESSAGE =~ /Release .*/
   script:
     - pip install -U build twine
     - python setup.py sdist
@@ -57,7 +57,7 @@ gitlab_publish:
   image: python:latest
   only:
     variables:
-      - $CI_COMMIT_MESSAGE =~ /^Release .*$/
+      - $CI_COMMIT_MESSAGE =~ /Release .*/
   script:
     - pip install build twine
     - python -m build
