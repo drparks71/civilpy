@@ -765,6 +765,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Allowable Stress
         # AREMA Table 15-1-12
+        self.F_b_ten = 0.55 * self.F_y
         self.comp_value_1 = 0.55 * self.F_y - ((0.55 * self.F_y ** 2) / (6.3 * math.pi ** 2 * self.E_steel)) * \
             (self.L_brace / self.girder_r_yy) ** 2
 
@@ -778,3 +779,221 @@ class TPG(GlobalDefinitions, LoadDefinitions):
         self.comp_value_3 = 0.55 * self.F_y
 
         self.F_b_comp = min(self.comp_value_3, max(self.comp_value_2, self.comp_value_1))
+
+        # Stress in Extreme fibers of Girder
+        self.F_b_comp_act = (self.M_tot / self.girder_S_xx).to('lbf/in^2')
+
+        # Bending Check
+        if self.F_b_comp_act <= self.F_b_comp:
+            print(colored(f'OK, Stress Ratio: {self.F_b_comp_act / self.F_b_comp}', 'green'))
+        else:
+            print(colored('No Good - Girder Bending Check Failed', 'red'))
+
+        self.F_b_ten_act = (self.M_tot / self.girder_S_xx).to('psi')
+
+        # Bending Check
+        if self.F_b_ten_act <= self.F_b_ten:
+            print(colored(f'OK, Stress Ratio: {self.F_b_ten_act / self.F_b_ten}', 'green'))
+        else:
+            print(colored('No Good - Girder Bending Check Failed', 'red'))
+
+        # Fatigue (AREMA 15-1.3.13)
+        self.S_r_fat_actual = (self.M_f / self.girder_S_xx).to('psi')
+
+        self.S_r_fat = self.F_b_fat.to('psi')
+
+        # Bending Fatigue
+        if self.S_r_fat_actual <= self.S_r_fat:
+            print(colored(f'OK, Stress Ratio: {self.S_r_fat_actual / self.S_r_fat}', 'green'))
+        else:
+            print(colored('No Good - Girder Bending Fatigue Check Failed', 'red'))
+
+        # Deflection AREMA 15-1.2.5
+        self.w = ((self.M_ll + self.M_i) / (span_length ** 2) * 8)
+
+        self.delta_total = ((5 * self.w * (span_length ** 4)) / (384 * self.E_steel * self.girder_I_xx)).to('in')
+
+        # Deflection # //TODO - Not sure the ratio matters as much for this one
+        if self.delta_total <= self.delta_max:
+            print(colored(f'OK, Ratio: {self.delta_total / self.delta_max}', 'green'))
+        else:
+            print(colored('No Good - Deflection Check Failed', 'red'))
+
+        # Dead Load Camber
+        self.w_dl = self.total_dl_over_total_length.to('kip/in')
+        self.delta_dl = (self.delta_total * self.w_dl / self.w).to('in')
+
+        # Web Shear
+        self.V_dl = (self.w_dl * self.span_length / 2).to('kip')
+
+        # Shear from AREMA 15 Table 1-16
+        self.shear_50_ft = 174.4 * units('kips')
+        self.shear_55_ft = 185.31 * units('kips')
+        self.V_ll = (self.shear_55_ft - self.shear_50_ft) / (55 * units('ft') - 50 * units('ft')) * (
+                    self.span_length - 50 * units('ft')) + self.shear_50_ft
+
+        self.V_imp = 0.9 * self.V_ll * self.impact_percent  # AREMA 15-1.3.5.b
+
+        self.R1_rocking_force = self.load_on_girder_rocking
+        self.V_re = self.R1_rocking_force * self.L / 2
+
+        self.V_tot = self.V_dl + self.V_ll + self.V_re + self.V_imp
+
+        self.F_r = self.V_tot / (self.girder_web_height * self.girder_web_thickness)
+
+        self.F_v = (0.35 * self.F_y).to('kips/in^2')
+
+        # Web Shear AREMA Table 15-1-12 check #
+        # // TODO - This Check isn't comparing like units in the excel sheet?, think it should be as follows,
+        if self.F_r <= self.F_v:
+            print(colored(f'OK, Stress Ratio: {self.F_r / self.F_v}', 'green'))
+        else:
+            print(colored('No Good - Web Shear Check Failed', 'red'))
+
+        # Allowable Stress on welds
+        self.Q = self.girder_flange_width * self.girder_flange_thickness * (self.girder_web_height / 2 +
+                                                                            self.girder_flange_thickness / 2)
+        self.F_r = self.V_tot * self.Q / (self.girder_I_xx * self.girder_web_thickness)
+
+        # Weld Strength
+        if self.F_r <= self.F_v:
+            print(colored(f'OK, Stress Ratio: {self.F_r / self.F_v}', 'green'))
+        else:
+            print(colored('No Good - Weld Strength Check Failed', 'red'))
+
+        # Web plate stiffeners
+        # AREMA 15-1.7.8.a
+        self.trans_stiff_check = (2.12 * (self.E_steel / self.F_y) ** .5 * self.girder_web_thickness)
+
+        # Transverse stiffener check
+        if self.trans_stiff_check <= self.girder_web_height:
+            print(colored('Transverse Stiffeners Required', 'red'))
+        else:
+            print(colored('Transverse Stiffeners NOT Required', 'green'))
+
+        # //TODO - Look into this value, it's not used
+        self.clear_dist_to_prev_web_shear_buck = 1.95 * (self.E_steel * self.girder_S_xx) ** .5
+
+        self.Q = self.girder_flange_width * self.girder_flange_thickness * (
+                    self.girder_web_height + self.girder_flange_thickness) / 2 + self.girder_web_height * \
+            self.girder_web_thickness / 2 * self.girder_web_height / 4
+
+        self.S = self.f_v = self.V_tot * self.Q / (self.girder_I_xx * self.girder_web_thickness)
+
+        self.d = 1.95 * self.girder_web_thickness * (self.E_steel / self.S) ** .5
+
+        self.max_clear_dist = min([self.d, self.trans_stiff_da, self.girder_web_height])
+
+        # Weld Strength
+        if self.trans_stiff_actual_da <= self.max_clear_dist or self.girder_web_height <= self.trans_stiff_check:
+            print(colored('OK', 'green'))
+        else:
+            print(colored('No Good - Stiffener Spacing Check Failed', 'red'))
+
+        self.D_d = max(1, min(5, self.girder_web_height / self.d))
+
+        # Required Moment of inertia (Stiffener) AREMA 15-1.7.8.a
+        self.stiff_I_xx_req = 2.5 * self.trans_stiff_actual_da * self.girder_web_thickness ** 3 * (self.D_d ** 2 - 0.7)
+
+        self.stiff_I_xx_act = self.stiffener_thickness_tst * self.stiffener_width_bst ** 3 / 12 + \
+            self.stiffener_thickness_tst * self.stiffener_width_bst * (
+                    self.girder_web_thickness / 2 + self.stiffener_width_bst / 2) ** 2
+
+        # Stiffener I_xx Check
+        if self.stiff_I_xx_act >= self.stiff_I_xx_req or self.girder_web_height <= self.trans_stiff_check:
+            print(colored('OK', 'green'))
+        else:
+            print(colored('No Good - Stiffener Spacing Check Failed', 'red'))
+
+        # Max Stiffener Width AREMA 15-1.7.8.b
+        self.max_stiff_width = 16 * self.stiffener_thickness_tst
+        self.min_stiff_width = 2 * units('in') + self.girder_height / 30
+
+        self.stiff_t_check_1 = self.max_stiff_width >= self.stiffener_width_bst >= self.min_stiff_width
+        self.stiff_t_check_2 = self.girder_web_height <= self.trans_stiff_check
+
+        # Stiffener Thickness Check
+        if self.stiff_t_check_1 or self.stiff_t_check_2:
+            print(colored('OK', 'green'))
+        else:
+            print(colored('No Good - Stiffener Thickness Check Failed', 'red'))
+
+        # Transverse Stiffener Weld Fatigue Stress
+        self.d = self.girder_web_height / 2
+        self.S_stiff = self.girder_I_xx / self.d
+        self.sr_weld = (self.M_f / self.S_stiff).to('psi')
+
+        self.F_b_fat_trans = 12000 * units('psi')  # Stress category C' N>2,000,000 cycles AREMA 15-1-9
+
+        # Stiffener Weld Fatigue
+        if self.sr_weld <= self.F_b_fat_trans:
+            print(colored(f'OK, Stress Ratio: {self.sr_weld / self.F_b_fat_trans}', 'green'))
+        else:
+            print(colored('No Good - Stiffener Weld Fatigue Check Failed', 'red'))
+
+        # Longitudinal Plate Stiffeners
+        # AREMA 15-1.7.8.f
+
+        # Longitudinal Stiffeners
+        if self.girder_web_height <= 4.18 * (self.E_steel / self.F_y) ** .5 * self.girder_web_thickness:
+            self.long_stiff_check = 'Not Required'
+            print(colored('Longitudinal Stiffeners not required', 'green'))
+        else:
+            print(colored('Longitudinal Stiffeners Required', 'red'))
+
+        # Longitudinal Stiffeners   # //TODO - Bad Check
+        if self.long_stiff_check == 'Not Required':
+            print(colored('OK', 'green'))
+        else:
+            print(colored('No Good - Longitudinal Stiffeners Check', 'red'))
+
+        # Bearing Stiffener
+        self.bearing_stiff_limiting_ratio = (0.43 * self.bearing_stiffener_thickness_tsb *
+                                             ((self.E_steel / self.F_y) ** 0.5)).to('in')
+
+        # Longitudinal Stiffeners   # //TODO - Bad Check
+        if self.bearing_stiffener_width_bsb <= self.bearing_stiff_limiting_ratio:
+            print(colored('OK', 'green'))
+        else:
+            print(colored('No Good - Bearing Stiffeners w/t ratio Check', 'red'))
+
+        # Outstanding element in compression check
+        self.effective_web_length = 25 * self.girder_web_thickness  # AREMA 15-1.7.7.c
+
+        self.bearing_stiff_area = self.girder_web_thickness * self.effective_web_length + 2 * \
+                                  self.bearing_stiffener_width_bsb * self.bearing_stiffener_thickness_tsb
+        self.I_xx_web = 2 * (
+                    self.bearing_stiffener_width_bsb ** 3 * self.bearing_stiffener_thickness_tsb / 12 +
+                    self.bearing_stiffener_width_bsb * self.bearing_stiffener_thickness_tsb * (
+                        self.girder_web_thickness / 2 + self.bearing_stiffener_width_bsb / 2) ** 2) + \
+            self.girder_web_thickness ** 3 * self.effective_web_length / 12
+        self.I_xx_stiff = 2 * self.bearing_stiffener_thickness_tsb ** 3 * self.bearing_stiffener_width_bsb / 12 + \
+            self.effective_web_length ** 3 * self.girder_web_thickness / 12
+
+        self.controlling_moment_of_inertia = min(self.I_xx_web, self.I_xx_stiff)
+
+        # AREMA 15-1.7.7-c
+        self.effective_length = 0.75 * self.girder_web_height
+        self.bear_stiff_r_y = (self.controlling_moment_of_inertia / self.bearing_stiff_area) ** 0.5
+
+        self.bear_stiff_slenderness_ratio = self.effective_length / self.bear_stiff_r_y
+
+        # AREMA Table 15-1-12
+        self.case_1_all_stress = 0.55 * self.F_y
+        self.case_2_all_stress = (0.6 * self.F_y.magnitude - (17500 * self.F_y / self.E_steel) ** (
+                    3 / 2) * self.bear_stiff_slenderness_ratio) * units('psi')
+        self.case_3_all_stress = 0.514 * math.pi ** 2 * self.E_steel / self.bear_stiff_slenderness_ratio ** 2
+
+        # Controlling Case
+        if self.bear_stiff_slenderness_ratio <= 0.629 / (self.F_y / self.E) ** .5:
+            print(colored('Case 1 Controls', 'green'))
+            self.bearing_stiff_F_a = self.case_1_all_stress
+            print(f"bearing stiffener stress: {self.bearing_stiff_F_a}")
+        elif self.bear_stiff_slenderness_ratio <= 5.034 / (self.F_y / self.E) ** .5:
+            print(colored('Case 2 Controls', 'green'))
+            self.bearing_stiff_F_a = self.case_2_all_stress
+            print(f"Bearing stiffener stress: {self.bearing_stiff_F_a}")
+        else:
+            print(colored('Case 3 Controls', 'green'))
+            self.bearing_stiff_F_a = self.case_3_all_stress
+            print(f"Bearing stiffener stress: {self.bearing_stiff_F_a}")
