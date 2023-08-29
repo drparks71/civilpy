@@ -57,7 +57,7 @@ class GlobalDefinitions:
 
 class LoadDefinitions:
     def __init__(self, diaphragm_weight_ft=61 * units('lbf/ft'),
-                 diaphragm_quant=1, bracing_quant=4, fb_a=100 * units('kip'), fb_s=5 * units('ft'),
+                 diaphragm_quant=1, bracing_quant=4, fb_A=100 * units('kip'), fb_s=5 * units('ft'),
                  ballasted_deck_reduction=.9, rocking_percent=.2, wind_load=300 * units('lbf/ft'),
                  wind_load_h=8 * units('ft'), axel_load=100 * units('kips'), reduction_fact=.9,
                  wheel_load_percentage=.2,
@@ -72,7 +72,7 @@ class LoadDefinitions:
         self.diaphragm_weight_ft = diaphragm_weight_ft
         self.diaphragm_quant = diaphragm_quant
         self.bracing_quant = bracing_quant
-        self.fb_a = fb_a
+        self.fb_A = fb_A
         self.fb_s = fb_s
         self.ballasted_deck_reduction = ballasted_deck_reduction
         self.rocking_percent = rocking_percent
@@ -212,7 +212,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
                                  diaphragm_weight_ft=load_values.diaphragm_weight_ft,
                                  diaphragm_quant=load_values.diaphragm_quant,
                                  bracing_quant=load_values.bracing_quant,
-                                 fb_a=load_values.fb_a,
+                                 fb_A=load_values.fb_A,
                                  fb_s=load_values.fb_s,
                                  ballasted_deck_reduction=load_values.ballasted_deck_reduction,
                                  rocking_percent=load_values.rocking_percent,
@@ -1094,7 +1094,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Live Load
         # AREMA 15-1.3.4.2.3 Alternative live load axel
-        self.fb_P_ll = 1.15 * self.fb_a * self.floorbeam_spacing / self.fb_s
+        self.fb_P_ll = 1.15 * self.fb_A * self.floorbeam_spacing / self.fb_s
         self.fb_P_2_ll = self.fb_P_ll / 2
 
         self.fb_V_ll = self.fb_P_2_ll
@@ -1362,7 +1362,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Live Load
         # AREMA 15-1.3.4.2.3 Alternative live load axel
-        self.end_fb_P_ll = 1.15 * self.fb_a * self.floorbeam_spacing / self.fb_s
+        self.end_fb_P_ll = 1.15 * self.fb_A * self.floorbeam_spacing / self.fb_s
         self.end_fb_P_2_ll = self.fb_P_ll / 2
 
         self.end_fb_A = self.fb_a
@@ -1510,3 +1510,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
             print(colored(f'OK, Stress Ratio: {self.fb_deflection / self.max_deflection}', 'green'))
         else:
             print(colored('No Good - Floor Beam Fatigue Check', 'red'))
+
+
+if __name__ == "__main__":
+    test_bridge = TPG()
