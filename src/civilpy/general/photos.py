@@ -206,8 +206,8 @@ def convert_filenames_from_excel(excel_file=testing_excel_file, root_folder=test
     # Loop through the Existing files and copy them into the new folder
     for name, file in zip(new_names, file_list):
         old_name = Path(file)
-        new_name = Path(root_folder) / "Renamed_Photos" / f"{project_name}-{old_name.stem}-" \
-                                                          f"{old_name.stem}-{slugify(name)}.jpg"
+        new_name = Path(root_folder) / "Renamed_Photos" / slugify(f"{project_name}-{old_name.stem}-"
+                                                                  f"{old_name.stem}-{name}.jpg")
         shutil.copy(old_name, new_name)
         print(f"Created File: {new_name}")
 
