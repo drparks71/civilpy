@@ -372,7 +372,7 @@ class TPG:
                         1 + self.global_defs.steel_connection_contingency)).to('kip')
 
         # Intermediate Floor beams Dead Loads
-        self.int_floorbeam_weight = (
+        self.int_floorbeam_dl = (
                     self.girder_spacing *
                     self.fb.weight *
                     self.floorbeam_quantity * (1 + self.global_defs.steel_connection_contingency)).to('kips')
@@ -382,7 +382,7 @@ class TPG:
                     self.girder_spacing * self.end_floorbeam.weight *
                     self.end_floorbeam_quantity * (1 + self.global_defs.steel_connection_contingency)).to('kips')
 
-        self.total_floorbeam_weight = self.end_floorbeam_weight + self.int_floorbeam_weight
+        self.total_floorbeam_weight = self.end_floorbeam_weight + self.int_floorbeam_dl
 
         # Diaphragms Dead Loads
         self.total_diaphragm_weight = (

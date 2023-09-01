@@ -182,7 +182,7 @@ def slugify(value, allow_unicode=False):
     return re.sub(r'[-\s]+', '-', value).strip('-_')
 
 
-def convert_filenames_from_excel(excel_file=testing_excel_file, root_folder=testing_root_folder):
+def convert_filenames_from_excel(excel_file=testing_excel_file, root_folder=testing_root_folder, project_name=None):
     """
     Function that copies a series of file paths from column 'A' of an Excel file (sheet 0, with no header) and changes
     the file names to the new filename values held in column 'B'. The function uses Django's slugify function to remove
@@ -192,6 +192,7 @@ def convert_filenames_from_excel(excel_file=testing_excel_file, root_folder=test
     ----------
     excel_file: str - Path to Excel file containing file paths and new file names
     root_folder: str - Path to the folder the Renamed_Photos folder is located
+    project_name: str - Name of the project to be included within the photo names
 
     Returns
     -------
@@ -202,21 +203,16 @@ def convert_filenames_from_excel(excel_file=testing_excel_file, root_folder=test
     file_list = photo_list_excel[0].tolist()
     new_names = photo_list_excel[1].tolist()
 
-    # Check for repeat values in the new file name list and append them if they exist
-    duplicates = dict(Counter(new_names))
-    unique_values = unique(new_names)
-    unique_file_names = [slugify(key) if i == 0 else slugify(key + '_' + str(i + 1)) for key in unique_values for i in
-                         range(duplicates[key])]
-
     # Loop through the Existing files and copy them into the new folder
-    for index, file in enumerate(file_list):
-        old_name = file
-        new_name = Path(root_folder) / "Renamed_Photos" / f"{unique_file_names[index]}.jpg"
+    for name, file in zip(new_names, file_list):
+        old_name = Path(file)
+        new_name = Path(root_folder) / "Renamed_Photos" / f"{project_name}-{old_name.stem}-" \
+                                                          f"{old_name.stem}-{slugify(name)}.jpg"
         shutil.copy(old_name, new_name)
         print(f"Created File: {new_name}")
 
 
-def photo_renaming_tool(root_folder=testing_root_folder, excel_file=None):
+def photo_renaming_tool(root_folder=testing_root_folder, excel_file=None, project_name=None):
     """
     Function to simplify the above functions, given a root folder, returns a list of files and
     searches for an Excel file to use with the renaming tool function
@@ -226,6 +222,7 @@ def photo_renaming_tool(root_folder=testing_root_folder, excel_file=None):
     root_folder: str - Path to folder containing photos and Excel file defining new names
     excel_file: str - Path override for if the function can't find the correct file or if it's
         in a different folder
+    project_name: str - Name of the project to be included in the photo names
 
     Returns
     -------
@@ -244,7 +241,7 @@ def photo_renaming_tool(root_folder=testing_root_folder, excel_file=None):
 
     input('Copy the files and names into the excel sheet, then hit "enter"')
     create_folder_for_renamed_files(root_folder)
-    convert_filenames_from_excel(excel_file=excel_file, root_folder=root_folder)
+    convert_filenames_from_excel(excel_file=excel_file, root_folder=root_folder, project_name=project_name)
 
 
 # This allows the file to be run as a script by running `python PhotoOrganizer.py 'path_to_folder'
