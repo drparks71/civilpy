@@ -1,5 +1,5 @@
 import unittest
-from civilpy.state.ohio.snbi import SNBITransfer
+from src.civilpy.state.ohio.snbi import SNBITransfer
 from unittest.mock import patch, PropertyMock
 
 

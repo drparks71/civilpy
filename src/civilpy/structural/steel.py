@@ -1,5 +1,5 @@
 import pandas as pd
-from civilpy.general import units
+from src.civilpy.general import units
 
 steel_tables = pd.read_csv(
     'https://raw.githubusercontent.com/drparks71w/'
@@ -101,20 +101,20 @@ class W(SteelSection):
 
     def __init__(self, label):
         super(W, self).__init__(label)
-        self.depth = float(self.aisc_value['d'].values[0]) * units('in')
+        self.depth = (
+                float(self.aisc_value['d'].values[0]) * units('in')
+            )
         self.detailing_depth = (
                 float(self.aisc_value['ddet'].values[0]) * units('in')
-        )
-        self.flange_width = float(self.aisc_value['bf'].values[0]) * units('in')
-        self.detailing_flange_width = (
-                float(self.aisc_value['bfdet'].values[0]) * units('in')
-        )
+            )
+        self.flange_width = (
+                float(self.aisc_value['bf'].values[0]) * units('in')
+            )
+        self.detailing_flange_width = float(self.aisc_value['bfdet'].values[0]) * units('in')
         self.web_thickness = (
-                float(self.aisc_value['tw'].values[0]) * units('in')
-        )
-        self.detailing_web_thickness = (
-                float(self.aisc_value['twdet'].values[0]) * units('in')
-        )
+                    float(self.aisc_value['tw'].values[0]) * units('in')
+            )
+        self.detailing_web_thickness = float(self.aisc_value['twdet'].values[0]) * units('in')
         self.half_web_detail = (
                 float(self.aisc_value['twdet/2'].values[0]) * units('in')
         )
@@ -132,7 +132,9 @@ class W(SteelSection):
         self.J = float(self.aisc_value['J'].values[0]) * units('in^4')
         self.Cw = float(self.aisc_value['Cw'].values[0]) * units('in^6')
         self.Wno = float(self.aisc_value['Wno'].values[0]) * units('in^2')
-        self.Sw1 = float(self.aisc_value['Sw1'].values[0]) * units('in^4')
+        self.Sw1 = (
+                float(self.aisc_value['Sw1'].values[0]) * units('in^4')
+            )
         self.Qf = float(self.aisc_value['Qf'].values[0]) * units('in^3')
         self.Qw = float(self.aisc_value['Qw'].values[0]) * units('in^3')
         self.radius_of_gyration = self.rts = (
@@ -158,29 +160,19 @@ class W(SteelSection):
         )
 
         # These values are used in most shapes, but not all, hence the ifs
-        if self.aisc_value['bf/2tf'].values[0] == '–':
-            self.slenderness_ratio_flange = None
-        else:
-            self.slenderness_ratio_flange = (
+        self.slenderness_ratio_flange = (
                 float(self.aisc_value['bf/2tf'].values[0]) * units('in')
-            )
-
-        if self.aisc_value['k1'].values[0] == '–':
-            self.k1 = None
-        else:
-            self.k1 = (
+        )
+        self.k1 = (
                 float(self.aisc_value['k1'].values[0]) * units('in')
-            )
+        )
 
-        if self.aisc_value['WGi'].values[0] == '–':
-            self.fastener_workable_gage = None
-        else:
-            self.fastener_workable_gage = (
+        self.fastener_workable_gage = (
                 float(self.aisc_value['WGi'].values[0]) * units('in')
-            )
+        )
 
 
-class M(W):
+class M(SteelSection):
     """
     Class to provide more specific attributes and functions related to designing
     with steel M s. Splitting values into multiple classes allows dropping
@@ -195,7 +187,7 @@ class M(W):
         super(M, self).__init__(label)
 
 
-class S(W):
+class S(SteelSection):
     """
     Class to provide more specific attributes and functions related to designing
     with steel M s. Splitting values into multiple classes allows dropping
@@ -210,7 +202,7 @@ class S(W):
         super(S, self).__init__(label)
 
 
-class HP(W):
+class HP(SteelSection):
     """
     Class to provide more specific attributes and functions related to designing
     with steel M s. Splitting values into multiple classes allows dropping
@@ -225,7 +217,7 @@ class HP(W):
         super(HP, self).__init__(label)
 
 
-class C(W):
+class C(SteelSection):
     """
     Class to provide more specific attributes and functions related to designing
     with steel C s. Splitting values into multiple classes allows dropping
@@ -239,15 +231,11 @@ class C(W):
     def __init__(self, label):
         super(C, self).__init__(label)
         self.x = float(self.aisc_value['x'].values[0]) * units('in')
-        self.eo = float(self.aisc_value['eo'].values[0]) * units('in')
+        self.eo = float(self.aisc_value['twdet'].values[0]) * units('in')
         self.xp = float(self.aisc_value['xp'].values[0]) * units('in')
         self.slenderness_ratio = float(self.aisc_value['b/t'].values[0])
-        self.warping_moment_2 = (
-                float(self.aisc_value['Sw2'].values[0]) * units('in^4')
-        )
-        self.warping_moment_3 = (
-                float(self.aisc_value['Sw3'].values[0]) * units('in^4')
-        )
+        self.warping_moment_2 = float(self.aisc_value['Sw2'].values[0]) * units('in^4')
+        self.warping_moment_3 = float(self.aisc_value['Sw3'].values[0]) * units('in^4')
         self.ro = float(self.aisc_value['ro'].values[0]) * units('in')
         self.H = float(self.aisc_value['H'].values[0])
 
@@ -267,7 +255,7 @@ class MC(C):
         super(MC, self).__init__(label)
 
 
-class L(C):
+class L(SteelSection):
     """
     Class to provide more specific attributes and functions related to designing
     with steel L s. Splitting values into multiple classes allows dropping
@@ -303,7 +291,7 @@ class L(C):
         self.PA2 = float(self.aisc_value['PA2'].values[0]) * units('in')
 
 
-class WT(W):
+class WT(SteelSection):
     """
     Class to provide more specific attributes and functions related to designing
     with steel WT s. Splitting values into multiple classes allows dropping
@@ -323,7 +311,7 @@ class WT(W):
         self.H = float(self.aisc_value['H'].values[0])
 
 
-class MT(WT):
+class MT(SteelSection):
     """
     Class to provide more specific attributes and functions related to designing
     with steel WT s. Splitting values into multiple classes allows dropping
@@ -353,7 +341,7 @@ class ST(WT):
         super(ST, self).__init__(label)
 
 
-class TwoL(WT):
+class TwoL(SteelSection):
     """
     Class to provide more specific attributes and functions related to designing
     with steel 2L s. Splitting values into multiple classes allows dropping
@@ -371,7 +359,7 @@ class TwoL(WT):
         self.slenderness_ratio = float(self.aisc_value['b/t'].values[0])
 
 
-class HSS(W):
+class HSS(SteelSection):
     """
     Class to provide more specific attributes and functions related to designing
     with steel HSS sections. Splitting values into multiple classes allows dropping
@@ -387,11 +375,17 @@ class HSS(W):
         self.tnom = float(self.aisc_value['tnom'].values[0]) * units('in')
         self.tdes = float(self.aisc_value['tdes'].values[0]) * units('in')
         self.C = float(self.aisc_value['C'].values[0]) * units('in^3')
-        self.OD = float(self.aisc_value['OD'].values[0]) * units('in')
-        self.ID = float(self.aisc_value['ID'].values[0]) * units('in')
+        if self.aisc_value['OD'].values[0] == '–':
+            self.OD = None
+        else:
+            self.OD = float(self.aisc_value['OD'].values[0]) * units('in')
+        if self.aisc_value['ID'].values[0] == '–':
+            self.ID = None
+        else:
+            self.ID = float(self.aisc_value['ID'].values[0]) * units('in')
 
 
-class Pipe(HSS):
+class Pipe(SteelSection):
     """
     Class to provide more specific attributes and functions related to designing
     with steel Pipe Sections. Splitting values into multiple classes allows

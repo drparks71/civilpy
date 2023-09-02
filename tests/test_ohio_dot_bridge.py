@@ -1,5 +1,5 @@
 import unittest
-from civilpy.state.ohio.dot import TimsBridge
+from src.civilpy.state.ohio.dot import TimsBridge
 
 
 class TestBridgeObject(unittest.TestCase):
