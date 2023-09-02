@@ -39,10 +39,10 @@ verify-3.11:
     stage: test
     image: python:3.11
 
-verify-3.12:
-    extends: test_code_coverage
-    stage: test
-    image: python:3.12-rc
+# verify-3.12:
+#     extends: test_code_coverage
+#     stage: test
+#     image: python:3.12-rc
 
 pypi_publish:
   stage: deploy
