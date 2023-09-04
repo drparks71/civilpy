@@ -8,9 +8,7 @@ test_code_coverage:
   image: python:latest
   script:
     - 'python -m pip install -r requirements.txt'
-    - 'coverage run --source=src -m unittest discover ./tests'
-    - 'coverage report'
-    - 'coverage xml'
+    - 'pytest --cov --cov-report term --cov-report xml:coverage.xml'
   coverage: '/TOTAL.*\s+(\d+\%)/'
   artifacts:
     reports:
