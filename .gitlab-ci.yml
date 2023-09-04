@@ -9,7 +9,7 @@ test_code_coverage:
   script:
     - pip install civilpy pytest pytest-cov
     - python -m pytest tests -vvv  src --cov-report xml --cov=src
-  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+  coverage: "/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/."
   artifacts:
     reports:
       coverage_report:
