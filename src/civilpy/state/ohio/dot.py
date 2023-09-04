@@ -42,7 +42,6 @@ def help_function():
             aa      - Two digit wall plan sheet type
             ###     - Three digit number identifying the number of drawings of the same type
     """
-    print(help(help_function))
 
 
 basemap_labels = {

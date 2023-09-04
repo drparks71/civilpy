@@ -7,12 +7,12 @@ from src.civilpy.general import units
 # //TODO - Need to update tests to be more like W Beam and verify each attribute for each type of member gets loaded
 
 
-def test_helloworld_no_params():
-    assert hello_world() == "Hello World!"
+class TestGeneralFunctions(unittest.TestCase):
+    def test_helloworld_no_params(self):
+        assert hello_world() == "Hello World!"
 
-
-def test_hello_world_with_param():
-    assert hello_world("Everyone") == "Hello Everyone!"
+    def test_hello_world_with_param(self):
+        assert hello_world("Everyone") == "Hello Everyone!"
 
 
 class TestSteelSectionFunctions(unittest.TestCase):
@@ -117,7 +117,3 @@ class TestSteelSectionFunctions(unittest.TestCase):
     def test_pipe(self):
         t = Pipe("Pipe10SCH140")
         self.assertEqual(t.weight, 104.0 * units('lbf/ft'))
-
-
-if __name__ == '__main__':
-    unittest.main()

@@ -1,0 +1,11 @@
+[run]
+branch=True
+context=src
+omit = test
+source=
+    src
+timid=True
+parallel=True
+[report]
+omit=
+    .tox/*

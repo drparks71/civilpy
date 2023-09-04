@@ -82,7 +82,9 @@ setup(
         "pyodbc>=4.0.39",
         "pytesseract>=0.3.10",
         "kivymd>=1.1.1",
-        "PyQt5>=5.15.9"
+        "PyQt5>=5.15.9",
+        "tox>=4.11.1",
+        "pytest>=7.4.1"
     ],
 
     extras_require={
