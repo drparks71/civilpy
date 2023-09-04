@@ -63,3 +63,4 @@ kivymd~=1.1.1
 PyQt5~=5.15.9
 kivy~=2.2.1
 termcolor~=1.1.0
+pytest-cov~=4.1.0
