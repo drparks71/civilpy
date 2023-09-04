@@ -84,7 +84,8 @@ setup(
         "kivymd>=1.1.1",
         "PyQt5>=5.15.9",
         "tox>=4.11.1",
-        "pytest>=7.4.1"
+        "pytest>=7.4.1",
+        "pytest-cov>=4.1.0"
     ],
 
     extras_require={
