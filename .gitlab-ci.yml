@@ -7,9 +7,13 @@ test_code_coverage:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   image: python:latest
   script:
-    - pip install civilpy pytest pytest-cov
-    - pytest --cov --cov-report term --cov-report xml:coverage.xml
-  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+    - 'python -m venv venv'
+    - './venv/Scripts/activate'
+    - 'python -m pip install -r requirements.txt'
+    - 'coverage run --source=src -m unittest discover ./tests'
+    - 'coverage report'
+    - 'coverage xml'
+  coverage: '/TOTAL.*\s+(\d+\%)/'
   artifacts:
     reports:
       coverage_report:
