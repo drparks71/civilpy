@@ -7,8 +7,7 @@ test_code_coverage:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   image: python:latest
   script:
-    - pip install civilpy
-    - pip install pytest
+    - pip install civilpy pytest pytest-cov
     - python -m pytest -vvv  src --cov-report xml --cov=src
   coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
   artifacts:
