@@ -7,8 +7,6 @@ test_code_coverage:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   image: python:latest
   script:
-    - 'python -m venv venv'
-    - './venv/Scripts/activate'
     - 'python -m pip install -r requirements.txt'
     - 'coverage run --source=src -m unittest discover ./tests'
     - 'coverage report'
