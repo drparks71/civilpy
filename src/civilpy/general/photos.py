@@ -206,7 +206,7 @@ def convert_filenames_from_excel(excel_file=testing_excel_file, root_folder=test
     # Loop through the Existing files and copy them into the new folder
     for index, name in enumerate(new_names):
         old_name = Path(file_list[index])
-        new_name = Path(root_folder) / "Renamed_Photos" / f"{slugify(old_name.stem)}-{slugify(name)}.jpg"
+        new_name = Path(root_folder) / "Renamed_Photos" / f"{slugify(name)}-{slugify(old_name.stem)}.jpg"
         shutil.copy(old_name, new_name)
         print(f"Created File: {new_name}")
 
