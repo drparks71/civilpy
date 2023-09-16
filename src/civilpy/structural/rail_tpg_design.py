@@ -742,27 +742,27 @@ class TPG(GlobalDefinitions, LoadDefinitions):
         #                # AREMA Requirements Checks
         # Flange Compression Check
         if (self.L_brace / self.girder_r_yy) <= 5.55 * (self.E_steel / self.F_y) ** .5:
-            print(colored('OK', 'green'))
+            print(colored('Compression Flange Check - OK', 'green'))
         else:
             print(colored('No Good - Compression Flange Check Failed', 'red'))
 
         # Web Thickness     AREMA 15-1.7.3
         # Web Thickness Check 1
         if self.girder_web_thickness >= 0.18 * (self.F_y / self.E) ** .5 * self.girder_web_height:
-            print(colored('OK', 'green'))
+            print(colored('Web Thickness 1 - OK', 'green'))
         else:
             print(colored('No Good - Web Compression Check Failed', 'red'))
 
         # Web Thickness Check 2
         if self.girder_web_thickness >= self.girder_flange_thickness / 6:
-            print(colored('OK', 'green'))
+            print(colored('Web Thickness 2 - OK', 'green'))
         else:
             print(colored('No Good - Web Compression Check Failed', 'red'))
 
         # Outstanding Elements in Compression (AREMA 15-1.6.2)
         # Flange_compression
         if self.girder_flange_width / 2 <= 0.43 * self.girder_flange_thickness * (self.E / self.F_y) ** .5:
-            print(colored('OK', 'green'))
+            print(colored('Compression Check - OK', 'green'))
         else:
             print(colored('No Good - Compression Flange Check Failed', 'red'))
 
@@ -788,7 +788,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Bending Check
         if self.F_b_comp_act <= self.F_b_comp:
-            print(colored(f'OK, Stress Ratio: {self.F_b_comp_act / self.F_b_comp}', 'green'))
+            print(colored(f'Bending Check 1 - OK, Stress Ratio: {self.F_b_comp_act / self.F_b_comp}', 'green'))
         else:
             print(colored('No Good - Girder Bending Check Failed', 'red'))
 
@@ -796,7 +796,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Bending Check
         if self.F_b_ten_act <= self.F_b_ten:
-            print(colored(f'OK, Stress Ratio: {self.F_b_ten_act / self.F_b_ten}', 'green'))
+            print(colored(f'Bending Check 2 - OK, Stress Ratio: {self.F_b_ten_act / self.F_b_ten}', 'green'))
         else:
             print(colored('No Good - Girder Bending Check Failed', 'red'))
 
@@ -807,7 +807,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Bending Fatigue
         if self.S_r_fat_actual <= self.S_r_fat:
-            print(colored(f'OK, Stress Ratio: {self.S_r_fat_actual / self.S_r_fat}', 'green'))
+            print(colored(f'Bending Fatigue Check - OK, Stress Ratio: {self.S_r_fat_actual / self.S_r_fat}', 'green'))
         else:
             print(colored('No Good - Girder Bending Fatigue Check Failed', 'red'))
 
@@ -818,7 +818,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Deflection # //TODO - Not sure the ratio matters as much for this one
         if self.delta_total <= self.delta_max:
-            print(colored(f'OK, Ratio: {self.delta_total / self.delta_max}', 'green'))
+            print(colored(f'Deflection Check - OK, Ratio: {self.delta_total / self.delta_max}', 'green'))
         else:
             print(colored('No Good - Deflection Check Failed', 'red'))
 
@@ -849,7 +849,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
         # Web Shear AREMA Table 15-1-12 check #
         # // TODO - This Check isn't comparing like units in the excel sheet?, think it should be as follows,
         if self.F_r <= self.F_v:
-            print(colored(f'OK, Stress Ratio: {self.F_r / self.F_v}', 'green'))
+            print(colored(f'Web Shear Check - OK, Stress Ratio: {self.F_r / self.F_v}', 'green'))
         else:
             print(colored('No Good - Web Shear Check Failed', 'red'))
 
@@ -860,7 +860,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Weld Strength
         if self.F_r <= self.F_v:
-            print(colored(f'OK, Stress Ratio: {self.F_r / self.F_v}', 'green'))
+            print(colored(f'Weld Allowable Stress Check - OK, Stress Ratio: {self.F_r / self.F_v}', 'green'))
         else:
             print(colored('No Good - Weld Strength Check Failed', 'red'))
 
@@ -889,7 +889,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Weld Strength
         if self.trans_stiff_actual_da <= self.max_clear_dist or self.girder_web_height <= self.trans_stiff_check:
-            print(colored('OK', 'green'))
+            print(colored('Weld Strength Check - OK', 'green'))
         else:
             print(colored('No Good - Stiffener Spacing Check Failed', 'red'))
 
@@ -904,7 +904,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Stiffener I_xx Check
         if self.stiff_I_xx_act >= self.stiff_I_xx_req or self.girder_web_height <= self.trans_stiff_check:
-            print(colored('OK', 'green'))
+            print(colored('Stiffener Inertia Check - OK', 'green'))
         else:
             print(colored('No Good - Stiffener Spacing Check Failed', 'red'))
 
@@ -917,7 +917,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Stiffener Thickness Check
         if self.stiff_t_check_1 or self.stiff_t_check_2:
-            print(colored('OK', 'green'))
+            print(colored('Stiffener Thickness Check - OK', 'green'))
         else:
             print(colored('No Good - Stiffener Thickness Check Failed', 'red'))
 
@@ -930,7 +930,8 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Stiffener Weld Fatigue
         if self.sr_weld <= self.F_b_fat_trans:
-            print(colored(f'OK, Stress Ratio: {self.sr_weld / self.F_b_fat_trans}', 'green'))
+            print(colored(f'Stiffener Weld Fatigue Check - OK, Stress Ratio: {self.sr_weld / self.F_b_fat_trans}',
+                          'green'))
         else:
             print(colored('No Good - Stiffener Weld Fatigue Check Failed', 'red'))
 
@@ -946,7 +947,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Longitudinal Stiffeners   # //TODO - Bad Check
         if self.long_stiff_check == 'Not Required':
-            print(colored('OK', 'green'))
+            print(colored('Longitudinal Stiffeners Check - OK', 'green'))
         else:
             print(colored('No Good - Longitudinal Stiffeners Check', 'red'))
 
@@ -956,7 +957,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Longitudinal Stiffeners   # //TODO - Bad Check
         if self.bearing_stiffener_width_bsb <= self.bearing_stiff_limiting_ratio:
-            print(colored('OK', 'green'))
+            print(colored('Longitudinal Stiffeners Check - OK', 'green'))
         else:
             print(colored('No Good - Bearing Stiffeners w/t ratio Check', 'red'))
 
@@ -1005,7 +1006,8 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Longitudinal Stiffeners
         if self.bearing_stress_act <= self.bearing_stiff_F_a:
-            print(colored(f'OK, Stress Ratio: {self.bearing_stress_act / self.bearing_stiff_F_a}', 'green'))
+            print(colored(f'Longitudinal stiffeners Check - OK, Stress Ratio: '
+                          f'{self.bearing_stress_act / self.bearing_stiff_F_a}', 'green'))
         else:
             print(colored('No Good - End Bearing Compression Check', 'red'))
 
@@ -1019,7 +1021,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Bearing Stiff Weld Check
         if self.weld_stress_act <= self.allowable_weld_stress:
-            print(colored(f'OK, Stress Ratio: {self.weld_stress_act / self.allowable_weld_stress}', 'green'))
+            print(colored(f'Weld Stress Check - OK, Stress Ratio: {self.weld_stress_act / self.allowable_weld_stress}', 'green'))
         else:
             print(colored('No Good - Bearing Stiff Weld Check', 'red'))
 
@@ -1032,7 +1034,8 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Bearing area allowable stress
         if self.bearing_area_stress_act <= self.bearing_area_stress_all:
-            print(colored(f'OK, Stress Ratio: {self.bearing_area_stress_act / self.bearing_area_stress_all}', 'green'))
+            print(colored(f'Bearing Area Allowable Stress - OK, Stress Ratio: '
+                          f'{self.bearing_area_stress_act / self.bearing_area_stress_all}', 'green'))
         else:
             print(colored('No Good - Bearing Stiff Weld Check', 'red'))
 
@@ -1159,7 +1162,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Bearing area allowable stress
         if self.f_b_act < self.F_b_comp:
-            print(colored(f'OK, Stress Ratio: {self.f_b_act / self.F_b_comp}', 'green'))
+            print(colored(f'Bearing Area Check - OK, Stress Ratio: {self.f_b_act / self.F_b_comp}', 'green'))
         else:
             print(colored('No Good - Floor Beam Allowable Stress Check', 'red'))
 
@@ -1180,7 +1183,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Bearing area allowable stress
         if self.fs_net < self.F_v:
-            print(colored(f'OK, Stress Ratio: {self.fs_net / self.F_v}', 'green'))
+            print(colored(f'Bearing Area Check - OK, Stress Ratio: {self.fs_net / self.F_v}', 'green'))
         else:
             print(colored('No Good - Floor Beam End Shear Check', 'red'))
 
@@ -1198,7 +1201,8 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Bearing area allowable stress
         if self.fb_live_load_stress_range < self.fb_fsr:
-            print(colored(f'OK, Stress Ratio: {self.fb_live_load_stress_range / self.fb_fsr}', 'green'))
+            print(colored(f'Bearing Area Allowable Stress - OK, Stress Ratio: '
+                          f'{self.fb_live_load_stress_range / self.fb_fsr}', 'green'))
         else:
             print(colored('No Good - Floor Beam Fatigue Check', 'red'))
 
@@ -1213,7 +1217,8 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Deflection Check
         if self.fb_deflection <= self.max_deflection:
-            print(colored(f'OK, Stress Ratio: {self.fb_deflection / self.max_deflection}', 'green'))
+            print(colored(f'Floor Beam Deflection Check - OK, Stress Ratio: '
+                          f'{self.fb_deflection / self.max_deflection}', 'green'))
         else:
             print(colored('No Good - Floor Beam Fatigue Check', 'red'))
 
@@ -1269,7 +1274,8 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Stress Check
         if self.deck_pl_F_b <= self.deck_pl_F_b_allow:
-            print(colored(f'OK, Stress Ratio: {self.deck_pl_F_b / self.deck_pl_F_b_allow}', 'green'))
+            print(colored(f'Stress Check - OK, Stress Ratio: '
+                          f'{self.deck_pl_F_b / self.deck_pl_F_b_allow}', 'green'))
         else:
             print(colored('No Good - Floor Plate Allowable Stress Check', 'red'))
 
@@ -1285,7 +1291,8 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Deflection Check
         if self.deck_pl_live_load_deflection <= self.deck_pl_allow_deflection:
-            print(colored(f'OK, Stress Ratio: {self.deck_pl_live_load_deflection / self.deck_pl_allow_deflection}',
+            print(colored(f'Deck Plate Deflection Check - OK, Stress Ratio: '
+                          f'{self.deck_pl_live_load_deflection / self.deck_pl_allow_deflection}',
                           'green'))
         else:
             print(colored('No Good - Floor Plate Deflection Check', 'red'))
@@ -1451,7 +1458,8 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Bearing area allowable stress
         if self.f_b_act < self.F_b_comp:
-            print(colored(f'OK, Stress Ratio: {self.f_b_act / self.F_b_comp}', 'green'))
+            print(colored(f'Bearing Area Allowable Stress - OK, Stress Ratio: '
+                          f'{self.f_b_act / self.F_b_comp}', 'green'))
         else:
             print(colored('No Good - Floor Beam Allowable Stress Check', 'red'))
 
@@ -1474,7 +1482,8 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Bearing area allowable stress
         if self.fs_net < self.F_v:
-            print(colored(f'OK, Stress Ratio: {self.fs_net / self.F_v}', 'green'))
+            print(colored(f'Bearing Area Allowable Stress - OK, Stress Ratio: '
+                          f'{self.fs_net / self.F_v}', 'green'))
         else:
             print(colored('No Good - Floor Beam End Shear Check', 'red'))
 
@@ -1492,7 +1501,8 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Bearing area allowable stress
         if self.fb_live_load_stress_range < self.fb_fsr:
-            print(colored(f'OK, Stress Ratio: {self.fb_live_load_stress_range / self.fb_fsr}', 'green'))
+            print(colored(f'Bearing Area Allowable Stress - OK, Stress Ratio: '
+                          f'{self.fb_live_load_stress_range / self.fb_fsr}', 'green'))
         else:
             print(colored('No Good - Floor Beam Fatigue Check', 'red'))
 
@@ -1507,6 +1517,7 @@ class TPG(GlobalDefinitions, LoadDefinitions):
 
         # Deflection Check
         if self.fb_deflection <= self.max_deflection:
-            print(colored(f'OK, Stress Ratio: {self.fb_deflection / self.max_deflection}', 'green'))
+            print(colored(f'Floor Beam Deflection Check - OK, Stress Ratio: '
+                          f'{self.fb_deflection / self.max_deflection}', 'green'))
         else:
             print(colored('No Good - Floor Beam Fatigue Check', 'red'))
