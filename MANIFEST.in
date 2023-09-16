@@ -1,5 +1,0 @@
-include *.txt
-include *.yml
-include pytest.ini
-recursive-include civilpy *.py
-recursive-include tests *.py

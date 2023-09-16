@@ -1,8 +1,11 @@
 # CivilPy
 
+![PyPI - License](https://img.shields.io/pypi/l/civilpy)
 <img alt="Project badge" aria-hidden="" class="project-badge" src="https://daneparks.com/Dane/civilpy/badges/master/pipeline.svg">
 <img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/civilpy">
 <img alt="Project badge" aria-hidden="" class="project-badge" src="https://daneparks.com/Dane/civilpy/badges/master/coverage.svg">
+![PyPI - Downloads](https://img.shields.io/pypi/dm/CivilPy)
+
 
 Code snippets for Civil Engineering related tasks
 

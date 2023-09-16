@@ -1,5 +1,5 @@
 import unittest
-from civilpy.state.ohio.dot import TimsBridge
+from src.civilpy.state.ohio.dot import TimsBridge
 
 
 class TestBridgeObject(unittest.TestCase):
@@ -254,7 +254,3 @@ class TestBridgeObject(unittest.TestCase):
         self.assertIsInstance(self.tb.created_date, int)
         self.assertEqual(self.tb.last_edited_user, 'TIMS@P31_AG')
         self.assertIsInstance(self.tb.last_edited_date, int)
-
-
-if __name__ == '__main__':
-    unittest.main()

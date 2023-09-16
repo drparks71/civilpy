@@ -89,7 +89,3 @@ class TestProject(unittest.TestCase):
         self.assertIsInstance(self.tp.created_date, int)
         self.assertEqual(self.tp.last_edited_user, 'TIMS@P31_AG')
         self.assertIsInstance(self.tp.last_edited_date, int)
-
-
-if __name__ == '__main__':
-    unittest.main()

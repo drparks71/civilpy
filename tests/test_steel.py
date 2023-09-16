@@ -1,19 +1,21 @@
 import unittest
-from src.civilpy.structural.steel import SteelSection, W, hello_world
-import pint
+from src.civilpy.structural.steel import SteelSection, hello_world
+from src.civilpy.structural.steel import W, M, S, HP, C, MC, L, WT, MT, ST
+from src.civilpy.structural.steel import TwoL, HSS, Pipe
+from src.civilpy.general import units
 
-units = pint.UnitRegistry()
-
-
-def test_helloworld_no_params():
-    assert hello_world() == "Hello World!"
+# //TODO - Need to update tests to be more like W Beam and verify each attribute for each type of member gets loaded
 
 
-def test_hello_world_with_param():
-    assert hello_world("Everyone") == "Hello Everyone!"
+class TestGeneralFunctions(unittest.TestCase):
+    def test_helloworld_no_params(self):
+        assert hello_world() == "Hello World!"
+
+    def test_hello_world_with_param(self):
+        assert hello_world("Everyone") == "Hello Everyone!"
 
 
-class TestSteelMemberFunctions(unittest.TestCase):
+class TestSteelSectionFunctions(unittest.TestCase):
     def test_general_import(self):
         test_beam = SteelSection("W44X335")  # Correct Name
         test_beam2 = SteelSection("W44x335")  # Lowercase correction
@@ -68,6 +70,50 @@ class TestSteelMemberFunctions(unittest.TestCase):
         self.assertEqual(t.web_face_depth, 31.5 * units('in'))
         self.assertEqual(t.fastener_workable_gage, 5.5 * units('in'))
 
+    def test_M(self):
+        t = M("M10X9")
+        self.assertEqual(t.weight, 9.0 * units('lbf/ft'))
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_S(self):
+        t = S("S24x121")
+        self.assertEqual(t.weight, 121.0 * units('lbf/ft'))
+
+    def test_HP(self):
+        t = HP("HP18x204")
+        self.assertEqual(t.weight, 204.0 * units('lbf/ft'))
+
+    def test_C(self):
+        t = C("C15x50")
+        self.assertEqual(t.weight, 50.0 * units('lbf/ft'))
+
+    def test_MC(self):
+        t = MC("MC18x58")
+        self.assertEqual(t.weight, 58.0 * units('lbf/ft'))
+
+    def test_L(self):
+        t = L("L12x12x1-3/8")
+        self.assertEqual(t.weight, 105.0 * units('lbf/ft'))
+
+    def test_WT(self):
+        t = WT("WT22x145")
+        self.assertEqual(t.weight, 145 * units('lbf/ft'))
+
+    def test_MT(self):
+        t = MT("MT5x4")
+        self.assertEqual(t.weight, 4.0 * units('lbf/ft'))
+
+    def test_ST(self):
+        t = ST("ST10x48")
+        self.assertEqual(t.weight, 48.0 * units('lbf/ft'))
+
+    def test_TwoL(self):
+        t = TwoL("2L10x10x1-1/4")
+        self.assertEqual(t.weight, 160.0 * units('lbf/ft'))
+
+    def test_HSS(self):
+        t = HSS("HSS20x20x.500")
+        self.assertEqual(t.weight, 130.52 * units('lbf/ft'))
+
+    def test_pipe(self):
+        t = Pipe("Pipe10SCH140")
+        self.assertEqual(t.weight, 104.0 * units('lbf/ft'))

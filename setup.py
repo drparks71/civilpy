@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='civilpy',
-    version='0.0.57',
+    version='0.0.64',
     packages=find_packages('src', exclude=['test', 'secrets', 'docs', 'res']),
     description='Civil Engineering Tools in Python',
     url="https://daneparks.com/Dane/civilpy",
@@ -38,6 +38,7 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "License :: OSI Approved :: MIT License",
         "Environment :: Console :: Curses",
     ],
@@ -81,7 +82,10 @@ setup(
         "pyodbc>=4.0.39",
         "pytesseract>=0.3.10",
         "kivymd>=1.1.1",
-        "PyQt5>=5.15.9"
+        "PyQt5>=5.15.9",
+        "tox>=4.11.1",
+        "pytest>=7.4.1",
+        "pytest-cov>=4.1.0"
     ],
 
     extras_require={

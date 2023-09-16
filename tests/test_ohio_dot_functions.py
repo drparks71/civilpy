@@ -1,13 +1,14 @@
 import unittest
 
 # Import dicts to make sure they still exist
-from civilpy.state.ohio.dot import help_function, basemap_labels, bridge_labels, drainage_labels, geotechnical_labels
-from civilpy.state.ohio.dot import landscaping_labels, lighting_labels, mot_labels, row_labels, roadway_labels
-from civilpy.state.ohio.dot import signal_labels, traffic_control_labels, utility_labels, wall_labels, all_labels
-from civilpy.state.ohio.dot import ohio_counties, NBIS_state_codes, state_code_conversion, get_3_digit_st_cd_from_2
+from src.civilpy.state.ohio.dot import help_function, basemap_labels, bridge_labels, drainage_labels
+from src.civilpy.state.ohio.dot import landscaping_labels, lighting_labels, mot_labels, row_labels, roadway_labels
+from src.civilpy.state.ohio.dot import signal_labels, traffic_control_labels, utility_labels, wall_labels, all_labels
+from src.civilpy.state.ohio.dot import ohio_counties, NBIS_state_codes, state_code_conversion, get_3_digit_st_cd_from_2
+from src.civilpy.state.ohio.dot import geotechnical_labels
 
 # Import functions to test them
-from civilpy.state.ohio.dot import get_bridge_data_from_tims
+from src.civilpy.state.ohio.dot import get_bridge_data_from_tims
 
 
 class TestDotFunctions(unittest.TestCase):
