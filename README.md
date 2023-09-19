@@ -51,6 +51,13 @@ from civilpy.structural.steel import hello_world
 hello_world()
 ```
 
+```python
+from civilpy.structural.steel import W
+
+# Load a W steel section as a python object
+W40X390 = W("W40X390")
+W40X390.A
+```
 
 # How to determine where to store functions within the package
 
