@@ -1,5 +1,7 @@
 import pandas as pd
 from src.civilpy.general import units
+from fractions import Fraction
+
 
 steel_tables = pd.read_csv(
     'https://raw.githubusercontent.com/drparks71w/'
@@ -8,6 +10,10 @@ steel_tables = pd.read_csv(
 
 def hello_world(user_input="World"):
     return f"Hello {user_input}!"
+
+
+def conv_frac_str(fraction_string: str) -> float():
+    return float(sum(Fraction(s) for s in fraction_string.split()))
 
 
 class SteelSection:
@@ -102,73 +108,73 @@ class W(SteelSection):
     def __init__(self, label):
         super(W, self).__init__(label)
         self.depth = (
-                float(self.aisc_value['d'].values[0]) * units('in')
+                conv_frac_str(self.aisc_value['d'].values[0]) * units('in')
             )
         self.detailing_depth = (
-                float(self.aisc_value['ddet'].values[0]) * units('in')
+                conv_frac_str(self.aisc_value['ddet'].values[0]) * units('in')
             )
         self.flange_width = (
-                float(self.aisc_value['bf'].values[0]) * units('in')
+                conv_frac_str(self.aisc_value['bf'].values[0]) * units('in')
             )
-        self.detailing_flange_width = float(self.aisc_value['bfdet'].values[0]) * units('in')
+        self.detailing_flange_width = conv_frac_str(self.aisc_value['bfdet'].values[0]) * units('in')
         self.web_thickness = (
-                    float(self.aisc_value['tw'].values[0]) * units('in')
+                    conv_frac_str(self.aisc_value['tw'].values[0]) * units('in')
             )
-        self.detailing_web_thickness = float(self.aisc_value['twdet'].values[0]) * units('in')
+        self.detailing_web_thickness = conv_frac_str(self.aisc_value['twdet'].values[0]) * units('in')
         self.half_web_detail = (
-                float(self.aisc_value['twdet/2'].values[0]) * units('in')
+                conv_frac_str(self.aisc_value['twdet/2'].values[0]) * units('in')
         )
         self.flange_thickness = (
-                float(self.aisc_value['tf'].values[0]) * units('in')
+                conv_frac_str(self.aisc_value['tf'].values[0]) * units('in')
         )
         self.detailing_flange_thickness = (
-                float(self.aisc_value['tfdet'].values[0]) * units('in')
+                conv_frac_str(self.aisc_value['tfdet'].values[0]) * units('in')
         )
-        self.k_design = float(self.aisc_value['kdes'].values[0]) * units('in')
+        self.k_design = conv_frac_str(self.aisc_value['kdes'].values[0]) * units('in')
         self.k_detailing = (
-                float(self.aisc_value['kdet'].values[0]) * units('in')
+                conv_frac_str(self.aisc_value['kdet'].values[0]) * units('in')
         )
-        self.slenderness_ratio_web = float(self.aisc_value['h/tw'].values[0])
-        self.J = float(self.aisc_value['J'].values[0]) * units('in^4')
-        self.Cw = float(self.aisc_value['Cw'].values[0]) * units('in^6')
-        self.Wno = float(self.aisc_value['Wno'].values[0]) * units('in^2')
+        self.slenderness_ratio_web = conv_frac_str(self.aisc_value['h/tw'].values[0])
+        self.J = conv_frac_str(self.aisc_value['J'].values[0]) * units('in^4')
+        self.Cw = conv_frac_str(self.aisc_value['Cw'].values[0]) * units('in^6')
+        self.Wno = conv_frac_str(self.aisc_value['Wno'].values[0]) * units('in^2')
         self.Sw1 = (
-                float(self.aisc_value['Sw1'].values[0]) * units('in^4')
+                conv_frac_str(self.aisc_value['Sw1'].values[0]) * units('in^4')
             )
-        self.Qf = float(self.aisc_value['Qf'].values[0]) * units('in^3')
-        self.Qw = float(self.aisc_value['Qw'].values[0]) * units('in^3')
+        self.Qf = conv_frac_str(self.aisc_value['Qf'].values[0]) * units('in^3')
+        self.Qw = conv_frac_str(self.aisc_value['Qw'].values[0]) * units('in^3')
         self.radius_of_gyration = self.rts = (
-                float(self.aisc_value['rts'].values[0]) * units('in')
+                conv_frac_str(self.aisc_value['rts'].values[0]) * units('in')
         )
         self.flange_centroid_distance = (
-                float(self.aisc_value['ho'].values[0]) * units('in')
+                conv_frac_str(self.aisc_value['ho'].values[0]) * units('in')
         )
         self.exposed_perimeter = (
-                float(self.aisc_value['PA'].values[0]) * units('in')
+                conv_frac_str(self.aisc_value['PA'].values[0]) * units('in')
         )
         self.shape_perimeter = (
-                float(self.aisc_value['PB'].values[0]) * units('in')
+                conv_frac_str(self.aisc_value['PB'].values[0]) * units('in')
         )
         self.box_perimeter = (
-                float(self.aisc_value['PC'].values[0]) * units('in')
+                conv_frac_str(self.aisc_value['PC'].values[0]) * units('in')
         )
         self.exposed_box_perimeter = (
-                float(self.aisc_value['PD'].values[0]) * units('in')
+                conv_frac_str(self.aisc_value['PD'].values[0]) * units('in')
         )
         self.web_face_depth = self.T = (
-                float(self.aisc_value['T'].values[0]) * units('in')
+                conv_frac_str(self.aisc_value['T'].values[0]) * units('in')
         )
 
         # These values are used in most shapes, but not all, hence the ifs
         self.slenderness_ratio_flange = (
-                float(self.aisc_value['bf/2tf'].values[0]) * units('in')
+                conv_frac_str(self.aisc_value['bf/2tf'].values[0]) * units('in')
         )
         self.k1 = (
-                float(self.aisc_value['k1'].values[0]) * units('in')
+                conv_frac_str(self.aisc_value['k1'].values[0]) * units('in')
         )
 
         self.fastener_workable_gage = (
-                float(self.aisc_value['WGi'].values[0]) * units('in')
+                conv_frac_str(self.aisc_value['WGi'].values[0]) * units('in')
         )
 
 
@@ -230,14 +236,14 @@ class C(SteelSection):
 
     def __init__(self, label):
         super(C, self).__init__(label)
-        self.x = float(self.aisc_value['x'].values[0]) * units('in')
-        self.eo = float(self.aisc_value['twdet'].values[0]) * units('in')
-        self.xp = float(self.aisc_value['xp'].values[0]) * units('in')
-        self.slenderness_ratio = float(self.aisc_value['b/t'].values[0])
-        self.warping_moment_2 = float(self.aisc_value['Sw2'].values[0]) * units('in^4')
-        self.warping_moment_3 = float(self.aisc_value['Sw3'].values[0]) * units('in^4')
-        self.ro = float(self.aisc_value['ro'].values[0]) * units('in')
-        self.H = float(self.aisc_value['H'].values[0])
+        self.x = conv_frac_str(self.aisc_value['x'].values[0]) * units('in')
+        self.eo = conv_frac_str(self.aisc_value['twdet'].values[0]) * units('in')
+        self.xp = conv_frac_str(self.aisc_value['xp'].values[0]) * units('in')
+        self.slenderness_ratio = conv_frac_str(self.aisc_value['b/t'].values[0])
+        self.warping_moment_2 = conv_frac_str(self.aisc_value['Sw2'].values[0]) * units('in^4')
+        self.warping_moment_3 = conv_frac_str(self.aisc_value['Sw3'].values[0]) * units('in^4')
+        self.ro = conv_frac_str(self.aisc_value['ro'].values[0]) * units('in')
+        self.H = conv_frac_str(self.aisc_value['H'].values[0])
 
 
 class MC(C):
@@ -268,27 +274,27 @@ class L(SteelSection):
 
     def __init__(self, label):
         super(L, self).__init__(label)
-        self.b = float(self.aisc_value['b'].values[0]) * units('in')
-        self.t = float(self.aisc_value['t'].values[0]) * units('in')
-        self.y = float(self.aisc_value['y'].values[0]) * units('in')
-        self.yp = float(self.aisc_value['yp'].values[0])
-        self.Iz = float(self.aisc_value['Iz'].values[0]) * units('in^4')
-        self.rz = float(self.aisc_value['rz'].values[0]) * units('in')
-        self.Sz = float(self.aisc_value['Sz'].values[0]) * units('in^3')
-        self.tan_a = float(self.aisc_value['tan(α)'].values[0])
-        self.Iw = float(self.aisc_value['Iw'].values[0]) * units('in^4')
-        self.zA = float(self.aisc_value['zA'].values[0]) * units('in')
-        self.zB = float(self.aisc_value['zB'].values[0]) * units('in')
-        self.zC = float(self.aisc_value['zC'].values[0]) * units('in')
-        self.wA = float(self.aisc_value['wA'].values[0]) * units('in')
-        self.wB = float(self.aisc_value['wB'].values[0]) * units('in')
-        self.wC = float(self.aisc_value['wC'].values[0]) * units('in')
-        self.SwA = float(self.aisc_value['SwA'].values[0]) * units('in^3')
-        self.SwC = float(self.aisc_value['SwC'].values[0]) * units('in^3')
-        self.SzA = float(self.aisc_value['SzA'].values[0]) * units('in^3')
-        self.SzB = float(self.aisc_value['SzB'].values[0]) * units('in^3')
-        self.SzC = float(self.aisc_value['SzC'].values[0]) * units('in^3')
-        self.PA2 = float(self.aisc_value['PA2'].values[0]) * units('in')
+        self.b = conv_frac_str(self.aisc_value['b'].values[0]) * units('in')
+        self.t = conv_frac_str(self.aisc_value['t'].values[0]) * units('in')
+        self.y = conv_frac_str(self.aisc_value['y'].values[0]) * units('in')
+        self.yp = conv_frac_str(self.aisc_value['yp'].values[0])
+        self.Iz = conv_frac_str(self.aisc_value['Iz'].values[0]) * units('in^4')
+        self.rz = conv_frac_str(self.aisc_value['rz'].values[0]) * units('in')
+        self.Sz = conv_frac_str(self.aisc_value['Sz'].values[0]) * units('in^3')
+        self.tan_a = conv_frac_str(self.aisc_value['tan(α)'].values[0])
+        self.Iw = conv_frac_str(self.aisc_value['Iw'].values[0]) * units('in^4')
+        self.zA = conv_frac_str(self.aisc_value['zA'].values[0]) * units('in')
+        self.zB = conv_frac_str(self.aisc_value['zB'].values[0]) * units('in')
+        self.zC = conv_frac_str(self.aisc_value['zC'].values[0]) * units('in')
+        self.wA = conv_frac_str(self.aisc_value['wA'].values[0]) * units('in')
+        self.wB = conv_frac_str(self.aisc_value['wB'].values[0]) * units('in')
+        self.wC = conv_frac_str(self.aisc_value['wC'].values[0]) * units('in')
+        self.SwA = conv_frac_str(self.aisc_value['SwA'].values[0]) * units('in^3')
+        self.SwC = conv_frac_str(self.aisc_value['SwC'].values[0]) * units('in^3')
+        self.SzA = conv_frac_str(self.aisc_value['SzA'].values[0]) * units('in^3')
+        self.SzB = conv_frac_str(self.aisc_value['SzB'].values[0]) * units('in^3')
+        self.SzC = conv_frac_str(self.aisc_value['SzC'].values[0]) * units('in^3')
+        self.PA2 = conv_frac_str(self.aisc_value['PA2'].values[0]) * units('in')
 
 
 class WT(SteelSection):
@@ -304,11 +310,11 @@ class WT(SteelSection):
 
     def __init__(self, label):
         super(WT, self).__init__(label)
-        self.d_t = float(self.aisc_value['D/t'].values[0])
-        self.ro = float(self.aisc_value['ro'].values[0]) * units('in')
-        self.y = float(self.aisc_value['y'].values[0]) * units('in')
-        self.yp = float(self.aisc_value['yp'].values[0])
-        self.H = float(self.aisc_value['H'].values[0])
+        self.d_t = conv_frac_str(self.aisc_value['D/t'].values[0])
+        self.ro = conv_frac_str(self.aisc_value['ro'].values[0]) * units('in')
+        self.y = conv_frac_str(self.aisc_value['y'].values[0]) * units('in')
+        self.yp = conv_frac_str(self.aisc_value['yp'].values[0])
+        self.H = conv_frac_str(self.aisc_value['H'].values[0])
 
 
 class MT(SteelSection):
@@ -354,9 +360,9 @@ class TwoL(SteelSection):
 
     def __init__(self, label):
         super(TwoL, self).__init__(label)
-        self.b = float(self.aisc_value['b'].values[0]) * units('in')
-        self.t = float(self.aisc_value['t'].values[0]) * units('in')
-        self.slenderness_ratio = float(self.aisc_value['b/t'].values[0])
+        self.b = conv_frac_str(self.aisc_value['b'].values[0]) * units('in')
+        self.t = conv_frac_str(self.aisc_value['t'].values[0]) * units('in')
+        self.slenderness_ratio = conv_frac_str(self.aisc_value['b/t'].values[0])
 
 
 class HSS(SteelSection):
@@ -372,17 +378,17 @@ class HSS(SteelSection):
 
     def __init__(self, label):
         super(HSS, self).__init__(label)
-        self.tnom = float(self.aisc_value['tnom'].values[0]) * units('in')
-        self.tdes = float(self.aisc_value['tdes'].values[0]) * units('in')
-        self.C = float(self.aisc_value['C'].values[0]) * units('in^3')
+        self.tnom = conv_frac_str(self.aisc_value['tnom'].values[0]) * units('in')
+        self.tdes = conv_frac_str(self.aisc_value['tdes'].values[0]) * units('in')
+        self.C = conv_frac_str(self.aisc_value['C'].values[0]) * units('in^3')
         if self.aisc_value['OD'].values[0] == '–':
             self.OD = None
         else:
-            self.OD = float(self.aisc_value['OD'].values[0]) * units('in')
+            self.OD = conv_frac_str(self.aisc_value['OD'].values[0]) * units('in')
         if self.aisc_value['ID'].values[0] == '–':
             self.ID = None
         else:
-            self.ID = float(self.aisc_value['ID'].values[0]) * units('in')
+            self.ID = conv_frac_str(self.aisc_value['ID'].values[0]) * units('in')
 
 
 class Pipe(SteelSection):
@@ -398,9 +404,9 @@ class Pipe(SteelSection):
 
     def __init__(self, label):
         super(Pipe, self).__init__(label)
-        self.OD = float(self.aisc_value['OD'].values[0]) * units('in')
-        self.ID = float(self.aisc_value['ID'].values[0]) * units('in')
-        self.D_t = float(self.aisc_value['D/t'].values[0])
+        self.OD = conv_frac_str(self.aisc_value['OD'].values[0]) * units('in')
+        self.ID = conv_frac_str(self.aisc_value['ID'].values[0]) * units('in')
+        self.D_t = conv_frac_str(self.aisc_value['D/t'].values[0])
 
 
 if __name__ == '__main__':
