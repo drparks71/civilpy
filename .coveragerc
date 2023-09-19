@@ -1,9 +1,7 @@
 [run]
 include = */src/*
 branch=True
-context=src
-omit=tests, .tox/*, docs/*, res*, Training/*
-source=src
+omit=tests, .tox/*, docs/*, res*, Training/*, venv/*
 timid=True
 parallel=True
 
