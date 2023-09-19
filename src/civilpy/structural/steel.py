@@ -13,7 +13,17 @@ def hello_world(user_input="World"):
 
 
 def conv_frac_str(fraction_string: str) -> float():
-    return float(sum(Fraction(s) for s in fraction_string.split()))
+    try:
+        return float(fraction_string)
+    except ValueError:
+        number, denominator = fraction_string.split('/')
+        try:
+            leading, number = number.split(' ')
+            whole = float(leading)
+        except ValueError:
+            whole = 0
+        frac = float(number) / float(denominator)
+        return whole - frac if whole < 0 else whole + frac
 
 
 class SteelSection:

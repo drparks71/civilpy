@@ -1,5 +1,5 @@
 import unittest
-from src.civilpy.structural.steel import SteelSection, hello_world
+from src.civilpy.structural.steel import SteelSection, hello_world, conv_frac_str
 from src.civilpy.structural.steel import W, M, S, HP, C, MC, L, WT, MT, ST
 from src.civilpy.structural.steel import TwoL, HSS, Pipe
 from src.civilpy.general import units
@@ -14,6 +14,11 @@ class TestGeneralFunctions(unittest.TestCase):
     def test_hello_world_with_param(self):
         assert hello_world("Everyone") == "Hello Everyone!"
 
+    def test_conv_frac_string(self):
+        assert conv_frac_str("1") == 1.0
+        assert conv_frac_str('3/2') == 1.5
+        assert conv_frac_str('1 1/2') == 1.5
+        assert conv_frac_str('-1 1/2') == -1.5
 
 class TestSteelSectionFunctions(unittest.TestCase):
     def test_general_import(self):
