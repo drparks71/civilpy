@@ -1,5 +1,5 @@
 [run]
-include = */src/*
+include = *src*
 branch=True
 context=src
 omit = tests, .tox/*, docs/*, res*, Training/*, *venv/*, *setup.py
