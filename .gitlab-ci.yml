@@ -9,8 +9,8 @@ test_code_coverage:
   script:
     - 'python -m venv venv'
     - 'source venv/bin/activate'
-    - 'python -m pip install --user -r requirements.txt'
-    - 'python -m pip install --user .'
+    - 'python -m pip install -r requirements.txt'
+    - 'python -m pip install .'
     - 'pytest --cov --cov-report term --cov-report xml:coverage.xml'
   coverage: '/TOTAL.*\s+(\d+\%)/'
   artifacts:
