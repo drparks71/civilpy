@@ -18,7 +18,7 @@ def conv_frac_str(fraction_string: str) -> float():
     except ValueError:
         num, denominator = fraction_string.split('/')
         try:
-            leading, num = num.split(' ')
+            leading, num = num.split()
             whole = float(leading)
         except ValueError:
             whole = 0

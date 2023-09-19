@@ -2,7 +2,7 @@
 include = */src/*
 branch=True
 context=src
-omit=tests, .tox/*, docs/*, res*, Training/*
+omit=tests, .tox/*, docs/*, res*, Training/*, venv/*, setup.py
 source=src
 timid=True
 parallel=True
