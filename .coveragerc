@@ -1,7 +1,7 @@
 [run]
 branch=True
 context=src
-omit = test
+omit = tests, docs, res, .tox, Training, venv
 source=
     civilpy
 timid=True
