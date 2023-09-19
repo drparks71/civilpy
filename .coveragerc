@@ -2,9 +2,11 @@
 include = */src/*
 branch=True
 context=src
-omit=test
 omit=tests, .tox/*, docs/*, res*, Training/*
 source=src
 timid=True
 parallel=True
+[report]
+omit=
+    .tox/*
 
