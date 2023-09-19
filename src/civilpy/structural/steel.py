@@ -16,13 +16,13 @@ def conv_frac_str(fraction_string: str) -> float():
     try:
         return float(fraction_string)
     except ValueError:
-        number, denominator = fraction_string.split('/')
+        num, denominator = fraction_string.split('/')
         try:
-            leading, number = number.split(' ')
+            leading, num = num.split(' ')
             whole = float(leading)
         except ValueError:
             whole = 0
-        frac = float(number) / float(denominator)
+        frac = float(num) / float(denominator)
         return whole - frac if whole < 0 else whole + frac
 
 

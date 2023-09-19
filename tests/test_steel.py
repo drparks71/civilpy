@@ -19,6 +19,7 @@ class TestGeneralFunctions(unittest.TestCase):
         assert conv_frac_str('3/2') == 1.5
         assert conv_frac_str('1 1/2') == 1.5
         assert conv_frac_str('-1 1/2') == -1.5
+        assert conv_frac_str('26 3/8') == 26.375
 
 class TestSteelSectionFunctions(unittest.TestCase):
     def test_general_import(self):
