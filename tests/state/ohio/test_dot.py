@@ -1,5 +1,48 @@
 import unittest
 from src.civilpy.state.ohio.dot import TimsBridge
+from civilpy.state.ohio.dot import Project
+
+# Import dicts to make sure they still exist
+from src.civilpy.state.ohio.dot import help_function, basemap_labels, bridge_labels, drainage_labels
+from src.civilpy.state.ohio.dot import landscaping_labels, lighting_labels, mot_labels, row_labels, roadway_labels
+from src.civilpy.state.ohio.dot import signal_labels, traffic_control_labels, utility_labels, wall_labels, all_labels
+from src.civilpy.state.ohio.dot import ohio_counties, NBIS_state_codes, state_code_conversion, get_3_digit_st_cd_from_2
+from src.civilpy.state.ohio.dot import geotechnical_labels
+
+# Import functions to test them
+from src.civilpy.state.ohio.dot import get_bridge_data_from_tims
+
+
+class TestDotFunctions(unittest.TestCase):
+    def test_help_function(self):
+        self.assertEqual(help_function(), None)
+
+    def test_dicts(self):
+        self.assertEqual(basemap_labels['KB'], '3D Model KB')
+        self.assertEqual(bridge_labels['SB'], 'Bearing')
+        self.assertEqual(drainage_labels['XD'], 'Channel Cross Sections')
+        self.assertEqual(geotechnical_labels['YL'], 'Geohazard Boring Logs')
+        self.assertEqual(landscaping_labels['PD'], 'Details')
+        self.assertEqual(lighting_labels['LC'], 'Circuit Diagrams')
+        self.assertEqual(mot_labels['XM'], 'Cross Sections')
+        self.assertEqual(row_labels['RC'], 'Centerline Plat')
+        self.assertEqual(roadway_labels['GC'], 'Calculations/Computations')
+        self.assertEqual(signal_labels['CD'], 'Details')
+        self.assertEqual(traffic_control_labels['TC'], 'Calculations/Computations')
+        self.assertEqual(utility_labels['UC'], 'Calculations/Computations')
+        self.assertEqual(wall_labels['WC'], 'Calculations/Computations')
+        self.assertEqual(all_labels['basemap_labels']['KB'], '3D Model KB')
+        self.assertEqual(ohio_counties['ADAMS'], 'ADA')
+        self.assertEqual(NBIS_state_codes['014'], 'Alabama')
+
+    def test_get_bridge_data_from_tims(self):
+        self.assertEqual(get_bridge_data_from_tims()['SFN'], '6500609')
+
+    def test_state_code_conversion(self):
+        self.assertEqual(state_code_conversion(39), 'Ohio')
+
+    def test_get_3_digit_st_cd_from_2(self):
+        self.assertEqual(get_3_digit_st_cd_from_2(39), '395')
 
 
 class TestBridgeObject(unittest.TestCase):
@@ -254,3 +297,97 @@ class TestBridgeObject(unittest.TestCase):
         self.assertIsInstance(self.tb.created_date, int)
         self.assertEqual(self.tb.last_edited_user, 'TIMS@P31_AG')
         self.assertIsInstance(self.tb.last_edited_date, int)
+
+
+# //TODO - Fix this test, unstable API
+
+
+class TestProject(unittest.TestCase):
+    def setUp(self):
+        # Creates a 'test project' and makes sure none of the attributes have changed
+        self.tp = Project(pid='112664')
+
+    def tearDown(self):
+        pass
+
+    def test_init(self):
+        # //TODO - make tests less dependent on getting specific values from project points arrays
+        self.assertIsInstance(self.tp.objectid, int)
+        self.assertIsInstance(self.tp.gis_id, int)
+        self.assertEqual(self.tp.pid_nbr, 112664)
+        self.assertEqual(self.tp.district_nbr, 6)
+        self.assertEqual(self.tp.locale_short_nme, 'D06')
+        self.assertEqual(self.tp.county_nme, 'District 6')
+        self.assertEqual(self.tp.project_nme, 'D06-FY23 Bridge Repair')
+        self.assertEqual(self.tp.contract_type, 'Standard Build')
+        self.assertEqual(self.tp.primary_fund_category_txt, 'District Preservation (Pv & Br)')
+        self.assertEqual(self.tp.project_manager_nme, 'PARKS, DANE RICHARD')
+        self.assertEqual(self.tp.reservoir_year, None)
+        self.assertEqual(self.tp.tier, None)
+        self.assertEqual(self.tp.odot_letting, 'ODOT Let')
+        self.assertEqual(self.tp.schedule_type_short_nme, 'Standard')
+        self.assertEqual(self.tp.env_project_manager_nme, 'GARTNER, JANICE M')
+        self.assertEqual(self.tp.area_engineer_nme, 'VANCE, JEFFREY A')
+        self.assertEqual(self.tp.project_engineer_nme, 'FIRIS, BENJAMIN L')
+        self.assertEqual(self.tp.design_agency, 'DISTRICT 6-ENGINEERING')
+        self.assertEqual(self.tp.sponsoring_agency, 'DISTRICT 6-BRIDGES')
+        self.assertEqual(self.tp.pdp_short_name, 'Path 1')
+        self.assertEqual(self.tp.primary_work_category, 'Bridge Preservation')
+        self.assertEqual(self.tp.project_status, 'Awarded')
+        self.assertEqual(self.tp.fiscal_year, '2023')
+        self.assertEqual(self.tp.inhouse_design_full_nme, 'BLOOR, CLAYTON  ')
+        self.assertEqual(self.tp.est_total_constr_cost, 469316.5)
+        self.assertEqual(self.tp.state_project_nbr, '230339')
+        self.assertEqual(self.tp.constr_vendor_nme, 'EVERS STEEL CONSTRUCTION LLC')
+        self.assertEqual(self.tp.stip_flag, 'N')
+        self.assertEqual(self.tp.current_stip_co_amt, None)
+        self.assertEqual(self.tp.project_plans_url, 'http://contracts.dot.state.oh.us/search.jsp?cabinetId=1002&PID_NUM=112664')
+        self.assertEqual(self.tp.project_addenda_url, 'http://contracts.dot.state.oh.us/search.jsp?cabinetId=1000&PID_NUM=112664')
+        self.assertEqual(self.tp.project_proposal_url, 'http://contracts.dot.state.oh.us/search.jsp?cabinetId=1003&PID_NUM=112664')
+        self.assertEqual(self.tp.fmis_proj_desc, None)
+        self.assertEqual(self.tp.award_milestone_dt, 1685664000000)
+        self.assertEqual(self.tp.begin_constr_milestone_dt, 1688947200000)
+        self.assertEqual(self.tp.end_constr_milestone_dt, 1697328000000)
+        self.assertEqual(self.tp.open_traffic_dt, None)
+        self.assertEqual(self.tp.central_office_close_dt, None)
+        self.assertIsInstance(self.tp.source_last_updated, int)
+        self.assertIsInstance(self.tp.cod_last_updated, int)
+        self.assertEqual(self.tp.preserv_funds_ind, 'Y')
+        self.assertEqual(self.tp.major_brg_funds_ind, 'N')
+        self.assertEqual(self.tp.major_new_funds_ind, 'N')
+        self.assertEqual(self.tp.major_rehab_funds_ind, 'N')
+        self.assertEqual(self.tp.mpo_funds_ind, 'N')
+        self.assertEqual(self.tp.safety_funds_ind, 'N')
+        self.assertEqual(self.tp.local_funds_ind, 'N')
+        self.assertEqual(self.tp.other_funds_ind, 'N')
+        self.assertEqual(self.tp.nlf_id, 'SUNIUS00033**N')
+        self.assertIsInstance(self.tp.ctl_begin, float)
+        self.assertEqual(self.tp.ctl_end, None)
+        self.assertEqual(self.tp.gis_feature_type, 'POINT')
+        self.assertEqual(self.tp.route_type, 'US')
+        self.assertEqual(self.tp.route_id, '00033')
+        self.assertIsInstance(self.tp.structure_file_nbr, str)
+        self.assertIsInstance(self.tp.main_structure_type, str)
+        self.assertIsInstance(self.tp.sufficiency_rating, str)
+        self.assertIsInstance(self.tp.ovrl_structure_length, int)
+        self.assertIsInstance(self.tp.deck_area, int)
+        self.assertIsInstance(self.tp.deck_width, float)
+        self.assertEqual(self.tp.feature_intersect, 'UNDER HOLYCROSS-EPPS C158')
+        self.assertIsInstance(self.tp.year_built, str)
+        self.assertIsInstance(self.tp.longitude_begin_nbr, float)
+        self.assertIsInstance(self.tp.latitude_begin_nbr, float)
+        self.assertEqual(self.tp.longitude_end_nbr, None)
+        self.assertEqual(self.tp.latitude_end_nbr, None)
+        self.assertEqual(self.tp.county_cd_work_location, 'UNI')
+        self.assertEqual(self.tp.county_nme_work_location, 'UNION')
+        self.assertEqual(self.tp.district_work_location, '06')
+        self.assertEqual(self.tp.pavement_treatment_type, None)
+        self.assertEqual(self.tp.pavement_treatment_category, None)
+        self.assertEqual(self.tp.created_user, 'TIMS@P31_AG')
+        self.assertIsInstance(self.tp.created_date, int)
+        self.assertEqual(self.tp.last_edited_user, 'TIMS@P31_AG')
+        self.assertIsInstance(self.tp.last_edited_date, int)
+
+
+if __name__ == '__main__':
+    unittest.main()

@@ -3,6 +3,8 @@ from pathlib import Path
 from io import BytesIO
 from PIL import Image
 
+test_init = True
+
 
 def update_listbox(listbox_element, folder, extension, substring):
     path = Path(folder)

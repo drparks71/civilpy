@@ -9,6 +9,7 @@ from PIL import Image, ImageSequence
 
 from civilpy.state.ohio.dot import TimsBridge
 
+test_init = True
 
 default_bridge_labels = [
     'Bridge Status Code', 'Bridge Status Description calc',

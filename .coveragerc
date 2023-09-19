@@ -1,10 +1,31 @@
 [run]
-include = */src/*
+include = civilpy/src/*
 branch=True
 context=src
-omit=tests, .tox/*, docs/*, res*, Training/*, venv/*, setup.py
+omit = [
+    tests
+    .tox/*
+    docs/*
+    res*
+    Training/*
+    *venv/*
+    *setup.py
+    *src/kivy/*
+    *src/pyqt5/*
+    *src/webpages/*
+]
 source=src
 timid=True
 parallel=True
-[report]
-omit=
+[html]
+omit =
+    tests
+    .tox/*
+    docs/*
+    res*
+    Training/*
+    venv/*
+    setup.py
+    /src/kivy/*
+    src/pyqt5/*
+    src/webpages/*
