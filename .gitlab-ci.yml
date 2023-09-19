@@ -7,8 +7,10 @@ test_code_coverage:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   image: python:latest
   script:
-    - 'python -m pip install -r requirements.txt'
-    - 'python -m pip install .'
+    - 'python -m venv venv'
+    - 'source venv/bin/activate'
+    - 'python -m pip install --user -r requirements.txt'
+    - 'python -m pip install --user .'
     - 'pytest --cov --cov-report term --cov-report xml:coverage.xml'
   coverage: '/TOTAL.*\s+(\d+\%)/'
   artifacts:
