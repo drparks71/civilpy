@@ -1,12 +1,9 @@
 [run]
+include = */src/*
 branch=True
-context=*src*
-omit = tests, docs, res, .tox, Training, venv
-source=
-    *civilpy*
+context=src
+omit=tests, .tox/*, docs/*, res*, Training/*
+source=src
 timid=True
 parallel=True
-[report]
-omit=
-    .tox/*
 
