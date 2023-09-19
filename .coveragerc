@@ -1,9 +1,9 @@
 [run]
 branch=True
-context=src
+context=*src*
 omit = tests, docs, res, .tox, Training, venv
 source=
-    civilpy
+    *civilpy*
 timid=True
 parallel=True
 [report]
