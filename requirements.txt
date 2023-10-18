@@ -15,6 +15,7 @@ PySimpleGUI~=4.60.4
 html5lib~=1.1
 lxml~=4.9.2
 soupsieve~=2.4.1
+jupyterlab~=4.0.7
 defusedxml~=0.7.1
 cffi~=1.15.1
 future~=0.18.3

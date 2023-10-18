@@ -153,3 +153,4 @@ django/
 /coverage.xml
 .coverage
 /coverage.html/
+/venv/
