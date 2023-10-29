@@ -8,7 +8,6 @@ Pint~=0.20.1
 psycopg2~=2.9.5
 psycopg2_binary~=2.9.5
 requests~=2.31.0
-setuptools~=68.0.0
 sshtunnel~=0.4.0
 sympy~=1.11.1
 PySimpleGUI~=4.60.4
