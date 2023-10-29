@@ -24,7 +24,6 @@ verify-3.8:
     stage: test
     image: python:3.8
 
-
 verify-3.9:
     extends: test_code_coverage
     stage: test
