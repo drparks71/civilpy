@@ -1,7 +1,5 @@
 import pandas as pd
-from src.civilpy.general import units
-from fractions import Fraction
-
+from civilpy.general import units
 
 steel_tables = pd.read_csv(
     'https://raw.githubusercontent.com/drparks71w/'
