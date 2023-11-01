@@ -42,6 +42,8 @@ verify-3.11:
 verify-3.12:
     extends: test_code_coverage
     stage: test
+    before_script:
+      - 'python -m ensurepip --upgrade'
     allow_failure: true
     image: python:latest
 
