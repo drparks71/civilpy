@@ -1,5 +1,5 @@
-from src.civilpy.structural.steel import W, MC
-from src.civilpy.general import units
+from civilpy.structural.steel import W, MC
+from civilpy.general import units
 from termcolor import colored
 import math
 
