@@ -7,6 +7,7 @@ test_code_coverage:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   image: python:3.8
   script:
+    - 'python -m ensurepip --upgrade'
     - 'python -m venv venv'
     - 'source venv/bin/activate'
     - 'python -m pip install -r requirements.txt'
@@ -42,8 +43,6 @@ verify-3.11:
 verify-3.12:
     extends: test_code_coverage
     stage: test
-    before_script:
-      - 'python -m ensurepip --upgrade'
     allow_failure: true
     image: python:latest
 
