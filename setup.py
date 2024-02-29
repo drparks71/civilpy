@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='civilpy',
-    version='0.0.70',
+    version='0.0.71',
     packages=find_packages('src', exclude=['test', 'secrets', 'docs', 'res']),
     description='Civil Engineering Tools in Python',
     url="https://daneparks.com/Dane/civilpy",
@@ -51,21 +51,15 @@ setup(
         "Pillow>=9.4.0",
         "Pint>=0.12.2",
         "coverage>=7.1.0",
-        "matplotlib>=3.6.3",
         "webdriver-manager>=3.8.5",
-        "selenium>=3.141.0",
         "msedge-selenium-tools>=3.141.4",
-        "jupyter>=1.0.0",
         "Flask>=2.2.2",
         "PyPDF2>=3.0.1",
-        "simplekml>=1.3.6",
         "beautifulsoup4>=4.11.1",
-        "psycopg2-binary>=2.9.5",
         "sympy>=1.10.0",
         "sshtunnel>=0.4.0",
         "termcolor>=1.1.0",
         "icalendar>=4.0.7",
-        "latex>=0.7.0",
         "html5lib>=1.1",
         "geopandas>=0.6.2",
         "fiona>=1.8.22",
@@ -74,20 +68,30 @@ setup(
         "html5lib>=1.1",
         "requests>=2.28.2",
         "pyntcloud>=0.3.1",
-        "laspy>=2.4.1",
         "openpyxl>=3.1.2",
-        "earthpy>=0.9.4",
-        "pymupdf>=1.22.3",
         "tqdm>=4.65.0",
-        "pyodbc>=4.0.39",
         "pytesseract>=0.3.10",
-        "kivymd>=1.1.1",
-        "PyQt5>=5.15.9",
-        "tox>=4.11.1",
         "pytest>=7.4.1",
         "pytest-cov>=4.1.0"
     ],
 
     extras_require={
+        "full": [ # Holds all the packages that aren't "Pure Python"
+            "matplotlib>=3.6.3",
+            "selenium>=3.141.0",
+            "msedge-selenium-tools>=3.141.4",
+            "jupyter>=1.0.0",
+            "simplekml>=1.3.6",
+            "psycopg2-binary>=2.9.5",
+            "sympy>=1.10.0",
+            "latex>=0.7.0",
+            "laspy>=2.4.1",
+            "earthpy>=0.9.4",
+            "pymupdf>=1.22.3",
+            "pyodbc>=4.0.39",
+            "kivymd>=1.1.1",
+            "PyQt5>=5.15.9",
+            "tox>=4.11.1"
+        ]
     }
 )
