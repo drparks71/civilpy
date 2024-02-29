@@ -57,6 +57,7 @@ pypi_publish:
   script:
     - pip install -U build twine
     - python setup.py sdist
+    - python setup.py bdist_wheel --universal
     - twine upload --verbose dist/*
 
 gitlab_publish:

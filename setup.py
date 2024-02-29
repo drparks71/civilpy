@@ -76,7 +76,7 @@ setup(
     ],
 
     extras_require={
-        "full": [ # Holds all the packages that aren't "Pure Python"
+        "full": [  # Holds all the packages that aren't "Pure Python"
             "matplotlib>=3.6.3",
             "selenium>=3.141.0",
             "msedge-selenium-tools>=3.141.4",
