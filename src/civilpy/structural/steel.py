@@ -2,8 +2,8 @@ import pandas as pd
 from civilpy.general import units
 
 steel_tables = pd.read_csv(
-    'https://raw.githubusercontent.com/drparks71w/'
-    'CivilPy/master/src/civilpy/structural/res/steel_shapes.csv')
+    'https://daneparks.com/Dane/civilpy/-/raw/master/src/civilpy/structural/res/steel_shapes.csv?ref_type=heads'
+)
 
 
 def hello_world(user_input="World"):
