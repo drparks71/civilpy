@@ -59,7 +59,6 @@ civilpy/scrapers/__pycache__/
 /Secrets/
 /secrets.json
 /Notebooks/odot_data/
-/Notebooks/Load Rating Reference/
 /civilpy/scrapers/
 /Data/
 /docs/_build
@@ -154,3 +153,5 @@ django/
 .coverage
 /coverage.html/
 /venv/
+/Training/Project Files/*
+/Training/output/*
