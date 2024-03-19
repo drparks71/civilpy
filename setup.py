@@ -27,6 +27,7 @@ setup(
         "civilpy.structural.beam_bending",
         "civilpy.structural.search_tools",
         "civilpy.structural.steel",
+        "civilpy.structural.midas",
         "civilpy.water_resources.hydraulics",
         "civilpy.CLI",
         "civilpy.kivy"
