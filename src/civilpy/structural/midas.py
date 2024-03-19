@@ -6,7 +6,7 @@ from pathlib import Path
 # Load the secrets.json file from the parent directory
 try:
     civilpy_secrets_path = Path(os.getcwd()).parent.parent.parent
-    with open('../../../secrets.json', 'r') as f:
+    with open(civilpy_secrets_path, 'r') as f:
         data = json.load(f)
         MIDAS_API_KEY = data['MIDAS_API_KEY']
 except FileNotFoundError as e:
