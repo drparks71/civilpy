@@ -3,22 +3,72 @@ import json
 import requests
 from pathlib import Path
 
-# Load the secrets.json file from the parent directory
-try:
-    civilpy_secrets_path = Path(os.getcwd()).parent.parent.parent
-    with open(civilpy_secrets_path, 'r') as f:
-        data = json.load(f)
-        MIDAS_API_KEY = data['MIDAS_API_KEY']
-except FileNotFoundError as e:
-    print(''''
-            Could not call the MIDAS API, ensure it\'s running and your key is correctly
-            Stored in your secrets.json file located at the following location:
-            ''')
-    print(f"{e}")
+MIDAS_API_KEY = ''
+
+
+def get_api_key(path_override=None):
+    """
+    Retrieve the API key from the secrets.json file in the civilpy directory
+
+    Parameters
+    -------
+    path_override : the path where the secrets.json file is located
+
+    Returns
+    -------
+    None - Sets a global variable for the module
+    """
+    global MIDAS_API_KEY
+
+    if path_override is None:
+        try:
+            civilpy_secrets_path = Path(os.getcwd()).parent.parent.parent / 'secrets.json'
+            with open(civilpy_secrets_path, 'r') as f:
+                data = json.load(f)
+                MIDAS_API_KEY = data['MIDAS_API_KEY']
+
+        except FileNotFoundError as e:
+            print(''''
+                    Could not call the MIDAS API, ensure it\'s running and your key is correctly
+                    Stored in your secrets.json file located at the following location:
+                    ''')
+            print(f"{e}")
+    else:
+        try:
+            with open(path_override, 'r') as f:
+                data = json.load(f)
+                MIDAS_API_KEY = data['MIDAS_API_KEY']
+
+        except FileNotFoundError as e:
+            print(''''
+                    Could not call the MIDAS API, ensure it\'s running and your key is correctly
+                    Stored in your secrets.json file located at the following location:
+                    ''')
+            print(f"{e}")
 
 
 # function for MIDAS Open API
 def midas_api(method, command, body=None):
+    """
+    Make a request to the MIDAS API and return the
+    response as a JSON object
+
+    Parameters
+    ----------
+    method: str - 'GET', 'PUT', 'POST' or 'DELETE'
+    command: str - The particular method within the API you want
+        to target, such as 'db/elem' for the elements you want to access
+    body: dict - The body of the request you want to send to the api, usually contains
+        the values you want MIDAS to update with
+
+    Returns
+    -------
+    response.json - the response from the MIDAS API
+    """
+    if MIDAS_API_KEY:
+        pass
+    else:
+        get_api_key()
     base_url = "https://moa-engineers.midasit.com:443/civil/"
     mapi_key = MIDAS_API_KEY
 
