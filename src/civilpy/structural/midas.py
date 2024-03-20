@@ -1,9 +1,11 @@
 import os
 import json
+import pint
 import requests
 from pathlib import Path
 
 MIDAS_API_KEY = ''
+units = pint.UnitRegistry()
 
 
 def get_api_key(path_override=None):
@@ -87,6 +89,9 @@ def midas_api(method, command, body=None):
             response = requests.get(url=url, headers=headers)
         elif method.upper() == "DELETE":
             response = requests.delete(url=url, headers=headers)
+        else:
+            response = ''
+            print('Invalid method, please use one of GET, POST, PUT, or DELETE')
 
         print(method, command, response.status_code)
         return response.json()
@@ -98,27 +103,131 @@ def midas_api(method, command, body=None):
         print(f"{not_defined}")
 
 
-def convert_units(to: str) -> None:
+def convert_node_units(from_units: str = None, to_units: str = None, in_place: bool = True) -> None:
+    """
+    Converts the existing nodes from one unit system to another, for instance if you import
+    a dxf file that was drawn in feet, but your midas units were set to inches,
+    Parameters
+    ----------
+    from_units: str = The units the drawing is currently in ie 'inches' will grab them from midas if None
+    to_units: str = The desired units to convert the drawing to, if None, will not run
+    in_place: bool = Whether you want the function to push the data to the midas, or just return the updated values
+
+    Returns
+    -------
+    None - Converts the units in the open model to the desired units
+    nodes - if in_place is False
+    """
     # Get the current list of nodes in midas
     nodes = midas_api('GET', "db/node")
+
+    if from_units is None:
+        units_api_response = midas_api('GET', "db/unit")
+        from_units = units_api_response['UNIT']['1']['DIST'].lower()
+    elif to_units is None:
+        print('Please specify units to convert to ("feet"/"inches")')
+        print('\n')
 
     # Go through every node and multiply/divide depending on need
     for index_value in nodes['NODE']:
         print(index_value, end=': ')
         for xyz_value in nodes['NODE'][index_value]:
             print(f"{xyz_value}: {nodes['NODE'][index_value][xyz_value]}", end=', ')
-            if to == 'feet':
-                nodes['NODE'][index_value][xyz_value] *= 12  # Convert from inches to feet
-                print(f"Updated to {xyz_value}: {nodes['NODE'][index_value][xyz_value]}", end=', ')
-            elif to == 'inches':
-                nodes['NODE'][index_value][xyz_value] *= 12  # Convert from inches to feet
-                print(f"Updated to {xyz_value}: {nodes['NODE'][index_value][xyz_value]}", end=', ')
-            else:
-                print('Please specify units to convert to ("feet"/"inches")')
-                print('\n')
+            conversion_factor = (1 * units[from_units]).to(units[to_units]).magnitude
+            nodes['NODE'][index_value][xyz_value] /= conversion_factor
+            print(f"Updated to {xyz_value}: {nodes['NODE'][index_value][xyz_value]}", end=', ')
+        print()
 
-                # MidasAPI expects the first key in the values to be 'Assign'
-                nodes['Assign'] = nodes.pop('NODE')
+    # MidasAPI expects the first key in the values to be 'Assign'
+    nodes['Assign'] = nodes.pop('NODE')
 
-                # Send the updated values back to midas
-                midas_api('PUT', "db/node", nodes)
+    if in_place:
+        # Send the updated values back to midas
+        midas_api('PUT', "db/node", nodes)
+    else:
+        return nodes
+
+
+def get_elements():
+    elements = midas_api('GET', 'db/elem')
+    return elements
+
+
+def get_nodes():
+    nodes = midas_api('GET', 'db/node')
+    return nodes
+
+
+def get_materials():
+    materials = midas_api('GET', 'db/matl')
+    return materials
+
+
+def get_sections():
+    sections = midas_api('GET', 'db/sect')
+    return sections
+
+
+def get_static_loads():
+    static_loads = midas_api('GET', 'db/stld')
+    return static_loads
+
+
+def get_units():
+    current_units = midas_api('GET', 'db/unit')
+    return current_units
+
+
+def get_supports():
+    support_definitions = midas_api('GET', 'db/cons')
+    return support_definitions
+
+
+def get_elements_by_section_index(section_index: int = None):
+    """
+    Returns a dictionary containing all elements of the midas model that match the section index
+
+    Parameters
+    ----------
+    section_index: int = The index value of the section you want to search the elements for
+
+    Returns
+    -------
+    return_dict: A dictionary containing all elements of the midas model that match the section
+        specified
+    """
+    return_dict = {'ELEM': {}}
+    elements = get_elements()
+
+    if section_index is not None:
+        for key in elements['ELEM']:
+            if elements['ELEM'][key]['SECT'] == section_index:
+                return_dict['ELEM'][key] = elements['ELEM'][key]
+    else:
+        print('You must specify a section by it\'s index')
+
+    return return_dict
+
+
+def get_elements_by_material_index(material_index: int = None):
+    """
+    Get the elements of a model by specifying a material index value
+    Parameters
+    ----------
+    material_index: int = Index of the material you want to sort by in str format
+
+    Returns
+    -------
+    return_dict: dict = The elements of a model that match the material specified
+    """
+    return_dict = {'ELEM': {}}
+    elements = get_elements()
+
+    if material_index is not None:
+        for keys in elements['ELEM']:
+            if elements['ELEM'][keys]['MATL'] == material_index:
+                return_dict['ELEM'][keys] = elements['ELEM'][keys]
+    else:
+        print('You must specify a material by it\'s index')
+
+    return return_dict
