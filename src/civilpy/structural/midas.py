@@ -132,7 +132,6 @@ def midas_api(method, command, body=None):
             response = ''
             print('Invalid method, please use one of GET, POST, PUT, or DELETE')
 
-        print(method, command, response.status_code)
         return response.json()
     except NameError as not_defined:
         print(''''
