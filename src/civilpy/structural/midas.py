@@ -8,13 +8,13 @@ MIDAS_API_KEY = ''
 units = pint.UnitRegistry()
 
 
-def get_api_key(path_override=None):
+def get_api_key(secrets_path=None):
     """
     Retrieve the API key from the secrets.json file in the civilpy directory
 
     Parameters
     -------
-    path_override : the path where the secrets.json file is located
+    secrets_path : the path where the secrets.json file is located
 
     Returns
     -------
@@ -22,30 +22,26 @@ def get_api_key(path_override=None):
     """
     global MIDAS_API_KEY
 
-    if path_override is None:
+    if secrets_path is None:
         try:
-            civilpy_secrets_path = Path(os.getcwd()).parent.parent.parent / 'secrets.json'
-            with open(civilpy_secrets_path, 'r') as f:
+            secrets_path = Path(os.getcwd()).parent.parent / 'secrets.json'
+            with open(secrets_path, 'r') as f:
                 data = json.load(f)
                 MIDAS_API_KEY = data['MIDAS_API_KEY']
 
         except FileNotFoundError as e:
-            print(''''
-                    Could not call the MIDAS API, ensure it\'s running and your key is correctly
-                    Stored in your secrets.json file located at the following location:
-                    ''')
+            print(f'Could not call the MIDAS API, ensure it\'s running and your key is correctly')
+            print(f'Stored in your secrets.json file located at the following location: {secrets_path}')
             print(f"{e}")
     else:
         try:
-            with open(path_override, 'r') as f:
+            with open(secrets_path, 'r') as f:
                 data = json.load(f)
                 MIDAS_API_KEY = data['MIDAS_API_KEY']
 
         except FileNotFoundError as e:
-            print(''''
-                    Could not call the MIDAS API, ensure it\'s running and your key is correctly
-                    Stored in your secrets.json file located at the following location:
-                    ''')
+            print(f'Could not call the MIDAS API, ensure it\'s running and your key is correctly')
+            print(f'Stored in your secrets.json file located at the following location: {secrets_path}')
             print(f"{e}")
 
 
