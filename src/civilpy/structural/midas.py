@@ -3,9 +3,52 @@ import json
 import pint
 import requests
 from pathlib import Path
+from civilpy.general import units
+
+analysis_results_request = {
+    "Argument": {
+        "TABLE_NAME": "BeamForce",
+        "TABLE_TYPE": "BEAMFORCE",
+        "EXPORT_PATH": Path(os.getcwd()) / 'output.json',
+        "UNIT": {
+            "FORCE": "KIPS",
+            "DIST": "FT"
+        },
+        "STYLES": {
+            "FORMAT": "Default",
+            "PLACE": 12
+        },
+        "COMPONENTS": [
+            "Elem",
+            "Load",
+            "Part",
+            "Axial",
+            "Shear-y",
+            "Shear-z",
+            "Torsion",
+            "Moment-y",
+            "Moment-z"
+        ],
+        "NODE_ELEMS": {
+            "KEYS": [
+                "310to536"
+            ]
+        },
+        "LOAD_CASE_NAMES": [
+            "DL(CB)",
+            "Moving Load Case(MV:all)"
+        ],
+        "PARTS": [
+            "Part I",
+            "Part 1/4",
+            "Part 2/4",
+            "Part 3/4",
+            "Part J"
+        ]
+    }
+}
 
 MIDAS_API_KEY = ''
-units = pint.UnitRegistry()
 
 
 def get_api_key(secrets_path=None):
@@ -227,3 +270,14 @@ def get_elements_by_material_index(material_index: int = None):
         print('You must specify a material by it\'s index')
 
     return return_dict
+
+
+def setup_output_directory(output_directory: str = os.getcwd()):
+    if os.path.isdir(Path(output_directory) / 'output'):
+        print('Output directory already exists')
+    else:
+        print(f"Directory doesn't exist, creating at {Path(output_directory) / 'output'}")
+        os.mkdir(output_directory)
+
+
+setup_output_directory()
