@@ -5,12 +5,13 @@ with open("README.md", "r") as fh:
 
 setup(
     name='civilpy',
-    version='0.0.77',
+    version='0.0.78',
     packages=find_packages('src', exclude=['test', 'secrets', 'docs', 'res']),
     description='Civil Engineering Tools in Python',
     url="https://daneparks.com/Dane/civilpy",
     author_email="Dane@daneparks.com",
     author="Dane Parks",
+    license='MIT',
     py_modules=[
         "civilpy.state.ohio.dot",
         "civilpy.state.ohio.snbi",

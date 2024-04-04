@@ -225,7 +225,7 @@ class Beam:
     def plot_beam_diagram(self, ax=None):
         """Returns a schematic of the beam and all the loads applied on it.
         """
-        plot01_params = {'ylabel': "Beam loads", 'yunits': r'kN / m',
+        plot01_params = {'ylabel': "Beam loads", 'yunits': r'kip / ft',
                          # 'xlabel':"Beam axis", 'xunits':"m",
                          'color': "g",
                          'inverted': True}

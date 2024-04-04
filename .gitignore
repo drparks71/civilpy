@@ -137,22 +137,22 @@ django/
 /Notebooks/ODOT/
 /civilpy/.buildozer/
 /secrets/secrets.json
-/Training/samplekml.kml
-/Training/scratch.py
-/Training/scratch.ipynb
+/Notebooks/samplekml.kml
+/Notebooks/scratch.py
+/Notebooks/scratch.ipynb
 /.coverage
-/Training/map.html
-/Training/temp/
+/Notebooks/map.html
+/Notebooks/temp/
 /identifier.sqlite
 /src/civilpy/kivy/demo_apps/ToDo/.buildozer/
 /src/civilpy/kivy/demo_apps/ToDo/bin/
 /src/civilpy/kivy/demo_apps/ToDo/todo.db
-/Training/user_secrets.py
+/Notebooks/user_secrets.py
 /.tox/*
 /coverage.xml
 .coverage
 /coverage.html/
 /venv/
-/Training/Project Files/*
-/Training/output/*
-/Training/Michael Baker Employee Resources.ipynb
+/Notebooks/Project Files/*
+/Notebooks/output/*
+/Notebooks/Michael Baker Employee Resources.ipynb

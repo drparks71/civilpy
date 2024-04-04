@@ -1,8 +1,8 @@
 from civilpy.structural.midas import get_elements_by_section_index, get_api_key, midas_api
 from civilpy.general import pint, units
 
-from civilpy.general import PrintColors
-from civilpy.structural.midas import analysis_results_request
+from src.civilpy.general import PrintColors
+from src.civilpy.structural.midas import analysis_results_request
 
 from pathlib import Path
 import pandas as pd
