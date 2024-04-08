@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 setup(
     name='civilpy',
     version='0.0.78',
-    packages=find_packages('src', exclude=['test', 'secrets', 'docs', 'res']),
+    packages=find_packages('src', exclude=['test', 'Notebooks', 'secrets', 'docs', 'res']),
     description='Civil Engineering Tools in Python',
     url="https://daneparks.com/Dane/civilpy",
     author_email="Dane@daneparks.com",
