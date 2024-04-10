@@ -1,5 +1,7 @@
+import numpy as np
 import pandas as pd
 from civilpy.general import units
+from civilpy.structural.res.definitions import A325_bolt_weights
 
 steel_tables = pd.read_csv(
     'https://daneparks.com/Dane/civilpy/-/raw/master/src/civilpy/structural/res/steel_shapes.csv?ref_type=heads'
@@ -10,7 +12,7 @@ def hello_world(user_input="World"):
     return f"Hello {user_input}!"
 
 
-def conv_frac_str(fraction_string: str) -> float():
+def conv_frac_str(fraction_string: str) -> float:
     try:
         return float(fraction_string)
     except ValueError:
@@ -415,6 +417,103 @@ class Pipe(SteelSection):
         self.OD = conv_frac_str(self.aisc_value['OD'].values[0]) * units('in')
         self.ID = conv_frac_str(self.aisc_value['ID'].values[0]) * units('in')
         self.D_t = conv_frac_str(self.aisc_value['D/t'].values[0])
+
+
+def get_bolt_weights(length: float, diameter: float, no_of_washers: int) -> float:
+    """
+    Function to get the bolt weights from the A325_bolt_weights dictionary and calculate the weight per bolt if it's
+    not contained in the table.
+
+    Original table from:
+    https://www.portlandbolt.com/print/?table=7587
+
+    The A325_bolt_weights dictionary reports the weight indexed by bolt length and diameter, and reports the value in
+    lbs/100 bolts. This function simplifies that by reducing the value to that of a single bolt.
+
+    If bolt weights are not contained in the dictionary, the function will utilize the following formula to calculate
+    the weight per bolt, if no_of_washers is greater than 0, it will include the weight of the washers in the
+    calculation with the following values:
+
+    Per inch Adder (dia):
+        0.5: 5.5
+        0.625: 8.6
+        0.75: 12.4
+        0.875: 16.9
+        1.0: 22.1
+        1.125: 28
+        1.25: 34.4
+        1.375: 42.5
+        1.5: 49.7
+
+    F436 Round Washers
+        0.5: 2.1
+        0.625: 3.6
+        0.75: 4.8
+        0.875: 7
+        1.0: 9.4
+        1.125: 11.3
+        1.25: 13.8
+        1.375: 16.8
+        1.5: 20
+
+    Weight in table includes the weight of nuts.
+
+    Parameters
+    -------
+    length : float
+    diameter : float
+    no_of_washers : int
+
+    Returns
+    -------
+    Weight : float - the weight of the individual bolt
+    """
+
+    # Test if the inputs are in the table or if the formula must be used to calculate weight
+    if length in A325_bolt_weights.keys() and diameter in A325_bolt_weights[9].keys():
+        total_weight = A325_bolt_weights[length][diameter]
+
+    # Make sure user input is one of the available diameters
+    elif diameter not in A325_bolt_weights[9].keys() or length not in A325_bolt_weights.keys():
+        print('\nNon-existant diameter or length used, please use a value from the following list:')
+        print('\n\t0.5\n\t0.625\n\t0.75\n\t0.875\n\t1.0\n\t1.125\n\t1.25\n\t1.375\n\t1.5\n\n')
+
+        return None
+
+    # Calculates the weight of bolts longer than 9", uses 6" bolt to have all dias
+    elif diameter in A325_bolt_weights[9].keys() and length > max(A325_bolt_weights.keys()):
+        length_adder = {
+            0.5: 5.5,
+            0.625: 8.6,
+            0.75: 12.4,
+            0.875: 16.9,
+            1.0: 22.1,
+            1.125: 28,
+            1.25: 34.4,
+            1.375: 42.5,
+            1.5: 49.7
+        }
+
+        added_length = length - 6
+        total_weight = A325_bolt_weights[6][diameter] + added_length * length_adder[diameter]
+
+    # Adds washer weight if no of washers > 0
+    for washer in range(0, no_of_washers, 1):
+        washer_weight = {
+            0.5: 2.1,
+            0.625: 3.6,
+            0.75: 4.8,
+            0.875: 7,
+            1.0: 9.4,
+            1.125: 11.3,
+            1.25: 13.8,
+            1.375: 16.8,
+            1.5: 20,
+        }
+
+        total_weight = total_weight + washer_weight[diameter]
+
+    return round((total_weight / 100), 3) * units.lbs
 
 
 if __name__ == '__main__':
