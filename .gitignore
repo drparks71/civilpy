@@ -156,5 +156,7 @@ django/
 /Notebooks/Project Files/*
 /Notebooks/output/*
 /Notebooks/Michael Baker Employee Resources.ipynb
-/Notebooks/110111.pdf
-/Notebooks/output.pdf
+/Notebooks/Project Files/110111.pdf
+/Notebooks/Project Files/output.pdf
+/Notebooks/aclImdb/
+/Notebooks/aclImdb_v1.tar.gz
