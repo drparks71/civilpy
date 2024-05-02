@@ -293,9 +293,9 @@ class TestBridgeObject(unittest.TestCase):
         self.assertEqual(self.tb.pave_type, 'FLEX')
         self.assertEqual(self.tb.pcr_year, None)
         self.assertEqual(self.tb.roadway_width_nbr, None)
-        self.assertEqual(self.tb.created_user, 'TIMS@P31_AG')
+        self.assertEqual(self.tb.created_user, 'TIMS@P31_TIMS')
         self.assertIsInstance(self.tb.created_date, int)
-        self.assertEqual(self.tb.last_edited_user, 'TIMS@P31_AG')
+        self.assertEqual(self.tb.last_edited_user, 'TIMS@P31_TIMS')
         self.assertIsInstance(self.tb.last_edited_date, int)
 
 
@@ -383,9 +383,9 @@ class TestProject(unittest.TestCase):
         self.assertEqual(self.tp.district_work_location, '06')
         self.assertEqual(self.tp.pavement_treatment_type, None)
         self.assertEqual(self.tp.pavement_treatment_category, None)
-        self.assertEqual(self.tp.created_user, 'TIMS@P31_AG')
+        self.assertEqual(self.tp.created_user, 'TIMS@P31_TIMS')
         self.assertIsInstance(self.tp.created_date, int)
-        self.assertEqual(self.tp.last_edited_user, 'TIMS@P31_AG')
+        self.assertEqual(self.tp.last_edited_user, 'TIMS@P31_TIMS')
         self.assertIsInstance(self.tp.last_edited_date, int)
 
 
