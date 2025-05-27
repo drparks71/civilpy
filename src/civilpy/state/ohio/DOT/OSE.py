@@ -186,35 +186,15 @@ class Stage2StructuralChecklist:
         display(substructure_work, scope_submit_button)
 
     def get_detailed_scope(self):
+        temp_list = []
         try:
             if self.data['Scope']['Superstructure']:
                 if 'Steel Stringers' in self.data['Scope']['Superstructure']:
-                    steel_stringers = widgets.SelectMultiple(
-                        options=[
-                            'Rolled',
-                            'Plate',
-                        ],
-                        value=[],
-                        description='Select: ',
-                        rows=2,
-                        disabled=False
-                    )
-                    stringers_submit_button = widgets.Button(
-                        description="Save Stringers",
-                        button_style='primary',
-                        tooltip="Click to save Stringer Type",
-                        icon="check"
-                    )
-
-                    def save_steel_data(button=None):
-                        self.data['Scope']['Superstructure']['Steel Stringers'] = list(steel_stringers.value)
-
-                    stringers_submit_button.on_click(save_steel_data)
-                    display(steel_stringers, stringers_submit_button)
-                    print('\n')
-
+                    steel_stringers = steel_stringer_details(self)
+                    temp_list.append(('Superstructure', 'Steel Stringers', steel_stringers))
                 if 'Railing/Fence' in self.data['Scope']['Superstructure']:
-                    print('Railing/Fence Question')
+                    railings = railing_details(self)
+                    temp_list.append(('Superstructure', 'Steel Stringers', railings))
                 if 'Bearings' in self.data['Scope']['Superstructure']:
                     print('Bearings Question')
                 if 'Deck Joints' in self.data['Scope']['Superstructure']:
@@ -222,13 +202,66 @@ class Stage2StructuralChecklist:
                 if 'Deck Drainage' in self.data['Scope']['Superstructure']:
                     print('Deck Drainage Question')
 
-
             if self.data['Scope']['Substructure']:
                 if 'Piers' in self.data['Scope']['Substructure']:
                     print('Piers Question')
                 if 'Abutments' in self.data['Scope']['Substructure']:
                     print('Abutments Question')
+
+            details_submit_button = widgets.Button(
+                description="Save Detailed Scope",
+                button_style='primary',
+                tooltip="Click to save Detailed Scope Components",
+                icon="check"
+            )
+
+            def save_detailed_scope(button=None):
+                for entry in temp_list:
+                    self.data['Scope'][entry[0]][entry[1]] = entry[2].value
+
+            details_submit_button.on_click(save_detailed_scope)
+
+            display(details_submit_button)
+
         except KeyError as e:
             print('Error occured, this is usually from not saving one of the above values, like:', e,
                   '\nAfter correcting the error, rerun this cell by selecting it and pressing Shift+Enter')
 
+
+
+def steel_stringer_details(checklist):
+    steel_stringers = widgets.SelectMultiple(
+        options=[
+            'Rolled',
+            'Plate',
+        ],
+        value=[],
+        description='Select: ',
+        rows=2,
+        disabled=False
+    )
+
+    print('Select the type of steel stringers included in the project scope.')
+    display(steel_stringers)
+
+    return steel_stringers
+
+def railing_details(checklist):
+    railing = widgets.SelectMultiple(
+        options=[
+            'Deep Beam Railing',
+            'Twin Steel Tube Railing',
+            'Sidewalk Railing with Concrete Parapet',
+            'Parapet Type Railing',
+            'Parapet and Fence Type Railing'
+        ],
+        value=[],
+        description='Select: ',
+        rows=6,
+        disabled=False
+    )
+
+    print('Select the type of steel stringers included in the project scope.')
+    display(railing)
+
+    return railing
