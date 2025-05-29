@@ -25,7 +25,7 @@ from pathlib import Path
 from natsort import natsorted
 from PIL import Image, ImageSequence
 
-from civilpy.state.ohio.dot import TimsBridge
+from civilpy.state.ohio.DOT.legacy import TimsBridge
 
 test_init = True
 

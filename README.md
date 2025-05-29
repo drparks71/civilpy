@@ -70,7 +70,7 @@ while maintaining an organizational structure capable of supporting many tools.
 i.e., the end user should be able to access any of your functions from a simple import:
 
 ```python
-from civilpy.state.ohio.dot import help_function
+from civilpy.state.ohio.DOT.legacy import help_function
 ```
 
 <div class="center">

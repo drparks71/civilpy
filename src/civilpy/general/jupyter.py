@@ -18,11 +18,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 import nbformat
-from nbconvert import WebPDFExporter
+from nbconvert import WebPDFExporter, PDFExporter, LatexExporter
 from nbconvert.preprocessors import TagRemovePreprocessor
 
 
-def notebook_to_pdf(notebook_path):
+def notebook_converter(notebook_path, format='webpdf'):
     # Set the appropriate event loop policy for Windows
     if asyncio.get_event_loop().is_running():
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
@@ -37,15 +37,30 @@ def notebook_to_pdf(notebook_path):
     tag_remove_preprocessor.remove_single_output_tags = ("remove_output",)
     tag_remove_preprocessor.remove_input_tags = ("remove_input",)
 
-    # Create the WebPDF exporter and register the preprocessor
-    pdf_exporter = WebPDFExporter()
-    pdf_exporter.register_preprocessor(tag_remove_preprocessor, enabled=True)
+    # Select the appropriate exporter based on the format
+    if format == 'webpdf':
+        exporter = WebPDFExporter()
+        file_extension = ".pdf"
+        write_mode = "wb"
+    elif format == 'pdf':
+        exporter = PDFExporter()
+        file_extension = ".pdf"
+        write_mode = "wb"
+    elif format == 'latex':
+        exporter = LatexExporter()
+        file_extension = ".tex"
+        write_mode = "w"
+    else:
+        raise ValueError("Unsupported format. Use 'webpdf', 'pdf', or 'latex'.")
 
-    # Convert the notebook to PDF
-    pdf_data, resources = pdf_exporter.from_notebook_node(notebook)
+    exporter.register_preprocessor(tag_remove_preprocessor, enabled=True)
 
-    # Save the PDF to a file
-    pdf_filename = notebook_path.replace(".ipynb", ".pdf")
-    with open(pdf_filename, "wb") as f:
-        f.write(pdf_data)
-    print(f"PDF created: {pdf_filename}")
+    # Convert the notebook to the desired format
+    data, resources = exporter.from_notebook_node(notebook)
+
+    # Save the result to a file with the appropriate extension
+    output_filename = notebook_path.replace(".ipynb", file_extension)
+    with open(output_filename, write_mode, encoding="utf-8" if write_mode == "w" else None) as f:
+        f.write(data)
+
+    print(f"File created: {output_filename}")

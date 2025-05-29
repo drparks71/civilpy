@@ -1,6 +1,10 @@
+import os
+import json
+from pathlib import Path
 import ipywidgets as widgets
+from datetime import datetime, date
 from IPython.display import display
-from datetime import date
+from .stage_2_comments import all_criteria
 
 
 class Stage2StructuralChecklist:
@@ -11,54 +15,128 @@ class Stage2StructuralChecklist:
     checklists, allowing users to input project details, submit them through interactive
     widgets in Jupyter Lab, and manage project review data effectively.
     """
-    def __init__(self):
+    def __init__(self, pid=''):
         # Initialize to store widgets and data
-        self.inputs = {}  # Stores the input widgets dynamically
-        self.data = {'Scope': {}}  # Stores the data with `Scope` initialized as a dictionary
+        check_if_review_folder_exists()
 
-    def create_project_info_inputs(self):
+        self.data = {'Scope': {}}
+        if pid:
+            self.data['Project Info'] = {'pid': pid}
+            self.inputs = {}
+            self.define_project_inputs()
+            self.inputs['pid'].value = pid
+            try:
+                self.load_project_info(None)
+            except Exception as e:
+                print(f'Project data for pid {pid} not found: {e}')
+        else:
+            self.data['Project Info'] = {}
+            self.inputs = {}
+            self.define_project_inputs()
+
+    def define_project_inputs(self):
         """Create input fields for project info and a submit button."""
-        # Define input widgets
-        self.inputs['cty_rte_sec'] = widgets.Text(
-            description='CTY-RTE-SEC: ',
-            placeholder='Bridge CTY-RTE-SEC'
+        try:
+            if self.data['Project Info']['pid']:
+                # Define input widgets - Previous Data
+                self.inputs['cty_rte_sec'] = widgets.Text(
+                    description='CTY-RTE-SEC: ',
+                    value=self.data['Project Info']['cty_rte_sec']
+                )
+                self.inputs['checker'] = widgets.Text(
+                    description='Checked By: ',
+                    value=self.data['Project Info']['checker']
+                )
+                self.inputs['sfn'] = widgets.Text(
+                    description='SFN: ',
+                    value=self.data['Project Info']['sfn']
+                )
+                self.inputs['date'] = widgets.DatePicker(
+                    description='Date:',
+                    value=datetime.strftime(self.data['Project Info']['date'], "%B %d, %Y"),
+                    disabled=False
+                )
+                self.inputs['pid'] = widgets.Text(
+                    description='PID: ',
+                    value=self.data['Project Info']['pid']
+                )
+                print('6')
+        except KeyError as e:
+            # Define input widgets - No Previous Data
+            self.inputs['cty_rte_sec'] = widgets.Text(
+                description='CTY-RTE-SEC: ',
+                placeholder='Bridge CTY-RTE-SEC'
+            )
+            self.inputs['checker'] = widgets.Text(
+                description='Checked By: ',
+                placeholder="Employee's Initials"
+            )
+            self.inputs['sfn'] = widgets.Text(
+                description='SFN: ',
+                placeholder="Enter " 'multiple' " if more than one"
+            )
+            self.inputs['date'] = widgets.DatePicker(
+                description='Date:',
+                value=date.today(),
+                disabled=False
+            )
+            self.inputs['pid'] = widgets.Text(
+                description='PID: ',
+                placeholder="Project PID"
+            )
+
+        # Define Load button
+        self.load_button = widgets.Button(
+            description="Load",
+            button_style='primary',
+            tooltip="Click to load project info",
+            icon="check"
         )
-        self.inputs['checker'] = widgets.Text(
-            description='Checked By: ',
-            placeholder="Employee's Initials"
-        )
-        self.inputs['sfn'] = widgets.Text(
-            description='SFN: ',
-            placeholder="Enter " 'multiple' " if more than one"
-        )
-        self.inputs['date'] = widgets.DatePicker(
-            description='Date:',
-            value=date.today(),
-            disabled=False
-        )
-        self.inputs['pid'] = widgets.Text(
-            description='PID: ',
-            placeholder="Project PID"
-        )
+        self.load_button.on_click(self.load_project_info)
 
         # Define submit button
         self.submit_button = widgets.Button(
             description="Submit",
-            button_style='primary',
+            button_style='success',
             tooltip="Click to submit project info",
             icon="check"
         )
         self.submit_button.on_click(self.update_project_info)  # Attach callback
 
+    def show_project_inputs(self):
         # Display all widgets and button
         display(
+            self.inputs['pid'],
             self.inputs['cty_rte_sec'],
+            self.inputs['sfn'],
             self.inputs['checker'],
             self.inputs['date'],
-            self.inputs['sfn'],
-            self.inputs['pid'],
+            self.load_button,
             self.submit_button
         )
+
+    def load_project_info(self, b):
+        """
+        Loads the project info from a JSON file and populates the form values.
+        """
+        documents_path = Path(os.path.expanduser("~/Documents/Reviews"))
+        json_file_path = documents_path / f"{self.inputs['pid'].value}/{self.inputs['pid'].value}.json"
+
+        try:
+            with open(json_file_path, "r") as json_file:
+                project_info = json.load(json_file)
+                self.data = project_info
+                print(f"Loaded Project Info: {self.data}")
+
+                # Populate the form inputs dynamically
+                for key, value in self.data['Project Info'].items():
+                    if key in self.inputs:
+                        if key == 'date':
+                            self.inputs[key].value = datetime.strptime(value, "%B %d, %Y")
+                        else:
+                            self.inputs[key].value = value
+        except Exception as e:
+            print(f"Error loading project info: {e}")
 
     def update_project_info(self, button=None):
         """
@@ -74,8 +152,15 @@ class Stage2StructuralChecklist:
         }
         print("Project Info Updated:", self.data['Project Info'])
 
+        # Check if the folder and json file for this PID Exists
+        if os.path.exists(f"Documents/Reviews/{self.data['Project Info']['pid']}.json"):
+            print("Project Info Exists")
+        else:
+            generate_project_info(self.data, self.data['Project Info']['pid'])
+
     def get_project_scope(self):
-        """Display widgets for project scope and handle user inputs for scope.
+        """
+        Display widgets for project scope and handle user inputs for scope.
 
         There are three Primary Categories of Scope:
             Temporary Works,
@@ -92,11 +177,11 @@ class Stage2StructuralChecklist:
                 None,
                 'Shoring',
                 'Sheeting',
-                'Cofferdams',
-                'Water Diversion'
+                'Cofferdams'
             ],
             value=[],  # Defaults to an empty selection
             description='Select: ',
+            rows=4,
             disabled=False
         )
 
@@ -180,7 +265,7 @@ class Stage2StructuralChecklist:
         print('Select the superstructure components included in the project scope.')
         display(superstructure_work)
 
-        print('\n===============================Substructure===============================\n')
+        print('\n================================Substructure================================\n')
 
         print('Select the substructure components included in the project scope.')
         display(substructure_work, scope_submit_button)
@@ -228,6 +313,43 @@ class Stage2StructuralChecklist:
                   '\nAfter correcting the error, rerun this cell by selecting it and pressing Shift+Enter')
 
 
+def check_if_review_folder_exists():
+    # Path to the user's Documents folder
+    documents_path = os.path.expanduser("~/Documents")
+
+    # Path to the Reviews folder
+    reviews_folder = os.path.join(documents_path, "Reviews")
+
+    # Check if the folder exists
+    if not os.path.exists(reviews_folder):
+        print("generating documents folder...")
+        # Create the Reviews folder
+        os.makedirs(reviews_folder)
+    else:
+        pass
+
+def generate_project_info(data, pid):
+    """
+    Ensures that a folder for the entered PID exists in the user's Documents folder.
+    If it doesn't exist, create it.
+    """
+    documents_path = Path(os.path.expanduser("~/Documents/Reviews"))
+    pid_folder_path = documents_path / pid
+
+    # Check if the folder exists and create it and the json file if not
+    if not os.path.exists(pid_folder_path):
+        print(f"Generating folder for PID '{pid}' in Documents...")
+        os.makedirs(pid_folder_path)
+    else:
+        pass
+
+    # Create/overwrite the JSON file on submittal of Project Data
+    file_path = f"{pid}.json"
+    print(pid_folder_path / file_path)
+
+    with open(pid_folder_path / file_path, "w") as json_file:
+        json.dump(data, json_file)  # Writes an empty JSON object
+        print(f"JSON file Updated at: {pid_folder_path / file_path}")
 
 def steel_stringer_details(checklist):
     steel_stringers = widgets.SelectMultiple(

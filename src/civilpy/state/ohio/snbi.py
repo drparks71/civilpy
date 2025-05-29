@@ -18,17 +18,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
 import pint
-from civilpy.state.ohio.dot import (
+from civilpy.state.ohio.DOT.legacy import (
     get_cty_from_code,
     state_code_conversion,
     get_3_digit_st_cd_from_2,
 )
-from civilpy.state.ohio.dot import (
+from civilpy.state.ohio.DOT.legacy import (
     ohio_counties,
     convert_latitudinal_values,
     convert_place_code,
 )
-from civilpy.state.ohio.dot import (
+from civilpy.state.ohio.DOT.legacy import (
     convert_longitudinal_values,
     TimsBridge,
     get_historic_bridge_data,
@@ -291,7 +291,7 @@ class SNBITransfer(TimsBridge):
         B.L.01 Function - State Code Comparison
 
         This is the first of the more complex functions, relies on two functions defined in
-        dot.py, 'state_code_conversion' and 'get_3_digit_st_cd_from_2', converts the historic
+        DOT.legacy.py, 'state_code_conversion' and 'get_3_digit_st_cd_from_2', converts the historic
         2 digit state code to a 3-digit code, which gets converted to the plain text
         state name.
 
