@@ -1,118 +1,102 @@
-general_criteria = [
-    {"label": "All Stage I comments resolved and detailed design is as per approved Stage I."},
-    {"label": "All correspondence has been reviewed?"},
-    {"label": "All bridge plan sheet are in order.", "reference": "BDM 103"},
-    {"label": "Title block okay on all sheets? (As shown on Figure 102-4 in the Bridge Design Manual [BDM]) Designed," 
-              "checked and reviewed blocks complete on all sheets?"},
-    {"label": "Project number and bridge number correct?", "reference": "102.4"},
-    {"label": "All lettering No. 5 or larger? Caps 5/32 inches in height) Sheets in an appropriate order? As per",
-              "reference": "102.2"},
-    {"label": "Supplemental Site Plan, if prepared during Stage 1 has not been included in plans?"},
-    {"label": "Site Plan been checked with the final approved Sage 1 Site Plan? Deck transverse sections matches that "
+general_criteria = [  # Comments that apply to all Structure types and Plan sets
+    {"label": "All Stage I comments resolved and detailed design is as per approved Stage I."},                          # OK - Ref
+    {"label": "All correspondence has been reviewed?"},                                                                  # OK - Ref
+    {"label": "All bridge plan sheet are in order.", "reference": "BDM 103"},                                            # OK
+    {"label": "Title block okay on all sheets? (As shown on Figure 102-2 in the Bridge Design Manual [BDM]) Designed,"   # OK
+              "checked and reviewed blocks complete on all sheets?", "reference": "BDM 102.4"},
+    {"label": "Project number and bridge number correct?", "reference": "BDM 102.4"},                                    # OK
+    {"label": "Plans compliant with L&D, Vol. 3?", "reference": "L&D Vol. 3"},                                           # OK
+    {"label": "Supplemental Site Plan, if prepared during Stage 1 has not been included in plans?"},                     # OK - Ask about, this is the railway one right?
+    {"label": "Site Plan been checked with the final approved Sage 1 Site Plan? Deck transverse sections matches that "  # OK - Ref
               "approved in Stage I?"},
-    {"label": "Call-outs are consistent on all sheets? (Span designation number, pier numbers, etc.)"},
-    {"label": "North arrow shown on all plan views, all sheets.", "reference": "102"},
-    {"label": "Each drilled shaft in the structure has been assigned a unique number?", "reference": "305.4.4"},
-    {"label": "Each pile in the structure has been assigned a unique number?"},
-    {"label": "Pier(s) and forward abutment elevations and the superstructure transverse section shown looking forward?"
-              " Rear abutment elevation looking to the rear?", "reference": "102"},
-    {"label": "Appropriate centerline/reference line used and referenced exclusively (consistent nomenclature) "
+    {"label": "Call-outs are consistent on all sheets? (Span designation number, pier numbers, etc.)"},                  # OK - Ref
+    {"label": "North arrow shown on all plan views, all sheets.", "reference": "BDM 102"},                               # OK
+    {"label": "Appropriate centerline/reference line used and referenced exclusively (consistent nomenclature) "         # OK - Ref
               "throughout the details."},
-    {"label": "If an auxiliary reference line is established, is stationing given along this line only, near the "
+    {"label": "If an auxiliary reference line is established, is stationing given along this line only, near the "       # OK - Ref
               "bridge? Is a geometric diagram provided, if necessary?"},
-    {"label": "For bridge with variable super-elevation, has a super-elevation transition diagram been provided?",
-     "reference": "309.3.6.1 & 309.3.6.1a"},
-    {"label": "Break over (1/2 inch per foot slope) provided on high side of superelevated decks for shoulder widths >4"
-              " feet? Rounding beginning at edge of roadway used when change in cross slope at break over exceeds 3 "
-              "percent 4-foot rounding for shoulders < 8 feet and 5 foot rounding for shoulders > 8 feet)?",
-     "reference": "309.3.6.1 Figure 309-9 & 309-10"},
-    {"label": "Approach slabs have been detailed as per Designer Supplement: AS-2-15-Approach Slab Installation?"},
-    {"label": "Items that should be included with roadway quantities (e.g., Rock Channel Protection, Portable Concrete "
-              "Barrier and Temporary Guardrail) have been designated as such?"},
-    {"label": "Portions of existing structure that are to be removed have been properly indicated?"},
-    {"label": "± Symbol used for existing structure dimensions? Dashed lines used to denote existing structures?",
-     "reference": "207.4"},
-    {"label": "Detail plans for temporary sheeting/shoring included if required by the", "reference": "310.1"},
-    {"label": "Detail plans for a temporary runaround bridge included if required by the Scope?", "reference": "503"},
-    {"label": "Concrete surfaces sealed per", "reference": "306.1.2, 309.2.1 and 403.3"},
-    {"label": "Epoxy only sealer not used.", "reference": "309.2.1-G"}
+    {"label": "For bridge with variable super-elevation, has a super-elevation transition diagram been provided?",       # OK
+     "reference": "BDM 309.3.6.1 & 309.3.6.1a"},
+    {"label": "Deck sections comply with BDM Fig. 309-10", "reference": "BDM 309.3.6.1 Figure 309-9 & 309-10"},          # OK
+    {"label": "Estimated Quantities in accordance with BDM 102.5", "reference": "BDM 102.5"},                            # OK
+    {"label": "Portions of existing structure that are to be removed have been properly indicated?"},                    # OK - Ref
+    {"label": "± Symbol used for existing structure dimensions? Dashed lines used to denote existing structures?",       # See Note
+     "reference": "BDM 207.4"}   # BDM Section no longer exists...
 ],
 
 site_plan_criteria = [
-    {"label": "In the proposed structure data block verify the Latitude and Longitude.\nThe Latitude and Longitude of "
-              "the begin Bridge limit station should be given to the nearest 0.01 second. The 0.01 second precision "
-              "will be included in the next update."},
-    {"label": "In the profile view provide the highest known high-water mark; normal water elevation and Ordinary "
-              "High-Water Mark (OHWM).", "reference": "201.2.1"},
-    {"label": "Show the length of the bedrock socket in the profile view.", "reference": "305.4.2"}
+    {"label": "In the proposed structure data block, verify the Latitude and Longitude.",                                # OK
+     "reference": "BDM 201.1.2.2 - G.10"},
+    {"label": "In the profile view provide the highest known high-water mark; normal water elevation and Ordinary "      # OK
+              "High-Water Mark (OHWM).", "reference": "BDM 201.1.2.1 - D"}
 ],
 
 general_plan_criteria = [
-    {"label": "Reference line shown for curved bridges, and stations should be shown where it intersects curve."},
-    {"label": "Span lengths agree with Site Plan?", "reference": "202.1.1"},
-    {"label": "Stage construction joint shown on appropriate plan views and details."},
-    {"label": "Highway lighting feature shown, if applicable?"},
-    {"label": "Scuppers shown, if applicable?"},
-    {"label": "Approach drainage details (Gutters/catch basins)."},
-    {"label": "Limits of slope protection."}
+    {"label": "Reference line shown for curved bridges, and stations should be shown where it intersects curve."},       # OK - Ref
+    {"label": "Span lengths agree with Site Plan?", "reference": ""},                                                    # OK - Ref
+    {"label": "Stage construction joint shown on appropriate plan views and details."},                                  # OK - Ref
+    {"label": "Highway lighting feature shown, if applicable?"},                                                         # OK - Ref
+    {"label": "Scuppers shown, if applicable?"},                                                                         # OK - Ref
+    {"label": "Approach drainage details (Gutters/catch basins)."},                                                      # OK - Ref
+    {"label": "Limits of slope protection."}                                                                             # OK - Ref
 ],
 
 general_notes_criteria = [
-    {"label": "All applicable general notes from BDM Section 600 included?"},
-    {"label": "Wording of 'standard general notes' suit the project? (Do the notes make sense for this project?)"},
-    {"label": "General notes included where necessary to describe 'as per plan' items?"},
-    {"label": "In addition to the typical general notes given in the BDM, general notes are usually included to "
+    {"label": "All applicable general notes from BDM Section 600 included?"},                                            # OK - Ref (Difficult)
+    {"label": "Wording of 'standard general notes' suit the project? (Do the notes make sense for this project?)"},      # OK - Ref
+    {"label": "General notes included where necessary to describe 'as per plan' items?"},                                # OK - Ref
+    {"label": "In addition to the typical general notes given in the BDM, general notes are usually included to "        # OK - Ref (Difficult)
               "describe any 'non-standard' bid items or situations. Have these been included?"},
-    {"label": "For rehabilitation projects, is the scope work itemized and clearly described under a PROPOSED WORK "
+    {"label": "For rehabilitation projects, is the scope work itemized and clearly described under a PROPOSED WORK "     # OK - Ref
               "note?"},
-    {"label": "Construction procedure for unusual conditions"}
+    {"label": "Construction procedure for unusual conditions"}                                                           # OK - Ref
 ],
 
 detail_notes_criteria = [
-    {"label": "See Section 700 of the Bridge Design Manual for a reminder list of typical detail notes."}
+    {"label": "See Section 700 of the Bridge Design Manual for a reminder list of typical detail notes.",                # OK
+     "reference": "BDM 700"}
 ],
 
 
 estimated_quantitites_criteria = [
-    {"label": "All Items should be listed in the Estimated Quantities sheet in stage 2 without quantities."},
-    {"label": "Pay-Item for cofferdam and excavation bracing included if required by section 310.1.1 of the BDM."}
+    {"label": "All Items should be listed in the Estimated Quantities sheet in stage 2 without quantities."},            # OK - Ref
+    {"label": "Pay-Item for cofferdam and excavation bracing included if required by section 310.1.1 of the BDM.",       # OK
+     "reference": "BDM 310.1.1"}
 ],
 
 reinforcing_details_criteria = [
-    {"label": "Bar lengths conform to The maximum bar length should be approximately 40 feet. For longitudinal deck "
+    {"label": "Bar lengths conform to The maximum bar length should be approximately 40 feet. For longitudinal deck "    # OK
               "reinforcing, bar lengths of 30 feet are preferred, except for one odd length at end of run.",
-     "reference": "304.4.1"},
-    {"label": "Length of the short leg of L-shaped bars less than 8'-0\"?", "reference": "304.4.1"},
-    {"label": "Minimum reinforcing steel provided in all faces of retaining walls and wall-type abutments and piers for"
-              " shrinkage and temperature reinforcement?", "reference": "304.4.9 LRFD 5.10.6"},
-    {"label": "Splice and development lengths for epoxy bars conform to current AASHTO requirements?",
+     "reference": "304.4.2"},
+    {"label": "Length of the short leg of apex distance < 7.5 ft?", "reference": "304.4.2"},                             # OK
+    {"label": "Minimum reinforcing steel provided", "reference": "BDM 304.4.11 - LRFD 5.10.6"},
+    {"label": "Splice and development lengths for epoxy bars conform to current AASHTO requirements?",                   # OK
      "reference": "LRFD 5.10.8"},
-    {"label": "All bar splice lengths shown by plan note, on plan details, combination or reference?"},
-    {"label": "Bridge seat reinforcement adequately clear of bearing anchors?", "reference": "306.2.1.2"},
-    {"label": "Treatment of reinforcing steel appropriate at all construction, contraction, and expansion joints?",
+    {"label": "All bar splice lengths shown by plan note, on plan details, combination or reference?"},                  # OK
+    {"label": "Bridge seat reinforcement adequately clear of bearing anchors?", "reference": "306.2.1.2"},               # OK
+    {"label": "Treatment of reinforcing steel appropriate at all construction, contraction, and expansion joints?",      # OK
      "reference": "306.2.5"},
-    {"label": "Reinforcing steel in footings comply with (i.e., secondary rebars under main rebars, rebars at bottom of"
+    {"label": "Reinforcing steel in footings comply with (i.e., secondary rebars under main rebars, rebars at bottom of" # OK
               " footing and not top of piles, dowel legs placed at bottom layer of footing rebars)?",
      "reference": "305.2.1.4"},
-    {"label": "For cantilevered pier caps (T-type and cap and column), is the top layer of bars bent down the end face "
+    {"label": "For cantilevered pier caps (T-type and cap and column), is the top layer of bars bent down the end face " # OK
               "of the cap? Side faces adequately reinforced to resist longitudinal superstructure forces?",
      "reference": "306.3.3.3"},
-    {"label": "Lateral ties between vertical bars in T-type and wall type piers as per section",
+    {"label": "Lateral ties between vertical bars in T-type and wall type piers as per section",                         # OK
      "reference": "306.3.3"},
-    {"label": "All reinforcing shall be epoxy coated?", "reference": "304.4"},
-    {"label": "Letter prefix A (abutments), P (piers), S (superstructure), SP (spirals), DS (drilled shafts) generally "
-              "used in bar marks?", "reference": "304.4.2"},
-    {"label": "Mechanical connectors used where appropriate?", "reference": "304.4.4"},
-    {"label": "Splices avoided at pier horizontal construction joints, except at top of footing?",
-     "reference": "304.4.3"},
+    {"label": "Letter prefix A (abutments), P (piers), S (superstructure), SP (spirals), DS (drilled shafts) generally " # OK
+              "used in bar marks?", "reference": "304.4.3"},
+    {"label": "Mechanical connectors used where appropriate?", "reference": "304.4.4"},                                  # OK
+    # {"label": "Splices avoided at pier horizontal construction joints, except at top of footing?",                     # Propose Removing - Couldn't find
+    # "reference": "304.4.3"},
 ],
 
 typical_sections_criteria = [
-    {"label": "Large scale typical sections of existing and proposed superstructures provided to show removal and "
+    {"label": "Large scale typical sections of existing and proposed superstructures provided to show removal and "      # OK - Ref
               "construction stages?"},
-    {"label": "Location of cut lines and stage construction joints established with respect to primary survey line?"},
-    {"label": "Typical section of existing structure conforms to current photographs and site inspection sketches?"},
-    {"label": "Stage construction details sheet should include notes that detail the sequence of construction.",
+    {"label": "Location of cut lines and stage construction joints established with respect to primary survey line?"},   # OK - Ref
+    {"label": "Typical section of existing structure conforms to current photographs and site inspection sketches?"},    # OK - Ref
+    {"label": "Stage construction details sheet should include notes that detail the sequence of construction.",         # OK
      "reference": "309.3.8.5"}
 ],
 
@@ -124,16 +108,17 @@ part_plan_views_criteria = [
     {"label": "Sufficient room provided for pile driving?"}
 ],
 
-temporary_sheeting_criteria = [
+temporary_sheeting_criteria = [  # Comments for if a project includes temporary sheet pile walls
     {"label": "Consultant designed sheeting details provided in the plan when traffic is being maintained and the "
               "height of the retained earth is over 8 feet", "reference": "310.1.1.2"},
     {"label": "Temporary sheeting shown on the Site Plan and/or General Plan?"},
     {"label": "Cofferdams and Excavation Bracing item provided in quantities?"},
     {"label": "Tentative location of temporary sheeting shown on abutment plan views to retain backfill and permit "
-              "partial removal and excavation for proposed construction?"}
+              "partial removal and excavation for proposed construction?"},
+    {"label": "Detail plans for temporary sheeting/shoring included if required by BDM", "reference": "BDM 310.1"},      # OK
 ],
 
-temporary_railing_criteria = [
+temporary_railing_criteria = [  # Comments for if a structure includes temporary railings
     {"label": "Reference for barrier details given to Standard Drawing PCB-91?"},
     {"label": "Barrier anchors provided not less than two per segment for barriers located less than 6'- 0\" from the "
               "edge of deck for bridges over roadways, railroad, or recreational areas: or less than 1'-0\" from the "
@@ -141,6 +126,14 @@ temporary_railing_criteria = [
     {"label": "Double the number of anchor if the barrier location is less than 1 foot. (PCB-DD)?"},
     {"label": "Complete details given for temporary steel railing?"}
 ],
+
+temporary_structures_criteria = [  # Comments for if a plan set includes temporary structures
+    {"label": "Detail plans for a temporary runaround bridge included if required?", "reference": "BDM 503"},
+]
+
+approach_slab_criteria = [  # Comments for if a plan set includes approach slab construction
+    {"label": "Approach slabs have been detailed as per Designer Supplement: AS-2-15-Approach Slab Installation?"},
+]
 
 slab_bridges_criteria = [
     {"label": "Slab removal cut lines lie transverse to primary slab reinforcing steel?",
@@ -279,6 +272,13 @@ prestressed_concrete_box_criteria = [
               "parameter in Conspan. The limiting stress factor for tension (service III) should be .0948 instead of "
               "0.19."}
 ]
+
+formed_concrete_criteria = [
+    {"label": "Concrete surfaces sealed", "reference": "BDM 306.1.2, 309.2.1 and 403.3"},                                # OK
+    {"label": "Epoxy only sealer not used.", "reference": "BDM 309.2.1-G"}                                               # OK
+]
+
+steel_criteria = []
 
 steel_stringers_criteria = [
     {"label": "Are the proposed beam shapes per", "reference": "308.2.3.4"},
@@ -654,6 +654,10 @@ grounding_criteria = [
     {"label": "Verify the structure is properly grounded as per Standard Drawing HL-50.21."}
 ]
 
+general_pile_criteria = [ # For any structures that have piles in the abutments or piers
+    {"label": "Each pile in the structure has been assigned a unique number?"},
+]
+
 approach_slab_criteria = [
     {"label": "Removal of existing approach slab included in the estimated quantities 310.2"},
     {"label": "Removal of existing Wearing Surface included in the estimated quantities as per CMS 202"},
@@ -682,7 +686,9 @@ piers_general_criteria = [
     {"label": "Ends of pier caps (all surfaces) under the edge of decks with over-the-side drainage sealed? 306.1.2"},
     {"label": "Appropriate surfaces of roadway shoulder piers sealed? 306.1.2"},
     {"label": "For phased construction, is each phase supported by a minimum of three piles or two drilled shafts? "
-              "306.3.1"}
+              "306.3.1"},
+    {"label": "Pier(s) and forward abutment elevations and the superstructure transverse section shown looking forward?"
+              " Rear abutment elevation looking to the rear?", "reference": "102"},
 ]
 
 pier_pile_criteria = [
@@ -801,134 +807,10 @@ drilled_shaft_criteria = [
               " should attempt to be spaced to utilize the maximum bedrock end bearing pressures and a minimum number "
               "of drilled shafts."},
     {"label": "Splice cage specified? 303.4.4.3 & Fig. 305-4"},
-    {"label": "Use of friction drilled shaft requires previous approval of OGE? 305.4.3"}
+    {"label": "Use of friction drilled shaft requires previous approval of OGE? 305.4.3"},
+    {"label": "Each drilled shaft in the structure has been assigned a unique number?", "reference": "BDM 305.4.4"},      # OK
+    {"label": "Show the length of the bedrock socket in the profile view.", "reference": "305.4.2"}                       # OK
 ]
-
-ai_generated = {
-    '301':
-[
-    {
-        "label": "Confirm that the disposition of comments from the previous submission (typically Stage 1) is included in the review package.",
-        "reference": "BDM 201.4 & L&D Vol 3 1406.4.3"
-    },
-    {
-        "label": "Verify that the Site Plan is included and complies with all Stage 1 review comments.",
-        "reference": "BDM 201.4.A & L&D Vol 3 1406.4.3"
-    },
-    {
-        "label": "Verify that a General Plan is included if required for the project.",
-        "reference": "BDM 201.4.A & L&D Vol 3 1406.4.3"
-    },
-    {
-        "label": "Verify that General Notes are included in the plan set.",
-        "reference": "BDM 201.4.A & L&D Vol 3 1406.4.3"
-    },
-    {
-        "label": "Verify that Estimated Quantities are included, showing all pay items and item extensions (note that quantity values are not required at this stage).",
-        "reference": "BDM 201.4.A & L&D Vol 3 1406.4.3"
-    },
-    {
-        "label": "If applicable, verify that Retaining Wall Plans are included and a complete design for each retaining wall is provided in accordance with BDM Section 307.",
-        "reference": "BDM 201.4.B, 201.4.1 & 307"
-    },
-    {
-        "label": "If applicable, verify that Noise Barrier Plans are included in accordance with BDM Section 800.",
-        "reference": "BDM 201.4.C & 800"
-    },
-    {
-        "label": "Verify that Special Provisions are included in the submission.",
-        "reference": "BDM 201.4.D & L&D Vol 3 1406.4.3"
-    },
-    {
-        "label": "Verify that Load Rating Reports for qualifying bridges are submitted.",
-        "reference": "BDM 201.4.E, 900, 925.3.3.1, 925.3.3.3, 926.2.2.1, 926.2.2.3 & L&D Vol 3 1406.4.3"
-    },
-    {
-        "label": "Verify that a signed Office of Structural Engineering Bridge Stage 2 Plan Review Checklist is included.",
-        "reference": "BDM 201.4.F"
-    },
-    {
-        "label": "Verify that the bridge design conforms to the latest edition of the AASHTO LRFD Bridge Design Specifications.",
-        "reference": "BDM 301"
-    },
-    {
-        "label": "Verify that the bridge design conforms to ODOT's supplement to the AASHTO LRFD specifications as documented in BDM Section 1000.",
-        "reference": "BDM 301 & 1000"
-    },
-    {
-        "label": "Verify that the design loading includes HL-93 vehicular live load.",
-        "reference": "BDM 101.2, 303.1 & 602.2"
-    },
-    {
-        "label": "Verify that the minimum concrete cover for concrete reinforcement meets the requirements of BDM Section 304.4.9 and BDM Section 1005.13.",
-        "reference": "BDM 304.4.9 & 1005.13"
-    },
-    {
-        "label": "Verify that minimum concrete reinforcement requirements are met.",
-        "reference": "BDM 304.4.10"
-    },
-    {
-        "label": "Verify that foundation analysis for settlement is included and remediation methods are considered if necessary.",
-        "reference": "BDM 305.1.3"
-    },
-    {
-        "label": "Verify that all foundation requirements are satisfied for the changes in conditions resulting from the scour design flood (Strength and Service limit states) and the scour check flood (Extreme Event limit states).",
-        "reference": "BDM 305.1.6"
-    },
-    {
-        "label": "For new bridges, verify that the design dead load includes an allowance for future wearing surface equal to 0.06-ksf.",
-        "reference": "BDM 309.3.2, Figure 309-3 Notes & 602.2"
-    },
-    {
-        "label": "Verify that the transverse deck section includes required information such as deck thickness, crown location, cross slope, railing type, construction joints, out-to-out dimension, face/face railing dimension, reinforcing labels, reinforcing cover, and reinforcing lap location and type.",
-        "reference": "BDM 309.3.6"
-    },
-    {
-        "label": "If the bridge crown changes across the structure, verify that a superelevation transition table or diagram (or reference to one) is provided in the plans.",
-        "reference": "BDM 201.2.1.1.c, 309.3.6, 309.3.6.1.a & L&D Vol 3 1406.4.3"
-    },
-    {
-        "label": "Verify that bridge railing, transitions, roadway railing, and railing end terminals meet MASH acceptance criteria (TL-3 or TL-5 as required based on route and design speed).",
-        "reference": "BDM 309.4.1, 1013.1 & 1013.2"
-    },
-    {
-        "label": "If non-standard railing systems are used, verify that the required submission information (Final Structure Site Plan, Transverse Section, Plan/Elevation/Cross-sections of the railing/transition/roadway railing/end terminal, Traffic data/Design Speed, Cost comparison) was provided to the Office of Structural Engineering for review and acceptance.",
-        "reference": "BDM 309.4.1"
-    },
-    {
-        "label": "Verify that plans for concrete bridge railing include provisions to collect and carry deck drainage off the ends of the bridge.",
-        "reference": "BDM 309.4.3.1, 309.4.3.2 & 309.4.3.8"
-    },
-    {
-        "label": "Verify that provisions for approach slabs are included for all ODOT bridges.",
-        "reference": "BDM 310.2"
-    },
-    {
-        "label": "If standard approach slabs (AS-1-15) are specified, verify that plans include all requirements listed in BDM Section 310.2.1.1.",
-        "reference": "BDM 310.2.1.1"
-    },
-    {
-        "label": "Verify that utilities on the bridge (if any) are installed in substantial ducts or enclosures adequate to protect the lines from future bridge repair and maintenance operations.",
-        "reference": "BDM 310.4"
-    },
-    {
-        "label": "Verify that plans have been prepared for the Constructability Review.",
-        "reference": "L&D Vol 3 1406.4.2"
-    },
-    {
-        "label": "Verify that the construction cost estimate has been updated.",
-        "reference": "L&D Vol 3 1406.4.2"
-    },
-    {
-        "label": "Verify that approval from the Design Aesthetics Committee has been obtained for all aesthetic items (e.g., concrete textures, landscape design, color).",
-        "reference": "L&D Vol 3 1406.4.2"
-    },
-    {
-        "label": "Verify that the final Post Construction Storm Water Best Management Practices (BMP) design calculations and documentation of any BMP implementation issues are included.",
-        "reference": "L&D Vol 2 1112.2 & L&D Vol 3 1406.2.3"
-    }
-]
-}
 
 all_criteria = {
     var_name: globals()[var_name]
