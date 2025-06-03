@@ -57,7 +57,6 @@ detail_notes_criteria = [
      "reference": "BDM 700"}
 ],
 
-
 estimated_quantitites_criteria = [
     {"label": "All Items should be listed in the Estimated Quantities sheet in stage 2 without quantities."},            # OK - Ref
     {"label": "Pay-Item for cofferdam and excavation bracing included if required by section 310.1.1 of the BDM.",       # OK
@@ -100,429 +99,440 @@ typical_sections_criteria = [
      "reference": "309.3.8.5"}
 ],
 
-part_plan_views_criteria = [
-    {"label": "Part Plan views provided to show the relative relationship of the existing and proposed abutments during"
-              " Stage 1 construction and relevant basic dimensions and clearances?"},
-    {"label": "Sufficient room provided between temporary sheeting and proposed abutment for form construction and "
-              "removal?"},
-    {"label": "Sufficient room provided for pile driving?"}
-],
+# part_plan_views_criteria = [  # Verify what part plan is referring to - potentially remove
+#     {"label": "Part Plan views provided to show the relative relationship of the existing and proposed abutments during"
+#               " Stage 1 construction and relevant basic dimensions and clearances?"},
+#     {"label": "Sufficient room provided between temporary sheeting and proposed abutment for form construction and "
+#               "removal?"},
+#     {"label": "Sufficient room provided for pile driving?"}
+# ],
 
 temporary_sheeting_criteria = [  # Comments for if a project includes temporary sheet pile walls
-    {"label": "Consultant designed sheeting details provided in the plan when traffic is being maintained and the "
-              "height of the retained earth is over 8 feet", "reference": "310.1.1.2"},
-    {"label": "Temporary sheeting shown on the Site Plan and/or General Plan?"},
-    {"label": "Cofferdams and Excavation Bracing item provided in quantities?"},
-    {"label": "Tentative location of temporary sheeting shown on abutment plan views to retain backfill and permit "
+    {"label": "Consultant designed sheeting details provided in the plan when traffic is being maintained and the "      # OK
+              "height of the retained earth is over 8 feet", "reference": "BDM 310.1.1.2"},
+    {"label": "Temporary sheeting shown on the Site Plan and/or General Plan?"},                                         # OK
+    {"label": "Cofferdams and Excavation Bracing item provided in quantities?"},                                         # OK
+    {"label": "Tentative location of temporary sheeting shown on abutment plan views to retain backfill and permit "     # OK
               "partial removal and excavation for proposed construction?"},
     {"label": "Detail plans for temporary sheeting/shoring included if required by BDM", "reference": "BDM 310.1"},      # OK
 ],
 
 temporary_railing_criteria = [  # Comments for if a structure includes temporary railings
-    {"label": "Reference for barrier details given to Standard Drawing PCB-91?"},
-    {"label": "Barrier anchors provided not less than two per segment for barriers located less than 6'- 0\" from the "
+    {"label": "Reference for barrier details given to Standard Drawing PCB-91?"},                                        # OK
+    {"label": "Barrier anchors provided not less than two per segment for barriers located less than 6'- 0\" from the "  # OK
               "edge of deck for bridges over roadways, railroad, or recreational areas: or less than 1'-0\" from the "
               "edge of the deck for other bridge application (PCB-DD)?"},
-    {"label": "Double the number of anchor if the barrier location is less than 1 foot. (PCB-DD)?"},
-    {"label": "Complete details given for temporary steel railing?"}
+    {"label": "Double the number of anchor if the barrier location is less than 1 foot. (PCB-DD)?"},                     # OK
+    {"label": "Complete details given for temporary steel railing?"}                                                     # OK
 ],
 
 temporary_structures_criteria = [  # Comments for if a plan set includes temporary structures
-    {"label": "Detail plans for a temporary runaround bridge included if required?", "reference": "BDM 503"},
+    {"label": "Detail plans for a temporary runaround bridge included if required?", "reference": "BDM 503"},            # OK
 ]
 
 approach_slab_criteria = [  # Comments for if a plan set includes approach slab construction
-    {"label": "Approach slabs have been detailed as per Designer Supplement: AS-2-15-Approach Slab Installation?"},
+    {"label": "Approach slabs have been detailed as per Designer Supplement: AS-2-15-Approach Slab Installation?"},      # OK
+    {"label": "Removal of existing approach slab included in the estimated quantities 310.2"},                           # OK
+    {"label": "Removal of existing Wearing Surface included in the estimated quantities as per CMS 202"},                # OK
+    {"label": "Non-standard approach slab shown 'Modified' in the structure block."},                                    # OK
+    {"label": "Current Standard Drawing reference in proposed structure data block and in the General Notes."},          # OK
+    {"label": "Bars D801 or D802 included in the reinforcing steel list?"},                                              # OK
+    {"label": "Pay-Item 526 for Type _ Installation included?"},                                                         # OK
+    {"label": "Pay-Item for Polymer Modified Asphalt Expansion Joint System or Item 516 – Armorless Preformed Joint "    # OK
+              "Seal included?"}
 ]
 
 slab_bridges_criteria = [
-    {"label": "Slab removal cut lines lie transverse to primary slab reinforcing steel?",
+    {"label": "Slab removal cut lines lie transverse to primary slab reinforcing steel?",                                # OK
      "reference": "BDM201.2.6, 404.5"},
-    {"label": "Temporary slab supports provided for such slabs", "reference": "310.1.2"},
-    {"label": "Both stages of slab bridges supported by false work until second stage slab concrete has fully cured "
+    {"label": "Temporary slab supports provided for such slabs", "reference": "310.1.2"},                                # OK
+    {"label": "Both stages of slab bridges supported by false work until second stage slab concrete has fully cured "    # OK
               "before false work is released (to avoid the use of a third stage closure section and high dead load "
               "shear forces on stage construction joints due to the premature release of false work)? (False work "
               "should be designed for live load)"}
 ],
 
 lateral_restraint_criteria = [
-    {"label": "Temporary lateral restraint provided to prevent rotational movement of the first stage superstructures "
+    {"label": "Temporary lateral restraint provided to prevent rotational movement of the first stage superstructures "  # OK
               "of semi-integral bridges towards the unrestrained (no guide bearing) acute corners at stage construction"
               " joints?"},
-    {"label": "For re-decking an existing structure without a closure section, a deck slab placement procedure provided"
+    {"label": "For re-decking an existing structure without a closure section, a deck slab placement procedure provided" # OK
               " requiring relatively complete second stage deck placement before placement of second stage integral"
               " end-diaphragms?"},
-    {"label": "Semi-Integral Abutment Diaphragm Guide provided as per standard drawing SICD-2-14."}
+    {"label": "Semi-Integral Abutment Diaphragm Guide provided as per standard drawing SICD-2-14."}                      # OK
 ],
 
 end_dams_criteria = [
-    {"label": "Full penetration butt-welded field splices provided at or near stage construction joints for "
+    {"label": "Full penetration butt-welded field splices provided at or near stage construction joints for "            # OK
               "superstructure portion of the end dams?"},
-    {"label": "Bolted field splices provided for the abutment portion?"},
-    {"label": "Offset between the two splices provided to facilitate butt-welding?"},
-    {"label": "Superstructure splice located to clear beam flanges and cross frames gusset plates?"}
+    {"label": "Bolted field splices provided for the abutment portion?"},                                                # OK
+    {"label": "Offset between the two splices provided to facilitate butt-welding?"},                                    # OK
+    {"label": "Superstructure splice located to clear beam flanges and cross frames gusset plates?"}                     # OK
 ]
 
 stage_cons_misc_criteria = [
-    {"label": "Removal limits clearly shown or are apparent? Cross-hatching used to designate removal areas?"},
-    {"label": "Removal Cut lines: Full-depth saw cut-lines specified for deck slab removals where the integrity of the"
+    {"label": "Removal limits clearly shown or are apparent? Cross-hatching used to designate removal areas?"},          # OK - Ref
+    {"label": "Removal Cut lines: Full-depth saw cut-lines specified for deck slab removals where the integrity of the"  # OK
               " slab is needed to support temporary railing? Cut-lines shown on plan and/or elevation views of"
-              " substructure?", "reference": "201.2.6"},
-    {"label": "Construction Access: Adequate space provided between Stage 1 construction and the remainder of the"
+              " substructure?", "reference": "201.1.2.6"},
+    {"label": "Construction Access: Adequate space provided between Stage 1 construction and the remainder of the"       # OK - Ref
               " existing structure for temporary sheeting and form construction?"},
-    {"label": "Closure Placements: 2'-6\" minimum wide third stage closure section provided for “new\" stringer "
+    {"label": "Closure Placements: 2'-6\" minimum wide third stage closure section provided for “new\" stringer "        # OK
               "superstructures?",
      "reference": "309.3.8.5"},
-    {"label": "Are stage construction joints shown in all relevant views?"},
-    {"label": "Cofferdam Sheeting: Vertical clearance available under 20 + feet) and/or adjacent to the existing "
+    {"label": "Are stage construction joints shown in all relevant views?"},                                             # OK - Ref
+    {"label": "Cofferdam Sheeting: Vertical clearance available under 20 + feet) and/or adjacent to the existing "       # OK - Ref
               "structure to permit driving sheeting? Plan details shown tentative position of such sheeting where "
               "clearances are tight?"},
-    {"label": "Provisions made for the complete or partial removal of temporary railing anchors and the grouting of "
+    {"label": "Provisions made for the complete or partial removal of temporary railing anchors and the grouting of "    # OK - Ref
               "resulting voids?"},
-    {"label": "Roadway Item 614: Note provided referring to roadway plans for other temporary railing details and to "
+    {"label": "Roadway Item 614: Note provided referring to roadway plans for other temporary railing details and to "   # OK - Ref
               "Item 614 (roadway plans) for payment?"},
-    {"label": "Approach slab details provided showing the same railing type as used on the bridge and with the same "
+    {"label": "Approach slab details provided showing the same railing type as used on the bridge and with the same "    # OK - Ref
               "limiting edge clearances and/or anchorage (unless a different type of anchorage has been provided)?"},
-    {"label": "Joint Type: An expansion or contraction joint used in lieu of a stage \"construction\" joint to simplify"
+    {"label": "Joint Type: An expansion or contraction joint used in lieu of a stage \"construction\" joint to simplify" # OK - Ref
               " construction by eliminated lap splicing or mechanical connector splicing of reinforcing steel, where"
               " appropriate? (Abutment back walls, breast walls and certain pier walls, etc.)"},
-    {"label": "Differential Shear: Vertical construction joints provided with shear keys and generous transverse "
+    {"label": "Differential Shear: Vertical construction joints provided with shear keys and generous transverse "       # OK - Ref
               "reinforcement to resist the potentially high shear forces induced by differential deformation of "
               "foundations (piles, soil, etc.)? Formed joint surfaces artificially roughened to improve shear "
               "resistance",
      "reference": "LRFD 5.8.4"},
-    {"label": "Battered Piles: Room adjacent to the existing structure to drive piles? Batter piles? New piles clear "
+    {"label": "Battered Piles: Room adjacent to the existing structure to drive piles? Batter piles? New piles clear "   # OK - Ref
               "existing battered piles? Sufficient room available for pile length and leads to position batter piles "
               "for driving?"},
-    {"label": "Screed Elevations: The presence or absence of cross frames at stage construction joints on stringer "
+    {"label": "Screed Elevations: The presence or absence of cross frames at stage construction joints on stringer "     # OK - Ref
               "deflection taken into account when establishing screed elevations at stage construction joints."},
-    {"label": "Integral Construction: Closure sections provided in bridges for both the deck slab and integral "
-              "end-diaphragms?", "reference": "306.2.2.5"},
-    {"label": "Elastomer Seals: Note provided requiring seals for each joint to be installed in one continuous "
+    {"label": "Integral Construction: Closure sections provided in bridges for both the deck slab and integral "         # OK - Ref didn't exist
+              "end-diaphragms?", "reference": ""},
+    {"label": "Elastomer Seals: Note provided requiring seals for each joint to be installed in one continuous "         # OK - Ref
               "piece?"},
-    {"label": "Drain Pipes: Abut porous backfill drain pipes terminated and capped on both sides of temporary "
+    {"label": "Drain Pipes: Abut porous backfill drain pipes terminated and capped on both sides of temporary "          # OK - Ref
               "sheeting?"},
-    {"label": "Utility conduits located clear of stage construction joints and temporary sheeting?"},
-    {"label": "The design for adhesive concrete anchors shall be in accordance with AASHTO LRFD Section 513."}
+    {"label": "Utility conduits located clear of stage construction joints and temporary sheeting?"},                    # OK - Ref
+    {"label": "The design for adhesive concrete anchors shall be in accordance with AASHTO LRFD Section 513.",           # OK
+     "reference": "AASHTO LRFD 5.13"}
 ]
 
 slab_criteria = [
-    {"label": "Sealing of concrete surfaces shown and appropriate?", "reference": "306.1.2"},
-    {"label": "Stainless steel drip strip provided on decks with over-the-side drainage?",
+    {"label": "Sealing of concrete surfaces shown and appropriate?", "reference": "306.1.2"},                            # OK
+    {"label": "Stainless steel drip strip provided on decks with over-the-side drainage?",                               # OK
      "reference": "309.2 and 309.7"},
-    {"label": "Verify reinforcing steel accommodate HL-93 loading."},
-    {"label": "Lap lengths to other bars."},
-    {"label": "Centerline of bearing stations"},
-    {"label": "Continuous Deck Slab Placement Detail.", "reference": "ODOT STD. DWG. PSID-1-13"}
+    {"label": "Verify reinforcing steel accommodate HL-93 loading."},                                                    # OK - Ref
+    {"label": "Lap lengths to other bars."},                                                                             # OK - Ref
+    {"label": "Centerline of bearing stations"},                                                                         # OK - Ref
+    {"label": "Continuous Deck Slab Placement Detail.", "reference": "OSE SCD PSID-1-13"}                                # OK
 ]
 
 prestressed_concrete_box_criteria = [
-    {"label": "For multiple span bridges, has the superstructure been detailed as continuous as per Standard Drawing "
-              "PSBD-2-07?", "reference": "308.2.3.3"},
-    {"label": "Multiple span bridges of less than 200-foot total length with flexible piers and abutments fixed at all "
+    {"label": "For multiple span bridges, has the superstructure been detailed as continuous as per Standard Drawing "   # OK
+              "PSBD-2-07?", "reference": "BDM 308.2.3.3 OSE SCD PSBD-2-07"},
+    {"label": "Multiple span bridges of less than 200-foot total length with flexible piers and abutments fixed at all " # OK - Ref
               "substructure units?"},
-    {"label": "Standard Drawings PSBD-2-07 has been reviewed and items required by it provided? It is not intended that"
+    {"label": "Standard Drawings PSBD-2-07 has been reviewed and items required by it provided? It is not intended that" # OK - Ref
               " details and notes shown on the Standard Drawing be repeated unnecessarily."},
-    {"label": "All beams anchored?", "reference": "308.2.3.3f"},
-    {"label": "Membrane waterproofing (Type 3) used on all non-composite box beam Bridge?", "reference": "308.2.3.3d"},
-    {"label": "For bridge with poured sealant joints, has waterproofing been extended 2 feet past the bridge limits?",
+    {"label": "All beams anchored?", "reference": "BDM 308.2.3.3f"},                                                     # OK
+    {"label": "Membrane waterproofing (Type 3) used on all non-composite box beam Bridge?", "reference": "308.2.3.3d"},  # OK
+    {"label": "For bridge with poured sealant joints, has waterproofing been extended 2 feet past the bridge limits?",   # OK - Look into moving, also applies to slab bridges
      "reference": "CMS 512.08H"},
-    {"label": "Two-inch spacing or multiple thereof provided between strands? If space permits, place all strands in "
-              "bottom row.", "reference": "302.5.1.2.b"},
-    {"label": "Location, length, and number of debonded strands shown?", "reference": "308.2.3.4a"},
-    {"label": "Additional strand debonding and supplemental mild reinforcing steel provided at beam ends for skews over"
+    {"label": "Two-inch spacing or multiple thereof provided between strands? If space permits, place all strands in "   # OK - Ref 
+              "bottom row.", "reference": ""},
+    {"label": "Location, length, and number of debonded strands shown?", "reference": "308.2.3.4a"},                     # OK
+    {"label": "Additional strand debonding and supplemental mild reinforcing steel provided at beam ends for skews over" # OK - Ref
               " 30 degrees? Limit box beam to 30-degree skew or less except rare occasions approved by Office of "
               "Structural Engineering."},
-    {"label": "Strands and rebars miss anchor, diaphragm, and bearing rod holes? Are there any conflicts between "
+    {"label": "Strands and rebars miss anchor, diaphragm, and bearing rod holes? Are there any conflicts between "       # OK
               "strands, rebars, tie-rod holes, beam anchor rod holes, rail post anchors, joint armor, etc.?",
      "reference": "PSBD-2-07"},
-    {"label": "PEJF specified as grout retainer at dowels and under beam connection at piers?",
+    {"label": "PEJF specified as grout retainer at dowels and under beam connection at piers?",                          # OK
      "reference": "Standard Drawing PSBD-2-07"},
-    {"label": "Two bearings provided for each box beam?", "reference": "308.2.3.3"},
-    {"label": "Proper camber/wearing surface notes used?", "reference": "702.7"},
-    {"label": "Wearing surface/composite topping thickness diagram shown?", "reference": "308.2.3.4b"},
-    {"label": "If over-the-side drainage will occur, has a drip strip been specified? Reference should be made to "
-              "Standard Drawing DS-1-92."},
-    {"label": "Sealing of concrete surfaces provided as directed in", "reference": "309.2.1.D"},
-    {"label": "Shear key mortar finishing detail shown? (Not required for composite concrete decks)",
+    {"label": "Two bearings provided for each box beam?", "reference": "308.2.3.3"},                                     # OK
+    {"label": "Proper camber/wearing surface notes used?", "reference": "702.7"},                                        # OK
+    {"label": "Wearing surface/composite topping thickness diagram shown?", "reference": "308.2.3.4b"},                  # OK
+    {"label": "If over-the-side drainage will occur, has a drip strip been specified? Reference should be made to "      # OK
+              "Standard Drawing DS-1-92.", "reference": "OSE SCD DS-1-92"},
+    {"label": "Sealing of concrete surfaces provided as directed in BDM 309.2.1.D", "reference": "309.2.1.D"},           # OK
+    {"label": "Shear key mortar finishing detail shown? (Not required for composite concrete decks)",                    # OK
      "reference": "PSBD-2-07"},
-    {"label": "Sufficient dimensions furnished for the beam fabricator to locate the railing post anchors? Have "
-              "location of inserts for stage construction temporary railing shown? Has conflict between post anchors "
+    {"label": "Sufficient dimensions furnished for the beam fabricator to locate the railing post anchors? Have "        # OK
+              "location of inserts for stage construction temporary railing shown? Has conflict between post anchors "   
               "and tie rods and/or T-section been avoided?", "reference": "308.2.3.3"},
-    {"label": "Proper allowances for fit-up between beams accounted for and shown?", "reference": "308.2.3.3"},
-    {"label": "Maximum of three beams tied together by one tie-rod?", "reference": "PSBD-2-07"},
-    {"label": "Transverse tie-rods provided at abutment ends and located per", "reference": "308.2.3.3g"},
-    {"label": "For non-composite design, is asphalt thickness 8 inches or less?", "reference": "308.2.3"},
-    {"label": "For multiple span bridges, has the same beam depth been specified for all spans?", "reference": "308.2.3"},
-    {"label": "For beams greater than 100 ft. long, for concrete release strength greater than 5 ksi, and for 28 days "
+    {"label": "Proper allowances for fit-up between beams accounted for and shown?", "reference": "308.2.3.3"},          # OK
+    {"label": "Maximum of three beams tied together by one tie-rod?", "reference": "PSBD-2-07"},                         # OK
+    {"label": "Transverse tie-rods provided at abutment ends and located per", "reference": "308.2.3.3g"},               # OK
+    {"label": "For non-composite design, is asphalt thickness 8 inches or less?", "reference": ""},                      # OK - Ref
+    {"label": "For multiple span bridges, has the same beam depth been specified for all spans?",                        # OK - Ref
+     "reference": ""},
+    {"label": "For beams greater than 100 ft. long, for concrete release strength greater than 5 ksi, and for 28 days "  # OK
               "concrete strength greater than 7 ksi, provide a letter per", "reference": "308.2.3"},
-    {"label": "Strand location and clearance consistent with PSBD-2-07."},
-    {"label": "Diaphragms and tie rods located", "reference": "308.2.3.3g"},
-    {"label": "For composite box beams, six-inch minimum slab thickness specified?", "reference": "308.2.3.3.c"},
-    {"label": "No. 6 at 18 inches longitudinal and No. 6 at 9 inches transverse bars specified",
+    {"label": "Strand location and clearance consistent with PSBD-2-07."},                                               # OK - Ref doesn't mention this?
+    {"label": "Diaphragms and tie rods located", "reference": "308.2.3.3g OSE SCD PSBD-2-07"},                           # OK
+    {"label": "For composite box beams, six-inch minimum slab thickness specified?", "reference": "308.2.3.3.c"},        # OK
+    {"label": "No. 6 at 18 inches longitudinal and No. 6 at 9 inches transverse bars specified",                         # OK
      "reference": "308.2.3.3.c"},
-    {"label": "Additional bars over piers specified to meet the requirements of",
+    {"label": "Additional bars over piers specified to meet the requirements of AASHTO LRFD 5.10.8.1.2c",                # OK
      "reference": "308.2.3.3.c and LRFD 5.10.8.1.2c"},
-    {"label": "Epoxy coated bars (Grade 60) specified in the composite slab?", "reference": "304.4"},
-    {"label": "Bars projecting from beam into composite slab specified as epoxy coated?", "reference": "304.4"},
-    {"label": "Construction joint shown between the cast-in-place 'T' section at piers and the composite slab?"},
-    {"label": "The effect that the longitudinal grade has on dimensions measured along a beam’s length addressed in the"
+    {"label": "Epoxy coated bars (Grade 60) specified in the composite slab?", "reference": "304.4.1.2"},                # OK
+    {"label": "Bars projecting from beam into composite slab specified as epoxy coated?", "reference": "304.4"},         # OK - Ref
+    {"label": "Construction joint shown between the cast-in-place 'T' section at piers and the composite slab?"},        # OK - Ref
+    {"label": "The effect that the longitudinal grade has on dimensions measured along a beam’s length addressed in the" # OK
               " plans?", "reference": "308.2.3.2"},
-    {"label": "Verify that design uses severe corrosive factor as per Section S.5.9.2.3.2b by changing the design "
+    {"label": "Verify that design uses severe corrosive factor as per Section S.5.9.2.3.2b by changing the design "      # OK 
               "parameter in Conspan. The limiting stress factor for tension (service III) should be .0948 instead of "
-              "0.19."}
+              "0.19.", "reference": "AASHTO LRFD 5.9.2.3.2b"}
 ]
 
-formed_concrete_criteria = [
+concrete_criteria = [
     {"label": "Concrete surfaces sealed", "reference": "BDM 306.1.2, 309.2.1 and 403.3"},                                # OK
     {"label": "Epoxy only sealer not used.", "reference": "BDM 309.2.1-G"}                                               # OK
 ]
 
 steel_criteria = []
 
-steel_stringers_criteria = [
-    {"label": "Are the proposed beam shapes per", "reference": "308.2.3.4"},
-    {"label": "Low-relaxation, 270 ksi, 0.6-inch strands used? (Initial stress = 0.75 f’s)",
+prestressing_steel_criteria = [
+    {"label": "Are the proposed beam shapes per BDM 308.2.3.4", "reference": "308.2.3.4"},                               # OK
+    {"label": "Low-relaxation, 270 ksi, 0.6-inch strands used? (Initial stress = 0.75 f’s)",                             # OK
      "reference": "304.5.1, 304.5.2"},
-    {"label": "Straight strands, debonded at ends if necessary, used? Draped strands should be provided as per",
+    {"label": "Straight strands, debonded at ends if necessary, used? Draped strands should be provided as per",         # OK
      "reference": "308.2.3.3.a 308.2.3.4.a.3"},
-    {"label": "No more than 25% of the total strands debonded?", "reference": "302.5.2.2.h"},
-    {"label": "No more than 45% of the strands in any row debonded", "reference": "302.5.2.2.d"},
-    {"label": "Number and spacing of debonded strands, and the length of debonding, shown?", "reference": "302.5.2.2.d"},
-    {"label": "Strand location and spacing meet requirements of", "reference": "308.2.3.3.b"},
-    {"label": "Initial prestressed loads shown in the plans", "reference": "304.5.2"},
-    {"label": "Joint details appropriate? Details from Standard Drawings EXJ-6-06."},
-    {"label": "Grade 60 mild reinforcing used?", "reference": "304.4"},
-    {"label": "Bars projecting from I-beam been epoxy coated?", "reference": "304.4"},
-    {"label": "Diaphragms placed at intervals not exceeding 40 feet", "reference": "308.2.3.4.d"},
-    {"label": "Intermediate diaphragms do not make contact with the underside of the deck?", "reference": "308.2.3.4.d"},
-    {"label": "End diaphragms make complete contact with the underside of the deck?", "reference": "308.2.3.4.d"},
-    {"label": "Threaded inserts used to connect diaphragm rebars to beams? Type and coating requirements for inserts "
+    {"label": "No more than 25% of the total strands debonded?", "reference": ""},                                       # OK - Ref
+    {"label": "No more than 45% of the strands in any row debonded", "reference": "308.2.3.3.a"},                        # OK
+    {"label": "Number and spacing of debonded strands, and the length of debonding, shown?",                             # OK - Ref
+     "reference": ""},
+    {"label": "Strand location and spacing meet requirements of", "reference": "308.2.3.3.b"},                           # OK
+    {"label": "Initial prestressed loads shown in the plans", "reference": "304.5.2"},                                   # OK
+    {"label": "Joint details appropriate? Details from Standard Drawings EXJ-6-17."},                                    # OK
+    {"label": "Grade 60 mild reinforcing used?", "reference": "304.4.1.2"},                                              # OK
+    {"label": "Bars projecting from I-beam been epoxy coated?", "reference": ""},                                        # OK - Ref
+    {"label": "Diaphragms placed at intervals not exceeding 40 feet", "reference": "308.2.3.4.d"},                       # OK
+    {"label": "Intermediate diaphragms do not make contact with the underside of the deck?", "reference": "308.2.3.4.d"}, # OK
+    {"label": "End diaphragms make complete contact with the underside of the deck?", "reference": "308.2.3.4.d"},       # OK
+    {"label": "Threaded inserts used to connect diaphragm rebars to beams? Type and coating requirements for inserts "   # OK
               "shown?", "reference": "308.2.3.4.d"},
-    {"label": "Note provided restricting deck placement to a minimum of 48 hours after diaphragms are placed and cured?"
+    {"label": "Note provided restricting deck placement to a minimum of 48 hours after diaphragms are placed and cured?" # OK
               " If the Standard Bridge Drawing for I-beams is not referenced by the contract plans",
      "reference": "308.2.3.4.d"},
-    {"label": "Bridge seat elevations been computed as directed in", "reference": "308.2.3.4.b"},
-    {"label": "Diagram provided showing slab thickness at center of each span and at each centerline of bearings?",
+    {"label": "Bridge seat elevations been computed as directed in BDM 308.2.3.4.b", "reference": "308.2.3.4.b"},        # OK
+    {"label": "Diagram provided showing slab thickness at center of each span and at each centerline of bearings?",      # OK
      "reference": "308.2.3.4.b"},
-    {"label": "Beam anchorage meets the requirements of", "reference": "308.2.3.4.c"},
-    {"label": "Full-depth cast-in-place concrete deck specified/ precast deck panels should not be used.",
+    {"label": "Beam anchorage meets the requirements of", "reference": "308.2.3.4.c"},                                   # OK
+    {"label": "Full-depth cast-in-place concrete deck specified/ precast deck panels should not be used.",               # OK
      "reference": "309"},
-    {"label": "Threaded insert location shown on the beam elevation view for draped strands.", "reference": "PSID-1-13"},
-    {"label": "The longitudinal superstructure cross section in the plans detailing the total topping thickness, "
+    {"label": "Threaded insert location shown on the beam elevation view for draped strands.",                           # OK
+     "reference": "PSID-1-13"},
+    {"label": "The longitudinal superstructure cross section in the plans detailing the total topping thickness, "       # OK
               "including the design slab thickness and the haunch thickness at the centerline of spans and bearings.",
      "reference": "308.2.3.4.b"},
-    {"label": "Camber at the time of release, at the time of erection, long term camber and a screed elevation table "
-              "shown", "reference": "308.2.3.4.b"},
-    {"label": "Verify that design use severe corrosive factor as per Section S.5.9.2.3.2b by changing the design "
-              "parameter in Conspan. The limiting stress factor for tension (service III) should be .0948 instead of "
-              "0.19"}
+    {"label": "Camber at the time of release, at the time of erection, long term camber and a screed elevation table "   # OK
+              "shown", "reference": "308.2.3.4.b"}
 ]
 
 steel_stringers_general_criteria = [
-    {"label": "A709 Grade 50W steel shall be specified for un-coated weathering steel bridges, A709 Grade 50 specified "
-              "for a coated steel bridge.", "reference": "30.4.1"},
-    {"label": "A709 Grade 50W structural steel within 10 feet from end of stringer adjacent to deck joint painted and "
+    {"label": "A709 Grade 50W steel shall be specified for un-coated weathering steel bridges, A709 Grade 50 specified " # OK
+              "for a coated steel bridge.", "reference": "304.1"},
+    {"label": "A709 Grade 50W structural steel within 10 feet from end of stringer adjacent to deck joint painted and "  # OK
               "note provided", "reference": "308.2.2.1.d.1"},
-    {"label": "Proper painting system used? Formerly called, System IZEU on new steel and System OZEU on existing "
+    {"label": "Proper painting system used? Formerly called, System IZEU on new steel and System OZEU on existing "      # OK
               "steel?", "reference": "308.2.2.1.d.1"},
-    {"label": "All main load carrying members such as rolled beams, girder web/flanges, moment plates, splice plates, "
+    {"label": "All main load carrying members such as rolled beams, girder web/flanges, moment plates, splice plates, "  # OK - Ref (not mentioned)
               "and horizontally curved stringer cross frames designated as CVN for Charpy V-notch testing and plan note"
               " provided?", "reference": "308.2.2.1.b and 702.2"},
-    {"label": "Clearance between the bottom mat and top of the bolt over splice plate."},
-    {"label": "Steel fabricator certification given in pay item description as Classification Levels 1 thru 6, SF or "
+    {"label": "Clearance between the bottom mat and top of the bolt over splice plate."},                                # OK - Ref
+    {"label": "Steel fabricator certification given in pay item description as Classification Levels 1 thru 6, SF or "   # OK
               "UF.", "reference": "308.2.2.1.b"},
-    {"label": "Cross frames and field splices for dog-legged (deflected) stringers conform with, Additional horizontal "
+    {"label": "Cross frames and field splices for dog-legged (deflected) stringers conform with, Additional horizontal " # OK - Ref
               "cross frames angle provided near top flange of horizontally curved stringers?",
      "reference": "308.2.2.1.j, 308.2.2.1.j.1 and 308.2.2.2.b"},
-    {"label": "Plan note provided for High Strength Bolts?", "reference": "702.3"},
-    {"label": "Leg size specified for fillet welds 1/4 inch minimum for material < 3/4 inch thick and 5/16 inch minimum"
+    {"label": "Plan note provided for High Strength Bolts?", "reference": "702.3"},                                      # OK
+    {"label": "Leg size specified for fillet welds 1/4 inch minimum for material < 3/4 inch thick and 5/16 inch minimum" # OK
               " for thicker material)?", "reference": "308.2.2.2.c.1"},
-    {"label": "Complete penetration groove welds designated as CP with weld configuration left unspecified? Partial "
+    {"label": "Complete penetration groove welds designated as CP with weld configuration left unspecified? Partial "    # OK
               "penetration groove welds not permitted on structural elements.",
      "reference": "308.2.2.2.c and ANSI/AASHTO / AWS D1.5 Bridge Welding Code"},
-    {"label": "Stud shear connectors preferably 7/8 inch diameter and uniformly spaced transversely not closer than 4 "
+    {"label": "Stud shear connectors preferably 7/8 inch diameter and uniformly spaced transversely not closer than 4 "  # OK
               "diameters center to center with at least 1 inch clearance from flange edges? (Typically, three studs "
               "transversely for flanges 12 inches and wider)", "reference": "404.1.6 & AASHTO LRFD 6.10.10"},
-    {"label": "Shear connector length penetrates at least 2 inches above bottom reinforcing steel of slab and provides "
+    {"label": "Shear connector length penetrates at least 2 inches above bottom reinforcing steel of slab and provides " # OK - Ref
               "at least 2 inches top cover?"},
-    {"label": "7/8 inch diameter Shear stud not recommended for vertical application due to longer welding times and "
-              "difficulties. Use a 3/4 inch diameter shear stud recommended by the industry."},
-    {"label": "Shear connector maximum spacing generally not greater than 24 inches? Usually, fatigue and strength "
+    # {"label": "7/8 inch diameter Shear stud not recommended for vertical application due to longer welding times and " # Remove - BDM says use 7/8"
+    #           "difficulties. Use a 3/4 inch diameter shear stud recommended by the industry."},
+    {"label": "Shear connector maximum spacing generally not greater than 24 inches? Usually, fatigue and strength "     # OK
               "criteria produce maximum spacing near piers, smallest spacing near abutments, and moderate spacing near "
               "mid spans? No conflict near field splices or deck joint anchorage?", "reference": "AASHTO LRFD 6.10.10"},
-    {"label": "Extra shear connectors provided at contra flexure points and longitudinal slab reinforcement properly "
+    {"label": "Extra shear connectors provided at contra flexure points and longitudinal slab reinforcement properly "   # OK
               "extended if shear connectors are omitted over piers?", "reference": "AASHTO LRFD 6.10.10"},
-    {"label": "Field splices located near points of dead load contra flexure as appropriate to facilitate erection and "
+    {"label": "Field splices located near points of dead load contra flexure as appropriate to facilitate erection and " # OK
               "to limit field section lengths to 90 feet maximum for rolled beams and 120 feet maximum for plate "
               "girders? Additional optional field splices may be shown recognizing greater availability of short "
               "lengths)", "reference": "308.2.2.1.c and 308.2.2.1.j.3"},
-    {"label": "Plate thicknesses specified in the following standard sizes: 7/8\" to 3” In 1/8” Increments, 3\" And "
+    {"label": "Plate thicknesses specified in the following standard sizes: 7/8\" to 3\" In 1/8\" Increments, 3\" And "  # OK
               "above 1/4\" Increments?", "reference": "308.2.2.3.c"},
-    {"label": "Buoyant superstructures typically integral or semi-integral designs) where inundation is possible "
+    {"label": "Buoyant superstructures typically integral or semi-integral designs) where inundation is possible "       # OK - Ref
               "details with appropriate countermeasures (e.g., holes drilled in stringer webs for egress of confined "
               "air, support anchorage, etc.)?"},
-    {"label": "Stringer top flange compression and tension zones shown and Welded Attachment Note provided?",
+    {"label": "Stringer top flange compression and tension zones shown and Welded Attachment Note provided?",            # OK
      "reference": "702.11"},
-    {"label": "Camber and deflection table provided for information given at center of spans, splices points, and at 25"
+    {"label": "Camber and deflection table provided for information given at center of spans, splices points, and at 25" # OK
               " foot maximum intervals?", "reference": "702.1, 309.3.3"},
-    {"label": "Camber diagram provided and blocking dimension from bottom of stringer at each support to chord between "
+    {"label": "Camber diagram provided and blocking dimension from bottom of stringer at each support to chord between " # OK
               "end supports) shown?", "reference": "309.3.3"},
-    {"label": "Camber adjustment provided for horizontally heat-curved stringers and for straight stringers on curved "
+    {"label": "Camber adjustment provided for horizontally heat-curved stringers and for straight stringers on curved "  # OK
               "bridges?", "reference": "AASHTO LRFD 6.7.7"},
-    {"label": "Sign (direction) of camber adjustment for vertical curve correct?"},
-    {"label": "Edge distances used for field splices as per LRFD table 6.13.2.6.6-1?",
+    {"label": "Sign (direction) of camber adjustment for vertical curve correct?"},                                      # OK - Ref
+    {"label": "Edge distances used for field splices as per LRFD table 6.13.2.6.6-1?",                                   # OK
      "reference": "308.2.2.1.j.1 & 308.2.2.1.j.2"},
-    {"label": "For galvanized structures, the bolt hole size requires a 1/16 inch increase.",
+    {"label": "For galvanized structures, the bolt hole size requires a 1/16 inch increase.",                            # OK
      "reference": "308.2.2.1.j.1"},
-    {"label": "Field splices located so as not to interfere with other details (i.e., intermediate stiffeners, cross "
+    {"label": "Field splices located so as not to interfere with other details (i.e., intermediate stiffeners, cross "   # OK
               "frames, etc.)?", "reference": "308.2.2.2.b"},
-    {"label": "Fatigue prone details avoided if possible?", "reference": "308.2.2.1.g"},
-    {"label": "Cross frame connection stiffeners rigidly attached to stringer top and bottom flanges?",
+    {"label": "Fatigue prone details avoided if possible?", "reference": "308.2.2.1.g"},                                 # OK
+    {"label": "Cross frame connection stiffeners rigidly attached to stringer top and bottom flanges?",                  # OK
      "reference": "308.2.2.2.a"},
-    {"label": "Lateral bracing provided only when required?", "reference": "AASHTO LRFD 6.7.5"},
-    {"label": "Curved girder with stage construction should be checked for deflection at each stage."}
+    {"label": "Lateral bracing provided only when required?", "reference": "AASHTO LRFD 6.7.5"},                         # OK
+    {"label": "Curved girder with stage construction should be checked for deflection at each stage."}                   # OK - Ref
 ]
 
 rolled_beams_criteria = [
-    {"label": "Welded moment plates not used in areas of tensile stress?", "reference": "308.2.2.2.d"},
-    {"label": "Bearing stiffeners provided only when necessary?", "reference": "AASHTO LRFD 6.10.11.2"},
-    {"label": "Galvanized beams limited in length to 60 feet maximum and utilize bolted connections only?",
-     "reference": "308.2.2.1.d.2"}
+    {"label": "Welded moment plates not used in areas of tensile stress?", "reference": "BDM 308.2.2.2.d"},              # OK
+    {"label": "Bearing stiffeners provided only when necessary?", "reference": "AASHTO LRFD 6.10.11.2"},                 # OK
+    {"label": "Galvanized beams limited in length to 60 feet maximum and utilize bolted connections only?",              # OK
+     "reference": "BDM 308.2.2.1.d.2"}
 ]
 
 plate_girders_criteria = [
-    {"label": "Top flange width as per", "reference": "308.2.2.3.c.1"},
-    {"label": "Flange thickness at least 7/8 inch?", "reference": "308.2.2.3.c.1"},
-    {"label": "Web thickness and stiffener thickness at least 3/8 inch", "reference": "308.2.2.3.c.2"},
-    {"label": "Flange butt welds subject only to compressive stresses identified as CS and complete joint penetration "
+    {"label": "Top flange width as per BDM 308.2.2.3.c.1", "reference": "308.2.2.3.c.1"},                                # OK
+    {"label": "Flange thickness at least 7/8 inch?", "reference": "308.2.2.3.c.1"},                                      # OK
+    {"label": "Web thickness and stiffener thickness at least 3/8 inch", "reference": "308.2.2.3.c.2"},                  # OK
+    {"label": "Flange butt welds subject only to compressive stresses identified as CS and complete joint penetration "  # OK
               "as CP.", "reference": "308.2.2.3.f.2"},
-    {"label": "Non-redundant main steel members identified as FCM (Fracture Critical Member)? Proper pay item and plan "
-              "note provided", "reference": "BMD 308.2.2.3.b"},
-    {"label": "Longitudinal stiffeners not used? Transverse stiffeners preferably not used (except cross frame "
+    {"label": "Non-redundant main steel members identified as FCM (Fracture Critical Member)? Proper pay item and plan " # OK
+              "note provided", "reference": "BDM 308.2.2.3.b"},
+    {"label": "Longitudinal stiffeners not used? Transverse stiffeners preferably not used (except cross frame "         # OK
               "connection stiffeners)", "reference": "308.2.2.3"},
-    {"label": "Transverse stiffeners (if used) placed on alternate sides of interior girders and inside face only of "
+    {"label": "Transverse stiffeners (if used) placed on alternate sides of interior girders and inside face only of "   # OK
               "fascia girders, made same size throughout, and detailed?", "reference": "308.2.2.3.d"},
-    {"label": "Cross frame connection stiffeners fillet welded to web and both flanges", "reference": "308.2.2.3.d"},
-    {"label": "Bearing stiffeners made to extend as near as practicable to outer edges of flange plate and detailed as "
+    {"label": "Cross frame connection stiffeners fillet welded to web and both flanges", "reference": "308.2.2.3.d"},    # OK
+    {"label": "Bearing stiffeners made to extend as near as practicable to outer edges of flange plate and detailed as " # OK
               "tight fit at top flange, mill to bear at bottom flange? (Rigid attachment to both flanges may be "
               "appropriate if used also as a connection plate)", "reference": "AASHTO LRFD 6.10.11.2.1 / LRFD 6.10.11.2"},
-    {"label": "Intermediate cross frame angle size and connections conform with STD DWG GSD-1-19? For beam/Girder D < 6"
+    {"label": "Intermediate cross frame angle size and connections conform with STD DWG GSD-1-19? For beam/Girder D < 6" # OK
               " feet."},
-    {"label": "Constant flange widths used whenever possible? Make changes in flange width at field splice to "
+    {"label": "Constant flange widths used whenever possible? Make changes in flange width at field splice to "          # OK
               "facilitate fabrication. Changes in flange plate section appropriate based on cost criteria given in",
      "reference": "308.2.2.3.c.1 Steel Bridge Design Handbook FHWA-IF-12-052-Vol. 6"},
     {"label": "Clearance between the bottom mat and top of the bolt over splice plate", "reference": "309.3.4.2"}
 ]
 
 concrete_deck_on_stringers_criteria = [
-    {"label": "Verify bottom concrete cover of bars in the overhang deck", "reference": "LRFD 5.10.1, 304.4.8"},
+    {"label": "Verify bottom concrete cover of bars in the overhang deck", "reference": "LRFD 5.10.1, 304.4.8"},         # OK - get table from LRFD
     {"label": "Sealing of concrete surfaces shown and appropriate", "reference": "309.2.1"},
-    {"label": "Stainless steel drip strip provided on decks with over-the-side drainage?",
+    {"label": "Stainless steel drip strip provided on decks with over-the-side drainage?",                               # OK
      "reference": "309.7 and 309.2"},
-    {"label": "Deck slab depth over stringers shown to top of web for plate girders and to top of flange for rolled "
+    {"label": "Deck slab depth over stringers shown to top of web for plate girders and to top of flange for rolled "    # OK
               "beams or prestressed concrete I-beams and plan note provided", "reference": "702.5 and 702.6"},
-    {"label": "2-inch minimum concrete haunch depth used over stringers (top of thickest flange section to bottom of "
-              "slab)", "reference": "309.3.5"},
-    {"label": "For steel beam or girder bridges with skew less than 15 degrees the transverse bars parallel to abutment"
+    {"label": "2-inch minimum concrete haunch depth used over stringers (top of thickest flange section to bottom of "   # OK
+              "slab)", "reference": "BDM 309.3.5"},
+    {"label": "For steel beam or girder bridges with skew less than 15 degrees the transverse bars parallel to abutment" # OK
               " and for skew more than 15 degrees or interference with shear stud, transverse bars placed perpendicular"
               " to the centerline of bridge.", "reference": "309.3.4.2"},
-    {"label": "For prestressed I-beam or composite box beam bridge deck, transverse bars perpendicular to the "
-              "centerline of bridge.", "reference": "309.3.4.2"},
-    {"label": "Slab thickness and reinforcement conform to", "reference": "Figure 309-3, 309-4 or 309-5"},
-    {"label": "Top and bottom main (transverse) bars at same spacing and placed to coincide in a vertical plane?",
+    # {"label": "For prestressed I-beam or composite box beam bridge deck, transverse bars perpendicular to the "        # Remove - same as above comment
+    #           "centerline of bridge.", "reference": "309.3.4.2"},
+    {"label": "Slab thickness and reinforcement conform to", "reference": "Figure 309-3, 309-4 or 309-5"},               # OK
+    {"label": "Top and bottom main (transverse) bars at same spacing and placed to coincide in a vertical plane?",       # OK
      "reference": "309.3.4.2"},
-    {"label": "Transverse bars placed parallel to abutments for bridges with skews less than 15 degrees?",
-     "reference": "309.3.4.2"},
-    {"label": "Length of transverse bars without lap splices 5 inches shorter than deck (edge to edge distance) to "
+    # {"label": "Transverse bars placed parallel to abutments for bridges with skews less than 15 degrees?",             # Remove - same as above comment
+    #  "reference": "309.3.4.2"},
+    {"label": "Length of transverse bars without lap splices 5 inches shorter than deck (edge to edge distance) to "     # OK - Ref
               "ensure adequate cover at ends of bar, allowing for shop cutting tolerances?"},
-    {"label": "(Transverse) bars", "reference": "309.3.4.1"},
-    {"label": "Secondary (longitudinal) bars placed above main", "reference": "309.3.4.1"},
-    {"label": "Additional top longitudinal bars with ends staggered 3'-0\" provided over piers on continuous "
+    {"label": "Secondary (longitudinal) bars placed above main (Transverse) bars", "reference": "309.3.4.1"},            # OK
+    {"label": "Additional top longitudinal bars with ends staggered 3'-0\" provided over piers on continuous "           # OK
               "structures? Total longitudinal reinforcement meets the requirements of AASHTO LRFD 6.10.1.7 for steel "
               "stringers or for prestressed concrete I-beam? Generally, No. 6 bars midspaced between top full length "
               "longitudinal bars will be adequate and will provide enough clearance between bars to facilitate concrete"
               " placement and vibration.", "reference": "308.2.3.3.c"},
-    {"label": "Screed elevations given along curb lines/edges of deck, roadway crown, transverse grade-break lines and "
+    {"label": "Screed elevations given along curb lines/edges of deck, roadway crown, transverse grade-break lines and " # OK
               "phase construction lines at all bearings, quarter-span, mid-span, and splice points, plus any points "
               "required for a maximum 25 foot spacing.", "reference": "309.3.3.1"},
-    {"label": "Slab pour sequence generally specified only when uplift during construction or differential deflections "
-              "at intermediate expansion joints are of concern.", "reference": "2.2.3.g, 403.5.4"},
-    {"label": "Check three independent sources of girder twist resulting from deck placement: global superstructure "
+    {"label": "Slab pour sequence generally specified only when uplift during construction or differential deflections " # OK
+              "at intermediate expansion joints are of concern.", "reference": "BDM 403.5.4"},
+    {"label": "Check three independent sources of girder twist resulting from deck placement: global superstructure "    # OK
               "distortion, oil-canning and girder warping.", "reference": "309.3.8.2"},
-    {"label": "Neglect girder twist due to global deformation if the tributary deck load carried by the fascia girder "
+    {"label": "Neglect girder twist due to global deformation if the tributary deck load carried by the fascia girder "  # OK
               "is less than 110% of the average of the tributary deck load carried by the interior members for new "
               "structure and 115% for existing structure.", "reference": "309.3.8.2.a"},
-    {"label": "For web depth greater than 84 inches note for location of lower contact point of the overhang false work"
+    {"label": "For web depth greater than 84 inches note for location of lower contact point of the overhang false work" # OK
               " included.", "reference": "611.4.1"},
-    {"label": "Screed, top of haunch and finished deck surface shown and note included?",
+    {"label": "Screed, top of haunch and finished deck surface shown and note included?",                                # OK
      "reference": "309.3.3.1, 309.3.3.2, 309.3.3.3, 702.12.1, 702.12.2, 702.12.3"},
-    {"label": "The final deck surface elevation locations should be identified in a plan view.",
+    {"label": "The final deck surface elevation locations should be identified in a plan view.",                         # OK
      "reference": "309.3.3.3"},
-    {"label": "The screed elevation locations should be identified on the transverse section.", "reference": "702.12.1"},
-    {"label": "The top of haunch elevation locations should be identified on the transverse section.",
+    {"label": "The screed elevation locations should be identified on the transverse section.",                          # OK
+     "reference": "702.12.1"},
+    {"label": "The top of haunch elevation locations should be identified on the transverse section.",                   # OK
      "reference": "702.12.2"},
-    {"label": "Deck placement design assumptions note is included.", "reference": "611.4.2"}
+    {"label": "Deck placement design assumptions note is included.", "reference": "611.4.2"}                             # OK
 ]
 
 deep_beam_railing_criteria = [
-    {"label": "Deep beam guardrail must be used in accordance with", "reference": "309.4.3.4"}
+    {"label": "Deep beam guardrail must be used in accordance with BDM 309.4.3.4", "reference": "BDM 309.4.3.4"}         # OK
 ]
 
 twin_steel_tube_criteria = [
-    {"label": "Reference to Standard Drawing. TST-1-99 Given."},
-    {"label": "Pay limits for bridge railing measured center-to-center of the second posts on the approaches?"},
-    {"label": "Rail post spacing of 6'-3\" c/c of post maintained except one post spacing per span can be decreased to"
+    {"label": "Reference to Standard Drawing. TST-1-99 Given.", "reference": "BDM 309.4.3.9"},                           # OK
+    {"label": "Pay limits for bridge railing measured center-to-center of the second posts on the approaches?"},         # OK
+    {"label": "Rail post spacing of 6'-3\" c/c of post maintained except one post spacing per span can be decreased to"  # OK
               " allow for construction clearances."},
-    {"label": "Suitable clearances between posts and back walls and between post anchors and expansion joint armor "
+    {"label": "Suitable clearances between posts and back walls and between post anchors and expansion joint armor "     # OK - Ref
               "anchors provided?"},
-    {"label": "Wing-wall mounted post used to provide suitable post and anchor bar clearances?"},
-    {"label": "For box beam bridges with steel railing, the post spacing and position of post anchorage shall be "
+    {"label": "Wing-wall mounted post used to provide suitable post and anchor bar clearances?"},                        # OK
+    {"label": "For box beam bridges with steel railing, the post spacing and position of post anchorage shall be "       # OK
               "detailed on the plans."},
-    {"label": "Enlarged details provided to describe post anchorage to composite box beams?"}
+    {"label": "Enlarged details provided to describe post anchorage to composite box beams?"}                            # OK
 ]
 
 sidewalk_with_conc_para_criteria = [
-    {"label": "Railing posts spaced to clear parapet deflection joints as per STD-BR-2-15."},
-    {"label": "Radius of curved railing not less than 20 feet without special details. This is noted in STD-BR-2-15 "
+    {"label": "Railing posts spaced to clear parapet deflection joints as per STD-BR-2-15.",                             # OK
+     "reference": "ODOT SCD BR-2-15"},
+    {"label": "Radius of curved railing not less than 20 feet without special details. This is noted in STD-BR-2-15 "    # OK
               "Sheet 5 of 5 Under Horizontal Curvatures Title."},
-    {"label": "All horizontal reinforcing steel should be detailed as per STD-BR-2-15."},
-    {"label": "Steel tubing has provision for Expansion and Contraction as shown on STD-BR-2-15 Sheet 1 of 5 View D-D."}
+    {"label": "All horizontal reinforcing steel should be detailed as per STD-BR-2-15.",                                 # OK
+     "reference": "ODOT SCD BR-2-15"},
+    {"label": "Steel tubing has provision for Expansion and Contraction as shown on STD-BR-2-15 Sheet 1 of 5 View D-D."} # OK
 ]
 
 parapet_railing_criteria = [
-    {"label": "Parapet when to use per", "reference": "309.4.3"},
-    {"label": "Complete details of the Parapet Type bridge railing shown on the plans?"},
-    {"label": "Railing transition preferably mounted on turn back abutment wingwalls or approach slabs?"},
-    {"label": "For bridges with expansion joints and with parapets mounted on approach slabs, the 1'-1\" high base "
+    {"label": "Parapet when to use per BDM 309.4.3", "reference": "BDM 309.4.3"},                                        # OK
+    {"label": "Complete details of the Parapet Type bridge railing shown on the plans?"},                                # OK - Ref
+    {"label": "Railing transition preferably mounted on turn back abutment wingwalls or approach slabs?"},               # OK - Ref
+    {"label": "For bridges with expansion joints and with parapets mounted on approach slabs, the 1'-1\" high base "     # OK - Ref
               "portion of the parapets within the width of back walls are reinforced and placed as part of the "
               "abutments to provide an integral structure for mounting the expansion joint armor?"},
-    {"label": "Such parapets provided with special reinforcement and joint details to allow consolidation induced "
+    {"label": "Such parapets provided with special reinforcement and joint details to allow consolidation induced "      # OK - Ref
               "rotation of the approach slabs without parapet distress?"},
-    {"label": "Curb heights on approach slabs limited to 4 inches as shown in Section F-F on Deflector Parapet Type "
+    {"label": "Curb heights on approach slabs limited to 4 inches as shown in Section F-F on Deflector Parapet Type "    # OK - Ref
               "drawing?"},
-    {"label": "Details of filler between approach slab and turn back wing-wall at the base of the parapet made to "
-              "conform to DETAIL F of Standard Drawing AS-1-15."},
-    {"label": "Parapet length of 14'-0\" or more provided to allow the standard transition length to be used?"},
-    {"label": "Reference made to the roadway plans for details and payment provisions for Bridge Terminal Assembly",
+    {"label": "Details of filler between approach slab and turn back wing-wall at the base of the parapet made to "      # OK
+              "conform to DETAIL F of Standard Drawing AS-1-15.", "reference": "ODOT SCD AS-1-15"},
+    {"label": "Parapet length of 14'-0\" or more provided to allow the standard transition length to be used?"},         # OK
+    {"label": "Reference made to the roadway plans for details and payment provisions for Bridge Terminal Assembly",     # OK
      "reference": "Drawings MGS-3.1 and MGS-3.2"}
 ]
 
 parapet_and_fence_criteria = [
-    {"label": "2'-8\" high parapets provided?"},
-    {"label": "New guideline for fencing? Fence used on all structure over live traffic except over County and Township"
+    {"label": "2'-8\" high parapets provided?"},                                                                         # OK
+    {"label": "New guideline for fencing? Fence used on all structure over live traffic except over County and Township" # OK
               " roads."},
-    {"label": "Fence details conform to Standard Drawings VPF-1-90?"}
+    {"label": "Fence details conform to Standard Drawings VPF-1-24?"}                                                    # OK
 ]
 
 elastomeric_bearings_criteria = [
-    {"label": "Steel load plate provided for attachment to steel members?", "reference": "306.4.2"},
-    {"label": "Elastomer hardness specified?", "reference": "306.4.2"},
-    {"label": "An elastomeric pad thickness of 1 inch or more provided (Such pads generally must be reinforced with "
+    {"label": "Steel load plate provided for attachment to steel members?", "reference": "306.4.2.1"},                   # OK
+    {"label": "Elastomer hardness specified?", "reference": "306.4.2.1"},                                                # OK
+    {"label": "An elastomeric pad thickness of 1 inch or more provided (Such pads generally must be reinforced with "    # OK
               "steel laminates)?", "reference": "306.4.2"},
-    {"label": "A tabulation of unfactored dead load, live load excluding impact, and 'Maximum Design Load' given?"},
-    {"label": "For prestressed box beam bridges without external steel load plates, bearing shall conform to Standard "
-              "Drawing BD-1-11?"},
+    {"label": "A tabulation of unfactored dead load, live load excluding impact, and 'Maximum Design Load' given?"},     # OK
+    {"label": "For prestressed box beam bridges without external steel load plates, bearing shall conform to Standard "  # OK
+              "Drawing BD-1-11?", "reference": "ODOT SCD BD-1-11"},
     {"label": "Elastomeric bearing with a load plate shall have the plate beveled if the rotation and/or grade exceed "
               "the limitations of AASHTO LRFD 14.7.5.3.3 Method B and 14.7.6.3.5 Method A?"},
     {"label": "Provided with bearing details.", "reference": "Note no. 702.13"},
@@ -656,17 +666,6 @@ grounding_criteria = [
 
 general_pile_criteria = [ # For any structures that have piles in the abutments or piers
     {"label": "Each pile in the structure has been assigned a unique number?"},
-]
-
-approach_slab_criteria = [
-    {"label": "Removal of existing approach slab included in the estimated quantities 310.2"},
-    {"label": "Removal of existing Wearing Surface included in the estimated quantities as per CMS 202"},
-    {"label": "Non-standard approach slab shown 'Modified' in the structure block."},
-    {"label": "Current Standard Drawing reference in proposed structure data block and in the General Notes."},
-    {"label": "Bars D801 or D802 included in the reinforcing steel list?"},
-    {"label": "Pay-Item 526 for Type _ Installation included?"},
-    {"label": "Pay-Item for Polymer Modified Asphalt Expansion Joint System or Item 516 – Armorless Preformed Joint "
-              "Seal included?"}
 ]
 
 piers_general_criteria = [
