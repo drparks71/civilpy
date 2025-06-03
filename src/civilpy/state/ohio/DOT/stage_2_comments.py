@@ -86,8 +86,6 @@ reinforcing_details_criteria = [
     {"label": "Letter prefix A (abutments), P (piers), S (superstructure), SP (spirals), DS (drilled shafts) generally " # OK
               "used in bar marks?", "reference": "304.4.3"},
     {"label": "Mechanical connectors used where appropriate?", "reference": "304.4.4"},                                  # OK
-    # {"label": "Splices avoided at pier horizontal construction joints, except at top of footing?",                     # Propose Removing - Couldn't find
-    # "reference": "304.4.3"},
 ],
 
 typical_sections_criteria = [
@@ -98,14 +96,6 @@ typical_sections_criteria = [
     {"label": "Stage construction details sheet should include notes that detail the sequence of construction.",         # OK
      "reference": "309.3.8.5"}
 ],
-
-# part_plan_views_criteria = [  # Verify what part plan is referring to - potentially remove
-#     {"label": "Part Plan views provided to show the relative relationship of the existing and proposed abutments during"
-#               " Stage 1 construction and relevant basic dimensions and clearances?"},
-#     {"label": "Sufficient room provided between temporary sheeting and proposed abutment for form construction and "
-#               "removal?"},
-#     {"label": "Sufficient room provided for pile driving?"}
-# ],
 
 temporary_sheeting_criteria = [  # Comments for if a project includes temporary sheet pile walls
     {"label": "Consultant designed sheeting details provided in the plan when traffic is being maintained and the "      # OK
@@ -354,8 +344,6 @@ steel_stringers_general_criteria = [
               "transversely for flanges 12 inches and wider)", "reference": "404.1.6 & AASHTO LRFD 6.10.10"},
     {"label": "Shear connector length penetrates at least 2 inches above bottom reinforcing steel of slab and provides " # OK - Ref
               "at least 2 inches top cover?"},
-    # {"label": "7/8 inch diameter Shear stud not recommended for vertical application due to longer welding times and " # Remove - BDM says use 7/8"
-    #           "difficulties. Use a 3/4 inch diameter shear stud recommended by the industry."},
     {"label": "Shear connector maximum spacing generally not greater than 24 inches? Usually, fatigue and strength "     # OK
               "criteria produce maximum spacing near piers, smallest spacing near abutments, and moderate spacing near "
               "mid spans? No conflict near field splices or deck joint anchorage?", "reference": "AASHTO LRFD 6.10.10"},
@@ -435,13 +423,9 @@ concrete_deck_on_stringers_criteria = [
     {"label": "For steel beam or girder bridges with skew less than 15 degrees the transverse bars parallel to abutment" # OK
               " and for skew more than 15 degrees or interference with shear stud, transverse bars placed perpendicular"
               " to the centerline of bridge.", "reference": "309.3.4.2"},
-    # {"label": "For prestressed I-beam or composite box beam bridge deck, transverse bars perpendicular to the "        # Remove - same as above comment
-    #           "centerline of bridge.", "reference": "309.3.4.2"},
     {"label": "Slab thickness and reinforcement conform to", "reference": "Figure 309-3, 309-4 or 309-5"},               # OK
     {"label": "Top and bottom main (transverse) bars at same spacing and placed to coincide in a vertical plane?",       # OK
      "reference": "309.3.4.2"},
-    # {"label": "Transverse bars placed parallel to abutments for bridges with skews less than 15 degrees?",             # Remove - same as above comment
-    #  "reference": "309.3.4.2"},
     {"label": "Length of transverse bars without lap splices 5 inches shorter than deck (edge to edge distance) to "     # OK - Ref
               "ensure adequate cover at ends of bar, allowing for shop cutting tolerances?"},
     {"label": "Secondary (longitudinal) bars placed above main (Transverse) bars", "reference": "309.3.4.1"},            # OK
@@ -707,7 +691,6 @@ pier_pile_criteria = [
               "components?"},
     {"label": "Station of intersection of the centerline of bearings and station line."},                                # OK - Ref
     {"label": "Tie the pile spacing to the intersection of the centerline of bearings and station line."},               # OK - Ref
-    # {"label": "Number all drilled shafts 305.4.4"}                                                                     # moved to drilled shafts
 ]
 
 capped_pile_piers_criteria = [
@@ -823,7 +806,6 @@ drilled_shaft_criteria = [
     {"label": "Use of friction drilled shaft requires previous approval of OGE?", "reference": "BDM 305.4.3"},           # OK
     {"label": "Each drilled shaft in the structure has been assigned a unique number?", "reference": "BDM 305.4.4"},     # OK
     {"label": "Show the length of the bedrock socket in the profile view.", "reference": "305.4.2"}                      # OK
-    # {"label": "Number all drilled shafts 305.4.4"}                                                                     # Dropped as duplicate
 ]
 
 all_criteria = {
