@@ -533,282 +533,297 @@ elastomeric_bearings_criteria = [
     {"label": "A tabulation of unfactored dead load, live load excluding impact, and 'Maximum Design Load' given?"},     # OK
     {"label": "For prestressed box beam bridges without external steel load plates, bearing shall conform to Standard "  # OK
               "Drawing BD-1-11?", "reference": "ODOT SCD BD-1-11"},
-    {"label": "Elastomeric bearing with a load plate shall have the plate beveled if the rotation and/or grade exceed "
+    {"label": "Elastomeric bearing with a load plate shall have the plate beveled if the rotation and/or grade exceed "  # OK
               "the limitations of AASHTO LRFD 14.7.5.3.3 Method B and 14.7.6.3.5 Method A?"},
-    {"label": "Provided with bearing details.", "reference": "Note no. 702.13"},
-    {"label": "Top and bottom cover layers should not be thicker than 70% of internal layers",
+    {"label": "BDM Note no. 702.13 provided with bearing details.", "reference": "BDM 702.13"},                          # OK
+    {"label": "Top and bottom cover layers should not be thicker than 70% of internal layers",                           # OK
      "reference": "AASHTO LRFD 14.7.6.1"},
-    {"label": "No top cover layer for bearing with load plate.", "reference": "AASHTO LRFD 14.7.6.1"},
-    {"label": "Following note included: 'All bearings shall be marked prior to shipping. The marks shall include the "
+    {"label": "No top cover layer for bearing with load plate.", "reference": "AASHTO LRFD 14.7.6.1"},                   # OK
+    {"label": "Following note included: 'All bearings shall be marked prior to shipping. The marks shall include the "   # OK - Ref
               "bearing location on the bridge, and a direction arrow that points up-station. All marks shall be "
               "permanent and be visible after the bearing is installed.'"},
-    {"label": "A plate bigger than bottom flange on top of HP section so that it can be welded from the top."}
+    {"label": "A plate bigger than bottom flange on top of HP section so that it can be welded from the top."}           # OK
 ]
 
 anchor_bars_criteria = [
-    {"label": "Furnishing and placing anchor bars and ¾” galvanized threaded rod included with Bearing box beams or "
+    {"label": "Furnishing and placing anchor bars and 3/4” galvanized threaded rod included with Bearing box beams or "  # OK 
               "I-beams) for payment?", "reference": "Standard Drawing BD-1-11, PSBD-2-07. Not required for PSBD-2-07"},
-    {"label": "For steel bearings, furnishing and placing anchor bars included with bearings for payment?",
+    {"label": "For steel bearings, furnishing and placing anchor bars included with bearings for payment?",              # OK
      "reference": "RB-1-55 and FB-1-82"}
 ]
 
 anchor_bolt_criteria = [
-    {"label": "Outline of masonry plate?"},
-    {"label": "Anchor bolt size and embedment length."},
-    {"label": "Bearing Anchor Plan to adequately show the location of the bearing anchors with respect to the main "
+    {"label": "Outline of masonry plate?"},                                                                              # OK - Ref
+    {"label": "Anchor bolt size and embedment length."},                                                                 # OK - Ref
+    {"label": "Bearing Anchor Plan to adequately show the location of the bearing anchors with respect to the main "     # OK
               "reinforcing bars and the edges of the bridge seats shall be provided.", "reference": "306.2.1.2"}
 ]
 
 bearings_misc_criteria = [
-    {"label": "Movement Provisions: Bearing movement provisions (Fixed, expansion restrained) indicated on the Site "
-              "Plan and General Plan?", "reference": "201.1.2.2KI"},
-    {"label": "Bearing designation (i.e., R-200) for each substructure unit indicated on the framing plan, beam "
+    {"label": "Movement Provisions: Bearing movement provisions (Fixed, expansion restrained) indicated on the Site "    # OK
+              "Plan and General Plan?", "reference": "201.1.2.2K"},
+    {"label": "Bearing designation (i.e., R-200) for each substructure unit indicated on the framing plan, beam "        # OK - Ref
               "elevation, or deck plan?"},
-    {"label": "Bearing details or reference to standard drawings given? Separate pay item provided for other than "
+    {"label": "Bearing details or reference to standard drawings given? Separate pay item provided for other than "      # OK - Ref
               "standard steel bearings (steel bearings for steel bridge are usually included with structural steel for "
               "payment)?"},
-    {"label": "Bearing types provided consistent with superstructure movement (longitudinal, lateral, and "
+    {"label": "Bearing types provided consistent with superstructure movement (longitudinal, lateral, and "              # OK - Ref
               "rotational)?"},
-    {"label": "Bearings/Joints: For bridges with sidewalk, bearing types compatible with deck joint characteristics?"},
-    {"label": "Bridge Seats: Bridge seats large enough for the size bearing used taken into account the need for edge "
+    {"label": "Bearings/Joints: For bridges with sidewalk, bearing types compatible with deck joint characteristics?"},  # OK - Ref
+    {"label": "Bridge Seats: Bridge seats large enough for the size bearing used taken into account the need for edge "  # OK - Ref
               "clearances and construction tolerances (wider seats are usually provided for some bridges which are "
               "skewed greater than 30 degrees)?"},
-    {"label": "Grade Considerations: Tapered sole plates provided for rocker and bolster bearings for grades of 2 "
+    {"label": "Grade Considerations: Tapered sole plates provided for rocker and bolster bearings for grades of 2 "      # OK - Ref
               "percent or greater?"},
-    {"label": "Coatings: Are notes provided to specify the type of coating required, if other than bare ASTM steel or "
+    {"label": "Coatings: Are notes provided to specify the type of coating required, if other than bare ASTM steel or "  # OK - Ref
               "Elastomeric bearings?"},
-    {"label": "Bridge seats adequate for earthquake provision?", "reference": "306.2.1.1"},
-    {"label": "Are seismic restraints required?", "reference": "1003 - S3.10.9.2, 303.1.4.1.a"}
+    {"label": "Bridge seats adequate for earthquake provision?", "reference": "306.2.1.1"},                              # OK - Ref refers to AASHTO, //TODO - make the check apply to those requirements
+    {"label": "Are seismic restraints required?", "reference": "AASHTO LRFD - S3.10.9.2, 303.1.4.1.a"}                   # OK - Ref refers to AASHTO, //TODO - make the check apply to those requirements
 ]
 
 deck_joint_terminal_criteria = [
-    {"label": "To confine deck drainage, recessed joint seals, joints terminated as shown in Sections A-A and F-F of "
+    {"label": "To confine deck drainage, recessed joint seals, joints terminated as shown in Sections A-A and F-F of "   # OK
               "Standard Drawings EXJ-2-81 and EXJ-3-82; and Sections B-B and F-F Of Standard Drawing EXJ-4-87 and "
               "EXJ-5-93."},
-    {"label": "For new bridges with over the side drainage and wall-type abutments, abutment wing-walls or retaining "
+    {"label": "For new bridges with over the side drainage and wall-type abutments, abutment wing-walls or retaining "   # OK - Ref
               "walls positioned flush with the back wall to allow extension of sealed deck joints beyond the bridge "
               "seats?"}
 ]
 
 joint_bearing_coordination_criteria = [
-    {"label": "For bridges with elastomeric bearings and sliding plate type joints, bridging plates positioned "
+    {"label": "For bridges with elastomeric bearings and sliding plate type joints, bridging plates positioned "         # OK - Ref
               "cantilevered from the abutment side of the joint to prevent the plate from binding due to the "
               "compressive deflection of the bearings?"},
-    {"label": "For sliding plate type joints on grades, a bevel fill attached to the underside of the cantilever plate "
+    {"label": "For sliding plate type joints on grades, a bevel fill attached to the underside of the cantilever plate " # OK - Ref
               "to provide a level sliding surface to parallel the direction of bearing movement?"},
-    {"label": "Sliding plate type joints avoided on all structures?"}
+    {"label": "Sliding plate type joints avoided on all structures?"}                                                    # OK - Ref
 ]
 
 deck_joints_misc_criteria = [
-    {"label": "Box Beams: The use of joints generally follows the guidelines given in", "reference": "309.6.3"},
-    {"label": "Recessed Seals: Joint seals recessed below the roadway surface (i.e. strip and compression), with "
+    {"label": "Box Beams: The use of joints generally follows the guidelines given in BDM 309.6.3",                      # OK - Good table to automate
+     "reference": "309.6.3"},
+    {"label": "Recessed Seals: Joint seals recessed below the roadway surface (i.e. strip and compression), with "       # OK - Ref
               "channel deck drainage laterally, detailed to prevent discharge of deck drainage on bridge seats?"},
-    {"label": "Adjustment: A joint width adjustment table, in 10 degree increments for 30 degrees to 90 degrees, given "
+    {"label": "Adjustment: A joint width adjustment table, in 10 degree increments for 30 degrees to 90 degrees, given " # OK - Ref
               "for setting joint widths other than the 60 degree installation temperature? The effect of joint skew "
               "taken into account when computing joint adjustment dimensions?"},
-    {"label": "Sawing and Sealing Bituminous Joints detail sheet provided for box beam bridges with poured seal type "
+    {"label": "Sawing and Sealing Bituminous Joints detail sheet provided for box beam bridges with poured seal type "   # OK - Ref
               "joints at abutments?"},
-    {"label": "Prestressed concrete I-beam bridges follow the guidelines given in section", "reference": "309.6.3"}
+    {"label": "Prestressed concrete I-beam bridges follow the guidelines given in section BDM 309.6.3",                  # OK
+     "reference": "309.6.3"}
 ]
 
 scuppers_criteria = [
-    {"label": "Is/was the use of scuppers avoided? Scuppers avoided over embankment slopes? Scuppers spaced to clear "
+    {"label": "Is/was the use of scuppers avoided? Scuppers avoided over embankment slopes? Scuppers spaced to clear "   # OK
               "cross frames, placed at least 6 feet from the face of piers and abutments; extended at least 8 inches "
               "below beams and girders; located inside of fascia beams of grade separation structures and other highly "
-              "visible structures; not been placed through box beams unless such placement cannot be avoided? See BDM "
-              "309.7 and 'Bridge Deck Drainage Guidelines,' FHWA HEC 21 & 22."}
+              "visible structures; not been placed through box beams unless such placement cannot be avoided? 'Bridge  "
+              "Deck Drainage Guidelines,' FHWA HEC 21 & 22.", "reference": "BDM 309.7"}
 ]
 
 approach_drainage_criteria = [
-    {"label": "Use made of parapet transitions and curbs on approach slabs to channel deck drainage away from "
+    {"label": "Use made of parapet transitions and curbs on approach slabs to channel deck drainage away from "          # OK
               "structures towards approach inlets or embankment side slope flumes. See Standard Construction Drawing "
-              "DM-4.1."}
+              "DM-4.1.", "reference": "ODOT SCD DM-4.1"}
 ]
 
 drainage_collection_criteria = [
-    {"label": "These avoided? Where their use cannot be avoided, steepest possible slopes provided? Large sizes used to"
+    {"label": "These avoided? Where their use cannot be avoided, steepest possible slopes provided? Large sizes used to" # OK
               " help avoid blockage? Convenient clean out provided? Type of field splices specified? Supports adequate "
               "to provide a rigid system?"}
 ]
 
 elastomeric_trough_criteria = [
-    {"label": "Reinforced elastomer required by performance specification?"},
-    {"label": "Joint made by vulcanization under heat and pressure?"},
-    {"label": "Steep slopes (2 inches per foot or more) used to increase drainage velocity?"},
-    {"label": "Large discharge openings (12 inch diameter minimum)?"},
-    {"label": "Fasteners for scuppers located outside of the trough for convenient access?"},
-    {"label": "Galvanized hardware used?"},
-    {"label": "Interior steel surfaces metalized and asphalt coated?"}
+    {"label": "Reinforced elastomer required by performance specification?"},                                            # OK - Ref
+    {"label": "Joint made by vulcanization under heat and pressure?"},                                                   # OK - Ref
+    {"label": "Steep slopes (2 inches per foot or more) used to increase drainage velocity?"},                           # OK - Ref
+    {"label": "Large discharge openings (12 inch diameter minimum)?"},                                                   # OK - Ref
+    {"label": "Fasteners for scuppers located outside of the trough for convenient access?"},                            # OK - Ref
+    {"label": "Galvanized hardware used?"},                                                                              # OK - Ref
+    {"label": "Interior steel surfaces metalized and asphalt coated?"}                                                   # OK - Ref
 ]
 
 erosion_protection_criteria = [
-    {"label": "Ground surfaces below scuppers protected by crushed aggregate or concrete slope protection?"},
-    {"label": "Crushed aggregate or concrete slope protection extended (3'-0\" minimum) beyond edges of open decks?"},
-    {"label": "At acute corners of bridges, slope protection extends normal to toe of slope?"}
+    {"label": "Ground surfaces below scuppers protected by crushed aggregate or concrete slope protection?"},            # OK - Ref
+    {"label": "Crushed aggregate or concrete slope protection extended (3'-0\" minimum) beyond edges of open decks?"},   # OK - Ref
+    {"label": "At acute corners of bridges, slope protection extends normal to toe of slope?"}                           # OK - Ref
 ]
 
 utilities_criteria = [
-    {"label": "Documentation on file approved placement of utility on bridge?"},
-    {"label": "Concrete embedded utility conduits shown to clear construction joints by 1 inch minimum and other "
+    {"label": "Documentation on file approved placement of utility on bridge?"},                                         # OK - Ref
+    {"label": "Concrete embedded utility conduits shown to clear construction joints by 1 inch minimum and other "       # OK - Ref
               "conduits by 2 inches minimum?"},
-    {"label": "Utilities not supported on fascia or below bottom of superstructure? On grade separation structures, no "
+    {"label": "Utilities not supported on fascia or below bottom of superstructure? On grade separation structures, no " # OK - Ref
               "utilities in bay adjacent to fascia stringer?"},
-    {"label": "Gas and water lines not embedded in concrete? Not embedded in section of deck supporting vehicular "
+    {"label": "Gas and water lines not embedded in concrete? Not embedded in section of deck supporting vehicular "      # OK - Ref
               "traffic?"},
-    {"label": "Expansion provisions for utilities shown if appropriate? (Sometimes shown only on utility sheets)"},
+    {"label": "Expansion provisions for utilities shown if appropriate? (Sometimes shown only on utility sheets)"},      # OK - Ref
     {"label": "Payment for utility supports clearly described by plan note and estimated quantities? (e.g., quantity "
-              "table footnote stating portion of Item 513 Structural Steel to be paid for by the utility company)"}
+              "table footnote stating portion of Item 513 Structural Steel to be paid for by the utility company)"}      # OK - Ref
 ]
 
 grounding_criteria = [
-    {"label": "Verify the structure is properly grounded as per Standard Drawing HL-50.21."}
+    {"label": "Verify the structure is properly grounded as per Standard Drawing HL-50.21.",                             # OK
+     "reference": "ODOT SCD HL-50.21"}
 ]
 
 general_pile_criteria = [ # For any structures that have piles in the abutments or piers
-    {"label": "Each pile in the structure has been assigned a unique number?"},
+    {"label": "Each pile in the structure has been assigned a unique number?"},                                          # OK
 ]
 
 piers_general_criteria = [
-    {"label": "For freestanding piers, is the footing width at least one-fourth the height where founded on soil, "
+    {"label": "For freestanding piers, is the footing width at least one-fourth the height where founded on soil, "      # OK
               "one-fifth the height where founded on rock, and one-fifth the height between centers of outside piles? "
-              "306.3.1"},
-    {"label": "For cap and column piers on piles or bedrock, columns should generally have separate footings. "
-              "306.3.3.1.a"},
-    {"label": "Pier cap terminate inside the fascia and drip groove? (For box beam bridges, pier width should allow for"
+              "306.3.1", "reference": "BDM 306.3.1"},
+    {"label": "For cap and column piers on piles or bedrock, columns should generally have separate footings. "          # OK
+              "306.3.3.1.a", "reference": "BDM 306.3.3.1.a"},
+    {"label": "Pier cap terminate inside the fascia and drip groove? (For box beam bridges, pier width should allow for" # OK
               " 1/4 inch per joint fit-up between box beams) 308.2.3.3"},
-    {"label": "Bearing Anchor Plan shown? Are anchor bolt dimensions normal and parallel to the centerline of "
+    {"label": "Bearing Anchor Plan shown? Are anchor bolt dimensions normal and parallel to the centerline of "          # OK - Ref
               "bearing?"},
-    {"label": "Cap and column piers preferably designed with a cantilevered cap? 306.3.1"},
-    {"label": "For slab bridges, is a construction joint placed at the top of the pier cap? 306.3.3.2"},
-    { "label": "Piers in navigable waterways designed to resist collision forces based on AASHTO LRFD bridge design "
-               "Specification. 306.3.7"},
-    {"label": "Ends of pier caps (all surfaces) under the edge of decks with over-the-side drainage sealed? 306.1.2"},
-    {"label": "Appropriate surfaces of roadway shoulder piers sealed? 306.1.2"},
-    {"label": "For phased construction, is each phase supported by a minimum of three piles or two drilled shafts? "
+    {"label": "Cap and column piers preferably designed with a cantilevered cap? 306.3.1", "reference": "BDM 306.3.1"},  # OK
+    {"label": "For slab bridges, is a construction joint placed at the top of the pier cap? 306.3.3.2",                  # OK
+     "reference": "BDM 306.3.3.2"},
+    { "label": "Piers in navigable waterways designed to resist collision forces based on AASHTO LRFD bridge design "    # OK
+               "Specification. 306.3.7", "reference": "BDM 306.3.7"},
+    {"label": "Ends of pier caps (all surfaces) under the edge of decks with over-the-side drainage sealed?",            # OK
+     "reference": "BDM306.1.2"},
+    {"label": "Appropriate surfaces of roadway shoulder piers sealed? 306.1.2"},                                         # OK
+    {"label": "For phased construction, is each phase supported by a minimum of three piles or two drilled shafts? "     # OK
               "306.3.1"},
-    {"label": "Pier(s) and forward abutment elevations and the superstructure transverse section shown looking forward?"
+    {"label": "Pier(s) and forward abutment elevations and the superstructure transverse section shown looking forward?" # OK - Ref
               " Rear abutment elevation looking to the rear?", "reference": "102"},
 ]
 
 pier_pile_criteria = [
-    {"label": "Design strives to utilize maximum allowable pile spaces and maximum allowable design loads to minimize "
-              "the number of piles 305.3.5.1"},
-    {"label": "At least four piles per footing? 305.3.5.1 & 306.3.3.1.a"},
-    {"label": "Battered piles required 305.3.5.8"},
-    {"label": "Pile spacing a minimum of 2'-6\" or 2.5 times the pile width/diameter? AASHTO LRFD 10.7.1.2"},
-    {"label": "Distance from center of piles to edge of footing at least 1'-6\"? 305.3.5.1"},
-    {"label": "Can piles be driven without interfering with sheeting, cofferdams, or other bridge or adjacent building "
+    {"label": "Design strives to utilize maximum allowable pile spaces and maximum allowable design loads to minimize "  # OK
+              "the number of piles", "reference": "BDM 305.3.5.1"},
+    {"label": "At least four piles per footing? 305.3.5.1 & 306.3.3.1.a", "reference": "BDM 305.3.5.1 & 306.3.3.1.a"},   # OK
+    {"label": "Battered piles required", "reference": "BDM 305.3.5.8"},                                                  # OK
+    {"label": "Pile spacing a minimum of 2'-6\" or 2.5 times the pile width/diameter?",                                  # OK
+     "reference": "AASHTO LRFD 10.7.1.2"},
+    {"label": "Distance from center of piles to edge of footing at least 1'-6\"?", "reference": "BDM 305.3.5.1"},        # OK
+    {"label": "Can piles be driven without interfering with sheeting, cofferdams, or other bridge or adjacent building " # OK - Ref
               "components?"},
-    {"label": "Station of intersection of the centerline of bearings and station line."},
-    {"label": "Tie the pile spacing to the intersection of the centerline of bearings and station line."},
-    {"label": "Number all piles 305.4.4"}
+    {"label": "Station of intersection of the centerline of bearings and station line."},                                # OK - Ref
+    {"label": "Tie the pile spacing to the intersection of the centerline of bearings and station line."},               # OK - Ref
+    # {"label": "Number all drilled shafts 305.4.4"}                                                                     # moved to drilled shafts
 ]
 
 capped_pile_piers_criteria = [
-    {"label": "Pile spacing less than or equal to 7.5 feet? 305.3.5.1"},
-    {"label": "Height above flow line generally limited to 20 feet, or piles specially designed? 306.3.3"},
-    {"label": "Distance from edge of pile to face of pier cap is at least 9 inches? 305.3.5.1"},
-    {"label": "Pile encasements specified and paid for H-piles)? 606.5-1"},
-    {"label": "Minimum of 1'-6\" cover provided above the piles? 305.3.5.1"}
+    {"label": "Pile spacing less than or equal to 7.5 feet?", "reference": "BDM 305.3.5.1"},                             # OK
+    {"label": "Height above flow line generally limited to 20 feet, or piles specially designed?",                       # OK
+     "reference": "BDM 306.3.3"},
+    {"label": "Distance from edge of pile to face of pier cap is at least 9 inches?", "reference": "BDM 305.3.5.1"},     # OK
+    {"label": "Pile encasements specified and paid for H-piles)?", "reference": "BDM 606.5"},                            # OK
+    {"label": "Minimum of 1'-6\" cover provided above the piles?", "reference": "BDM 305.3.5.1"}                         # OK
 ]
 
 cap_and_column_piers_criteria = [
-    {"label": "Diameter of the pier column specified to be 3'-0\" and the drilled shaft diameter a minimum of 3'-6\"? "
-              "305.4.4.2"},
-    {"label": "Location of the construction joint at the pier column/drilled shaft interface appropriate? (Usually 1 "
-              "foot above OHWM elevation, for piers in water, and 1 foot below the ground line elsewhere.) 305.4.4"},
-    {"label": "A construction joint between the top of drilled shaft and the bottom of the column shown and splice cage"
-              " provided? FIG. 303.5.4"},
-    {"label": "Reinforcing details at the column/drilled shaft construction joint appropriate? Typically, the "
+    {"label": "Diameter of the pier column specified to be 3'-0\" and the drilled shaft diameter a minimum of 3'-6\"?",  # OK
+     "reference": "BDM 305.4.4.2"},
+    {"label": "Location of the construction joint at the pier column/drilled shaft interface appropriate? (Usually 1 "   # OK
+              "foot above OHWM elevation, for piers in water, and 1 foot below the ground line elsewhere.)",
+     "reference":"BDM 305.4.4"},
+    {"label": "A construction joint between the top of drilled shaft and the bottom of the column shown and splice cage" # OK
+              " provided?", "reference": "BDM Fig. 303.5.4"},
+    {"label": "Reinforcing details at the column/drilled shaft construction joint appropriate? Typically, the "          # OK - Ref
               "reinforcing cage diameter is a common size between the column, drilled shaft, and bedrock socket."},
-    {"label": "Bedrock socket depth shown on the plans? (Bottom of socket elevation should generally not be given) "
-              "305.4.2"},
-    {"label": "Reinforcing Steel in the drilled shafts? BDM305.4.4.3"},
-    {"label": "Spacing of the drilled shafts appropriate? Typically, spacings from 12 to 18 feet are used."},
-    {"label": "Drilled shafts should be spaced to utilize the maximum bedrock end bearing pressures and a minimum "
+    {"label": "Bedrock socket depth shown on the plans? (Bottom of socket elevation should generally not be given)",     # OK
+     "reference": "BDM 305.4.2"},
+    {"label": "Reinforcing Steel in the drilled shafts?", "reference": "BDM 305.4.4.3"},                                 # OK
+    {"label": "Spacing of the drilled shafts appropriate? Typically, spacings from 12 to 18 feet are used."},            # OK
+    {"label": "Drilled shafts should be spaced to utilize the maximum bedrock end bearing pressures and a minimum "      # OK
               "number of drilled shafts."}
 ]
 
 abutments_general_criteria = [
-    {"label": "Abutments easily located? Station and overall dimensions?"},
-    {"label": "Dimensions referenced from the proper working points? Beam/girder bridges (steel or concrete) "
+    {"label": "Abutments easily located? Station and overall dimensions?"},                                              # OK - Ref
+    {"label": "Dimensions referenced from the proper working points? Beam/girder bridges (steel or concrete) "           # OK 
               "intersection of centerline of survey and centerline of bearings. Concrete slab bridges centerline of "
-              "survey is assumed 12 inches behind the face of the abutment. 201.2.1.1"},
-    {"label": "Types of Abutments 306.2 & 306.2.2"},
-    {"label": "Wing-wall lengths checked?"},
-    {"label": "If ground lines are shown, are they appropriate?"},
-    {"label": "Earth benches not been used for new designs? Depth of approach slab seat Shown? 306.2.1.4 for CPA-1-08 "
-              "abutments"},
-    {"label": "Bridge seat sloped to drain toward the face of abutment for beam or girder bridges on spill-through "
+              "survey is assumed 12 inches behind the face of the abutment.", "reference": "BDM 201.2.1.1"},
+    {"label": "Types of Abutments 306.2 & 306.2.2"},                                                                     # OK - Break up
+    {"label": "Wing-wall lengths checked?"},                                                                             # OK
+    {"label": "If ground lines are shown, are they appropriate?"},                                                       # OK
+    {"label": "Earth benches not been used for new designs? Depth of approach slab seat Shown? 306.2.1.4 for CPA-1-08 "  # OK
+              "abutments", "reference": "BDM 306.2.1.4"},
+    {"label": "Bridge seat sloped to drain toward the face of abutment for beam or girder bridges on spill-through "     # OK
               "abutments except at bearings)? (For grade separations on wall-type abutments, are the bridge seats "
-              "sloped to drain toward the back wall, with a depressed gutter and drainage system provided? 306.2.3.2"},
-    {"label": "For box beam bridges, are provisions necessary to ensure proper fit of the elastomeric bearings i.e., "
-              "sloped bridge seats or tapered bearings)? DB-1-11"},
-    {"label": "For box beam bridges, is the bridge seat length adequate to support all bearings, accounting for "
+              "sloped to drain toward the back wall, with a depressed gutter and drainage system provided?",
+     "reference": "BDM 306.2.3.2"},
+    {"label": "For box beam bridges, are provisions necessary to ensure proper fit of the elastomeric bearings i.e., "   # OK
+              "sloped bridge seats or tapered bearings)?", "reference": "ODOT SCD DB-1-11"},
+    {"label": "For box beam bridges, is the bridge seat length adequate to support all bearings, accounting for "        # OK
               "1/2-inch fit-up per beam joint? Beam seat should not protrude from beneath deck edge when a fit-up "
-              "allowance of 1/4 inch per foot is used for pier. 308.2.3.3"},
-    {"label": "For box beam bridges, has the proper wearing surface thickness at the abutments being used to compute "
-              "bridge seat elevations? 309.1"},
-    {"label": "Dowel holes drilled parallel to a free edge clear concrete surface by at least 4 inches?"},
-    {"label": "Bearing anchor plan shown? Anchor bolt location dimensions normal and parallel to centerline of bearing?"
-              " 306.2.1.2 & 701.2"},
-    {"label": "Joint filler shown between concrete box beams and wing-wall concrete? 308.2.3.3"},
-    {"label": "Construction joint shown at the level of the approach slab seat for steel superstructures?"},
-    {"label": "Construction joint provided in wing-walls of box beam bridges at bridge seat elevation? 308.2.3.3"},
-    {"label": "Plan note restricting placement of wing-wall concrete included for box beam bridges?"},
-    {"label": "Appropriate surfaces sealed using an appropriate sealer? 306.1.2 & 309.2.1"},
-    {"label": "Type 2 waterproofing used at construction joints? Typically used above ground at stage construction "
-              "joints, or joints between existing and proposed concrete) 306.2.1.3"},
-    {"label": "Expansion & Contraction joints provided as appropriate? 306.2.5"},
-    {"label": "Weep-holes located 6 inches to 1 foot above ground level or normal waterline? 306.2.3.3"},
-    {"label": "Porous backfill shown 6 inches below weep holes 306.2.3.3"},
-    {"label": "Geotextile fabric specified between the porous backfill and the approach fill? Has it been turned up 6 "
-              "inches at the wall? 306.2.3.1"},
-    {"label": "Lateral limits of porous backfill 2'-0\" thick) clearly indicated in the elevation view as described by "
-              "306.2.3.1"},
-    {"label": "End caps shown on drain pipes, except at outlets? 306.2.3.1"},
-    {"label": "For wall-type abutments where strut action of the superstructure is relied upon for stability, has a "
+              "allowance of 1/4 inch per foot is used for pier.", "reference": "BDM 308.2.3.3"},
+    {"label": "For box beam bridges, has the proper wearing surface thickness at the abutments being used to compute "   # OK
+              "bridge seat elevations?", "reference": "BDM 309.1"},
+    {"label": "Dowel holes drilled parallel to a free edge clear concrete surface by at least 4 inches?"},               # OK - Ref
+    {"label": "Bearing anchor plan shown? Anchor bolt location dimensions normal and parallel to centerline of bearing?" # OK
+        , "reference": "BDM 306.2.1.2 & 701.2"},
+    {"label": "Joint filler shown between concrete box beams and wing-wall concrete?", "reference": "BDM 308.2.3.3"},    # OK
+    {"label": "Construction joint shown at the level of the approach slab seat for steel superstructures?"},             # OK - Ref
+    {"label": "Construction joint provided in wing-walls of box beam bridges at bridge seat elevation?",                 # OK
+     "reference": "BDM 308.2.3.3"},
+    {"label": "Plan note restricting placement of wing-wall concrete included for box beam bridges?"},                   # OK
+    {"label": "Appropriate surfaces sealed using an appropriate sealer?", "reference": "BDM 306.1.2 & 309.2.1"},         # OK
+    {"label": "Type 2 waterproofing used at construction joints? Typically used above ground at stage construction "     # OK
+              "joints, or joints between existing and proposed concrete)", "reference": "BDM 306.2.1.3"},
+    {"label": "Expansion & Contraction joints provided as appropriate?", "reference": "BDM 306.2.5"},                    # OK
+    {"label": "Weep-holes located 6 inches to 1 foot above ground level or normal waterline?",                           # OK
+     "reference": "BDM 306.2.3.3"},
+    {"label": "Porous backfill shown 6 inches below weep holes", "reference": "BDM 306.2.3.3"},                          # OK
+    {"label": "Geotextile fabric specified between the porous backfill and the approach fill? Has it been turned up 6 "  # OK
+              "inches at the wall?", "reference": "BDM 306.2.3.1"},
+    {"label": "Lateral limits of porous backfill 2'-0\" thick) clearly indicated in the elevation view as described by " # OK
+              "BDM 306.2.3.1", "reference": "BDM 306.2.3.1"},
+    {"label": "End caps shown on drain pipes, except at outlets?", "reference": "BDM 306.2.3.1"},                        # OK
+    {"label": "For wall-type abutments where strut action of the superstructure is relied upon for stability, has a "    # OK - Ref
               "plan note been provided limiting height of backfill until superstructure is placed?"},
-    {"label": "Pipe drainage system used? 306.2.3.1"},
-    {"label": "For rehabilitation, does the connection between the new and existing concrete appear adequate? Existing "
+    {"label": "Pipe drainage system used?", "reference": "BDM 306.2.3.1"},                                               # OK
+    {"label": "For rehabilitation, does the connection between the new and existing concrete appear adequate? Existing " # OK - Ref
               "reinforcing that is incorporated into the new work should generally be shown in the proposed "
               "cross-section."},
-    {"label": "Aesthetic for wall-type abutments 306.2.2.1"},
-    {"label": "For phase construction, is each phase supported by a minimum of three piles or two drilled shafts? "
-              "306.2.2.3, 306.2.2.4 & 306.2.2.5"},
-    {"label": "Top strap of the MSE wall should be 6” below the footing. See figure 201-2 & 201-3 of the BDM."},
-    {"label": "What type of protection is used to prevent the weed growth in the area between the footing and MSE "
+    {"label": "Aesthetic for wall-type abutments", "reference": "BDM 306.2.2.1"},                                        # OK
+    {"label": "For phase construction, is each phase supported by a minimum of three piles or two drilled shafts? "      # OK
+              "306.2.2.3, 306.2.2.4 & 306.2.2.5", "reference": "BDM 306.2.2.3, 306.2.2.4 & 306.2.2.5"},
+    {"label": "Top strap of the MSE wall should be 6” below the footing. See figure 201-2 & 201-3 of the BDM.",          # OK
+     "reference": "BDM Fig. 201-2 and 201-3"},
+    {"label": "What type of protection is used to prevent the weed growth in the area between the footing and MSE "      # OK
               "wall?"},
-    {"label": "For high skew semi-integral bridges keep the beam seat level and use variable height of the HP section. "
+    {"label": "For high skew semi-integral bridges keep the beam seat level and use variable height of the HP section. " # OK
               "Not possible to bend # 8 bars."}
 ]
 
 abutment_pile_criteria = [
-    {"label": "Flanges of piles parallel to face of rigid abutments; webs parallel to face of flexible abutment "
+    {"label": "Flanges of piles parallel to face of rigid abutments; webs parallel to face of flexible abutment "        # OK - Ref
               "(including CPA-1-08/ICD-1-82 abutments and CPP-1-08 piers)?"},
-    {"label": "Battered piles required? (Rate of batter shown? 1:4 desirable, 1:3 acceptable) 305.3.5.8"},
-    {"label": "Pile embedment into footing shown as 1'-6\" cover shown above piles or as per 305.3.5"},
-    {"label": "Pile design load 305.3.3 & 305.3.4"},
-    {"label": "Distance from center of piles to edge of footing at least 1'-6\"? (Not the Ultimate Bearing Value UBV "
-              "pile load) shown in the General Notes? UBV as per 305.3.5.1"},
-    {"label": "For abutments on a single row of piles, have closed ties been provided around the piles? For example, "
-              "see Standard Drawing ICD-1-82"},
-    {"label": "Design utilizes maximum allowable pile spacing and maximum allowable design loads to minimize the number"
-              " of piles 305.3.5, 305.3.3 & 305.3.4"},
-    {"label": "For abutments on a single row of piles, has the footing been extended to the ends of the wingwalls and "
+    {"label": "Battered piles required? (Rate of batter shown? 1:4 desirable, 1:3 acceptable)",                          # OK
+     "reference": "BDM 305.3.5.8"},
+    {"label": "Pile embedment into footing shown as 1'-6\" cover shown above piles or as per BDM 305.3.5",               # OK
+     "reference": "BDM 305.3.5"},
+    {"label": "Pile design load 305.3.3 & 305.3.4", "reference": "BDM 305.3.3 & 305.3.4"},                               # OK
+    {"label": "Distance from center of piles to edge of footing at least 1'-6\"? (Not the Ultimate Bearing Value UBV "   # OK
+              "pile load) shown in the General Notes? UBV as per BDM 305.3.5.1", "reference": "BDM 305.3.5.1"},
+    {"label": "For abutments on a single row of piles, have closed ties been provided around the piles? For example, "   # OK
+              "see Standard Drawing ICD-1-82", "reference": "ODOT SCD ICD-1-82"},
+    {"label": "Design utilizes maximum allowable pile spacing and maximum allowable design loads to minimize the number" # OK
+              " of piles", "reference": "BDM 305.3.5, 305.3.3 & 305.3.4"},
+    {"label": "For abutments on a single row of piles, has the footing been extended to the ends of the wingwalls and "  # OK
               "straight wing-walls used?"}
 ]
 
 drilled_shaft_criteria = [
-    {"label": "Drilled shaft diameter a minimum of 3'-0\"? 305.4"},
-    {"label": "Bedrock socket depth shown on the plans? (Bottom of socket elevation should generally not be given)"},
-    {"label": "Spacing of the drilled shafts appropriate? Typically, spacing for 12 to 18 feet are used. Drilled shafts"
+    {"label": "Drilled shaft diameter a minimum of 3'-0\"?", "reference": "BDM 305.4"},                                  # OK
+    {"label": "Bedrock socket depth shown on the plans? (Bottom of socket elevation should generally not be given)"},    # OK
+    {"label": "Spacing of the drilled shafts appropriate? Typically, spacing for 12 to 18 feet are used. Drilled shafts" # OK - Ref
               " should attempt to be spaced to utilize the maximum bedrock end bearing pressures and a minimum number "
               "of drilled shafts."},
-    {"label": "Splice cage specified? 303.4.4.3 & Fig. 305-4"},
-    {"label": "Use of friction drilled shaft requires previous approval of OGE? 305.4.3"},
-    {"label": "Each drilled shaft in the structure has been assigned a unique number?", "reference": "BDM 305.4.4"},      # OK
-    {"label": "Show the length of the bedrock socket in the profile view.", "reference": "305.4.2"}                       # OK
+    {"label": "Splice cage specified?", "reference": "BDM 303.4.4.3 & Fig. 305-4"},                                      # OK
+    {"label": "Use of friction drilled shaft requires previous approval of OGE?", "reference": "BDM 305.4.3"},           # OK
+    {"label": "Each drilled shaft in the structure has been assigned a unique number?", "reference": "BDM 305.4.4"},     # OK
+    {"label": "Show the length of the bedrock socket in the profile view.", "reference": "305.4.2"}                      # OK
+    # {"label": "Number all drilled shafts 305.4.4"}                                                                     # Dropped as duplicate
 ]
 
 all_criteria = {
