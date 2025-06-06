@@ -16,7 +16,7 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from civilpy.structural.arema_steel import (
+from civilpy.structural.arema.steel import (
     LoadRatingMember
 )
 from civilpy.general import units
@@ -44,7 +44,7 @@ class CooperE80:
     loads = CooperE80()
 
     for all CooperE80 variants (i.e. E60) the class can be converted like so:
-    
+
     e60_loads = CooperE80().to_e_series(60)
     """
 
@@ -109,13 +109,13 @@ class CooperE80:
 
     def __repr__(self):
         return_string = (
-            "\n".join(
-                "{}: {}".format(x, y) for x, y in zip(self.distances, self.magnitudes)
-            )
-            + "\n"
-            + "{}: {}".format(
-                self.distributed["distance"], self.distributed["magnitude"]
-            )
+                "\n".join(
+                    "{}: {}".format(x, y) for x, y in zip(self.distances, self.magnitudes)
+                )
+                + "\n"
+                + "{}: {}".format(
+            self.distributed["distance"], self.distributed["magnitude"]
+        )
         )
 
         return return_string
@@ -180,31 +180,31 @@ class CooperE80EqStrip:
                 * units.kips
                 * 4
                 / (
-                    (self.distances[0][1] - self.distances[0][0]) * self.tie_width
+                        (self.distances[0][1] - self.distances[0][0]) * self.tie_width
                 ),  # LS1
                 52
                 * units.kips
                 * 4
                 / (
-                    (self.distances[1][1] - self.distances[1][0]) * self.tie_width
+                        (self.distances[1][1] - self.distances[1][0]) * self.tie_width
                 ),  # LS2
                 40
                 * units.kips
                 * 1
                 / (
-                    (self.distances[2][1] - self.distances[2][0]) * self.tie_width
+                        (self.distances[2][1] - self.distances[2][0]) * self.tie_width
                 ),  # LS3
                 80
                 * units.kips
                 * 4
                 / (
-                    (self.distances[3][1] - self.distances[3][0]) * self.tie_width
+                        (self.distances[3][1] - self.distances[3][0]) * self.tie_width
                 ),  # LS4
                 52
                 * units.kips
                 * 4
                 / (
-                    (self.distances[4][1] - self.distances[4][0]) * self.tie_width
+                        (self.distances[4][1] - self.distances[4][0]) * self.tie_width
                 ),  # LS5
                 8
                 * units("kips/ft")

@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from unittest import TestCase
-from src.civilpy.structural.rail_tpg_design import TPG
+from civilpy.structural.arema.rail_tpg_design import TPG
 
 
 class TestTPG(TestCase):
