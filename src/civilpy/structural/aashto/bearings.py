@@ -26,8 +26,9 @@ class MethodABearing:
         holes (bool): Indicates if the bearing pad has holes, default is False.
     """
     def __init__(self, width, length, durometer, internal_t, external_t, steel_t,
-                 plys, span, expansion_length, loads, edge_cover=.25, type='rectangular', holes=False,
-                 steel_yield_strength = 60, shear_modulus=0.095, exp_coeff=.000006, temp_min=15, temp_max=95):
+                 plys, span, expansion_length, loads, max_dl_delta, max_ll_delta, max_ll_loc, deck_slope, plate_bev,
+                 edge_cover=.25, type='rectangular', holes=False, steel_yield_strength = 60, shear_modulus=0.095,
+                 exp_coeff=.000006, temp_min=15, temp_max=95):
         self.width = width
         self.length = length
         self.durometer = durometer
@@ -48,13 +49,17 @@ class MethodABearing:
         self.sigma_s = None
         self.delta_t = None
         self.delta_s = None
+        self.dl_deflection = max_dl_delta
+        self.ll_deflection = max_ll_delta
+        self.ll_location = max_ll_loc
+        self.deck_slope = deck_slope
+        self.plate_bev = plate_bev
         self.temp_range = (temp_min, temp_max)
         self.get_deflections()
         self.edge_cover = edge_cover
         self.checks = {}
         self.internal_shape_factor = self.get_shape_factors(self.internal_t)
         self.service_ll = self.loads["total_load"] / (self.length * self.width)
-        self.ll_deflection = None
 
         self.run_checks()
 
@@ -164,6 +169,43 @@ class MethodABearing:
         else:
             self.checks['#17 - Steel Reinforcement - Service Limit State'] = 0
             print('Steel laminate fatigue limit state check failed')
+
+        # Excel Check 18
+        gamma_a_st = 1.4 * self.sigma_s / (self.shear_modulus * 8)
+        gamma_a_cy = 1.4 * self.sigma_l / (self.shear_modulus * 8)
+        gamma_r_st = 0.5 * (self.length / self.internal_t) ** 2 * abs(
+            (self.dl_deflection / (self.span * 12) + (self.deck_slope) + 0.005) / self.plys)
+        gamma_r_cy = 0.5 * (self.length / self.internal_t) ** 2 * (abs(self.ll_deflection / (
+                    self.ll_location * 12)) + 0.005) / self.plys  # //TODO - Check the formula for this one
+        gamma_s_st = self.delta_s / self.total_elastomer_thickness
+        gamma_s_cy = 0  # //TODO - Verify
+
+        total_strains = (
+                (gamma_a_st + gamma_r_st + gamma_s_st) + 1.75 * (
+                    gamma_a_cy + gamma_r_cy + gamma_s_cy
+                )
+            )
+
+        if total_strains < 5.0:
+            self.checks['#18 - Total Strain'] = 1
+        else:
+            self.checks['#18 - Total Strain'] = 0
+            print('Combined Strain Check Failed')
+
+        # Excel Check 19
+        gamma_r_st = 0.5 * (self.length / self.internal_t) ** 2 * abs(
+            (self.dl_deflection / (self.span * 12) + (self.deck_slope - self.plate_bev) + 0.005) / self.plys)
+
+        total_strains = (
+                (gamma_a_st + gamma_r_st + gamma_s_st) + 1.75 * (
+                gamma_a_cy + gamma_r_cy + gamma_s_cy
+        )
+        )
+        if total_strains < 5.0:
+            self.checks['#19 - Total Strain Check 2'] = 1
+        else:
+            self.checks['#19 - Total Strain Check 2'] = 0
+            print('Combined Strain Check 2 Failed')
 
     def check_edge_cover(self):
         if self.edge_cover < .25:
