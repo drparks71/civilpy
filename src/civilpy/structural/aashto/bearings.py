@@ -1,3 +1,5 @@
+from .durometer import get_strain_from_stress
+
 class MethodABearing:
     """
     Represents a Method A designed elastomeric bearing pad used in structural applications.
@@ -23,26 +25,152 @@ class MethodABearing:
         type (str): The shape type of the bearing pad, default is 'rectangular', alternative is 'circular'.
         holes (bool): Indicates if the bearing pad has holes, default is False.
     """
-    def __init__(self, width, length, height, durometer, internal_t, external_t, steel_t,
-                 plys, edge_cover=.25, type='rectangular', holes=False):
+    def __init__(self, width, length, durometer, internal_t, external_t, steel_t,
+                 plys, span, expansion_length, loads, edge_cover=.25, type='rectangular', holes=False,
+                 steel_yield_strength = 60, shear_modulus=0.095, exp_coeff=.000006, temp_min=15, temp_max=95):
         self.width = width
         self.length = length
-        self.height = height
         self.durometer = durometer
         self.internal_t = internal_t
         self.external_t = external_t
         self.steel_t = steel_t
         self.plys = plys
+        self.shear_modulus = shear_modulus
+        self.exp_coeff = exp_coeff
+        self.height = 2 * self.external_t + (self.plys - 1) * self.internal_t + (self.plys) * self.steel_t
+        self.total_laminate_thickness = self.plys * self.steel_t
+        self.total_elastomer_thickness = round(2 * self.external_t + (self.plys - 1) * self.internal_t, 2)
+        self.span = span
+        self.expansion_length = expansion_length
+        self.f_y = steel_yield_strength  # (of the laminate layers)
+        self.loads = loads
+        self.sigma_l = None
+        self.sigma_s = None
+        self.delta_t = None
+        self.delta_s = None
+        self.temp_range = (temp_min, temp_max)
+        self.get_deflections()
         self.edge_cover = edge_cover
         self.checks = {}
         self.internal_shape_factor = self.get_shape_factors(self.internal_t)
+        self.service_ll = self.loads["total_load"] / (self.length * self.width)
+        self.ll_deflection = None
 
-        self.check_layer_thickness()
-        self.check_edge_cover()
-        self.check_shape_factors()
+        self.run_checks()
 
     def get_shape_factors(self, thickness):
         return (self.width * self.length) / (2 * thickness * (self.length + self.width))
+
+    def run_checks(self):
+        self.check_edge_cover()
+        self.check_layer_thickness()
+        # Excel Check '1' - Not Carried forward, see "Bearings" Notebook
+        # Excel Check '2' (AASHTO 14.7.6.3.2-7)
+        if self.service_ll <= 1.25 * self.shear_modulus * self.internal_shape_factor:
+            self.checks['#2 - Service LL Check'] = 1
+        else:
+            self.checks['#2 - Service LL Check'] = 0
+            print("Service LL Check Failed - Service LL > 1.25 * G * S_i")
+
+        # Excel Check '3' (AASHTO 14.7.6.3.2-8)
+        if self.service_ll <= 1.25:
+            self.checks['#3 - Service LL < 1.25 ksi'] = 1
+        else:
+            self.checks['#3 - Service LL < 1.25 ksi'] = 0
+            print("Service LL Check Failed - Service LL > 1.25 ksi")
+
+        # Excel Check '4' (AASHTO 14.7.6.3.3-1)
+        self.check_shape_factors()
+
+        # //TODO - The way bearing stress is converted to strain isn't settled, figure out how to handle it for these 3
+        # Excel Check '5' (AASHTO 14.7.6.3.3 & 14.7.5.3.6)
+        self.checks['#5 - Needs Fixed'] = 1
+
+        # Excel Check '6' (AASHTO 14.7.6.3.3 & 14.7.5.3.6)
+        self.checks['#6 - Needs Fixed'] = 1
+
+        # Excel Check '7' (AASHTO 14.7.6.3.3)
+        self.checks['#7 - Needs Fixed'] = 1
+
+        # Excel Check '8' (AASHTO 14.7.6.3.4)
+        self.delta_t = self.exp_coeff * self.expansion_length * (self.temp_range[1] - self.temp_range[0]) * 12
+        self.delta_s = self.delta_t
+        if 2 * self.delta_s <= self.total_elastomer_thickness:
+            self.checks['#8 - Thermal Expansion'] = 1
+        else:
+            self.checks['#8 - Thermal Expansion'] = 0
+            print("Thermal expansion check failed, 2 * delta_s > h_ri")
+
+        # Excel Check '9' (BDM 306.4)
+        if self.total_elastomer_thickness < 5:
+            self.checks['#9 - Maximum Elastomer height > 5\"'] = 1
+        else:
+            self.checks['#9 - Maximum Elastomer height > 5\"'] = 0
+            print("Maximum Elastomer height check failed, total elastomer height > 5\"")
+
+        # Excel Check '10' (BDM 306.4)
+        if self.total_laminate_thickness < 1:
+            self.checks['#10 - Maximum laminate height < 1\"'] = 1
+        else:
+            self.checks['#10 - Maximum laminate height < 1\"'] = 0
+            print("Maximum laminate height check failed, total laminate height > 1\"")
+
+        # Excel Check '11' (AASHTO 14.7.6.3.6)
+        if self.width / 3 > self.total_laminate_thickness:
+            self.checks['#11 - Laminate Width / 3 > Total Laminate Thickness'] = 1
+        else:
+            self.checks['#11 - Laminate Width / 3 > Total Laminate Thickness'] = 0
+            print("Geometry Check Failed, Laminate Width / 3 > Total Laminate Thickness")
+
+        # Excel Check '12' (AASHTO 14.7.6.3.6)
+        if self.length / 3 > self.total_laminate_thickness:
+            self.checks['#12 - Bearing Length / 3 > Total Laminate Thickness'] = 1
+        else:
+            self.checks['#12 - Bearing Length / 3 > Total Laminate Thickness'] = 0
+            print("Geometry Check Failed, Bearing Length / 3 > Total Laminate Thickness")
+
+        # Excel Check '13'
+        if self.length * self.width < 1000:
+            self.checks['#13 - Bearing Area < 1000'] = 1
+        else:
+            self.checks['#13 - Bearing Area < 1000'] = 0
+            print("Geometry Check Failed, Bearing Length / 3 > Total Laminate Thickness")
+
+        # Excel Check '14'
+        if self.total_elastomer_thickness < 8:
+            self.checks['#14 - Total elastomer thickness < 8\"'] = 1
+        else:
+            self.checks['#14 - Total elastomer thickness < 8\"'] = 0
+            print("Geometry Check Failed, Bearing Length / 3 > Total Laminate Thickness")
+
+        # Excel Check '15'
+        H = self.shear_modulus * self.length * self.width * self.delta_t / self.total_elastomer_thickness
+        if H < self.loads['total_dead_load']:
+            self.checks['#15 - Total Dead Load'] = 1
+        else:
+            self.checks['#15 - Total Dead Load'] = 0
+            print('Anchorage Check Failed, H < Total Dead Load, Anchorage is required')
+
+        # Excel Check '16'
+        if self.steel_t >= 3 * self.internal_t * self.sigma_s / self.f_y:
+            self.checks['#16 - Steel Reinforcement - Service Limit State'] = 1
+        else:
+            self.checks['#16 - Steel Reinforcement - Service Limit State'] = 0
+            print('Steel laminate service limit state check failed')
+
+        # Excel Check 17
+        if self.steel_t >= 2 * self.internal_t * self.sigma_l / 24:  # //TODO - Verify value doesn't change
+            self.checks['#17 - Steel Reinforcement - Service Limit State'] = 1
+        else:
+            self.checks['#17 - Steel Reinforcement - Service Limit State'] = 0
+            print('Steel laminate fatigue limit state check failed')
+
+    def check_edge_cover(self):
+        if self.edge_cover < .25:
+            self.checks['Steel Laminate Edge Cover Check'] = 0
+            print("Steel Laminate Edge Cover > 1/4\" - Failed")
+        else:
+            self.checks['Steel Laminate Edge Cover Check'] = 1
 
     def check_layer_thickness(self):
         if self.external_t > 5/16:
@@ -61,15 +189,15 @@ class MethodABearing:
         # 14.7.6.1 - Count external layers as 1/2 if greater than half the thickness of internal
         if self.internal_t / 2 >= self.external_t:
             adjusted_plys = self.plys
-        if self.internal_shape_factor ** 2 / adjusted_plys > 22:
-            self.checks['Internal Shape Factor Check'] = 0
-            print("ShapeFactors Check Failed - Internal layer shape factor > 22 - Use Method A")
-        else:
-            self.checks['Internal Shape Factor Check'] = 1
 
-    def check_edge_cover(self):
-        if self.edge_cover < .25:
-            self.checks['Steel Laminate Edge Cover Check'] = 0
-            print("Steel Laminate Edge Cover > 1/4\" - Failed")
+        # Excel Check '4' (AASHTO 14.7.6.3.3-1)
+        if self.internal_shape_factor ** 2 / adjusted_plys < 12:
+            self.checks['#4 - Internal Shape Factor Check'] = 1
         else:
-            self.checks['Steel Laminate Edge Cover Check'] = 1
+            self.checks['#4 - Internal Shape Factor Check'] = 0
+            print("ShapeFactors Check Failed - Internal layer shape factor > 12 - Use Method A")
+
+    def get_deflections(self):
+        self.sigma_l = self.loads['live'] / (self.width * self.length)
+        self.sigma_s = self.loads['total_dead_load'] / (self.width * self.length)
+
