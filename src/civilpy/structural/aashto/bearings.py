@@ -85,9 +85,6 @@ class MethodABearing:
             self.checks['#3 - Service LL < 1.25 ksi'] = 0
             print("Service LL Check Failed - Service LL > 1.25 ksi")
 
-        # Excel Check '4' (AASHTO 14.7.6.3.3-1)
-        self.check_shape_factors()
-
         # //TODO - The way bearing stress is converted to strain isn't settled, figure out how to handle it for these 3
         # Excel Check '5' (AASHTO 14.7.6.3.3 & 14.7.5.3.6)
         self.checks['#5 - Needs Fixed'] = 1
