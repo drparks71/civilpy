@@ -67,9 +67,10 @@ class MethodABearing:
         return (self.width * self.length) / (2 * thickness * (self.length + self.width))
 
     def run_checks(self):
+        # //TODO - Cleanup and organize these to be utilized in a more reusable way
         self.check_edge_cover()
         self.check_layer_thickness()
-        # Excel Check '1' - Not Carried forward, see "Bearings" Notebook
+        # Excel Check '1' - Not Carried forward, see "Bearings - Notes" Notebook
         # Excel Check '2' (AASHTO 14.7.6.3.2-7)
         if self.service_ll <= 1.25 * self.shear_modulus * self.internal_shape_factor:
             self.checks['#2 - Service LL Check'] = 1
@@ -217,27 +218,13 @@ class MethodABearing:
     def check_layer_thickness(self):
         if self.external_t > 5/16:
             self.checks['External Thickness Check > 5/16\"'] = 0
-            print("External Thickness Check Failed - > 5/16\"")
+            print("External Thickness Check Failed > 5/16\"")
         elif self.external_t > .7 * self.internal_t:
             self.checks['External Thickness > 70% Internal'] = 0
             print("External Thickness Check Failed - > 70% of Internal Thickness")
         else:
             self.checks['External Thickness Check > 5/16\"'] = 1
             self.checks['External Thickness > 70% Internal'] = 1
-
-    def check_shape_factors(self):
-        adjusted_plys = self.plys - 1  # Number of elastomeric layers is 1 less than steel plates
-
-        # 14.7.6.1 - Count external layers as 1/2 if greater than half the thickness of internal
-        if self.internal_t / 2 >= self.external_t:
-            adjusted_plys = self.plys
-
-        # Excel Check '4' (AASHTO 14.7.6.3.3-1)
-        if self.internal_shape_factor ** 2 / adjusted_plys < 12:
-            self.checks['#4 - Internal Shape Factor Check'] = 1
-        else:
-            self.checks['#4 - Internal Shape Factor Check'] = 0
-            print("ShapeFactors Check Failed - Internal layer shape factor > 12 - Use Method A")
 
     def get_deflections(self):
         self.sigma_l = self.loads['live'] / (self.width * self.length)
