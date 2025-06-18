@@ -13,17 +13,29 @@ class MethodABearing:
     Attributes:
         width (float): The width of the bearing pad in inches.
         length (float): The length of the bearing pad in inches.
-        height (float): The overall height of the bearing pad in inches.
         durometer (float): The durometer hardness value of the elastomeric material.
         internal_t (float): The thickness of the internal elastomeric layers in inches.
         external_t (float): The thickness of the external elastomeric layers in inches.
         steel_t (float): The thickness of the steel reinforcing shims in inches.
         plys (int): The number of steel layers in the bearing pad.
+        span (float): The span of the bridge section from bearing to bearing in ft.
+        expansion_length (float): The expansion length of the bridge section (fixed bearing to fixed) in ft.
+        loads (dict): A dictionary containing the loads applied to the bearing pad. - format to be updated
+        max_dl_delta (float): The maximum deflection of the dead load in inches (from software/analysis).
+        max_ll_delta (float): The maximum deflection of the live load in inches (from software/analysis).
+        max_ll_loc (float): The location of the maximum live load in feet (from software/analysis).
+        deck_slope (float): The slope of the deck in percent grade.
+        plate_bev (float): The plate bevel in percent.
         edge_cover (float): The edge cover dimension in inches, default is 0.25 inches.
         checks (dict): A dictionary storing the results of various design validation checks.
         internal_shape_factor (float): The shape factor of the internal elastomeric layers.
         type (str): The shape type of the bearing pad, default is 'rectangular', alternative is 'circular'.
         holes (bool): Indicates if the bearing pad has holes, default is False.
+        steel_yield_strength (float): The yield strength of the steel reinforcing shims in ksi (defaults to 60).
+        shear_modulus (float): The shear modulus of the elastomeric material in ksi (defaults to 0.095).
+        exp_coeff (float): The expansion coefficient of the elastomeric material in 1/in (defaults to 0.000006).
+        temp_min (float): The minimum temperature of the bearing pad in degrees Fahrenheit (defaults to 15).
+        temp_max (float): The maximum temperature of the bearing pad in degrees Fahrenheit (defaults to 95).
     """
     def __init__(self, width, length, durometer, internal_t, external_t, steel_t,
                  plys, span, expansion_length, loads, max_dl_delta, max_ll_delta, max_ll_loc, deck_slope, plate_bev,
