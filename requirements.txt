@@ -16,7 +16,7 @@ Pint==0.25.1
 
 # Web / HTTP / scraping
 requests==2.32.4
-beautifulsoup4==4.12.2
+beautifulsoup4==4.15.0
 selenium==3.141.0
 folium==0.20.0
 
