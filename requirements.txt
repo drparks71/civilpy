@@ -15,7 +15,7 @@ scipy==1.16.1
 Pint==0.25.1
 
 # Web / HTTP / scraping
-requests==2.32.4
+requests==2.34.2
 beautifulsoup4==4.12.2
 selenium==3.141.0
 folium==0.20.0
