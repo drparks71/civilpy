@@ -56,7 +56,7 @@ natsort==8.4.0
 rich==14.1.0
 
 # Typing
-typing_extensions==4.14.1
+typing_extensions==4.16.0
 
 # Testing
 pytest==8.4.1
